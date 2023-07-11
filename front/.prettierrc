@@ -1,0 +1,26 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "quoteProps": "consistent",
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 120,
+  "htmlWhitespaceSensitivity": "css",
+  "overrides": [
+    {
+      "files": "**/*.md",
+      "options": {
+        "semi": true,
+        "trailingComma": "none",
+        "arrowParens": "always",
+        "printWidth": 80,
+        "quoteProps": "as-needed"
+      }
+    }
+  ],
+  "embeddedLanguageFormatting": "auto",
+  "bracketSameLine": true
+}

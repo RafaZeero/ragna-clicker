@@ -1,0 +1,516 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": [],
+  "overrides": [
+    // * Main Rules
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@nx/typescript",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+      ],
+      "plugins": ["@typescript-eslint", "simple-import-sort", "import", "eslint-plugin-tsdoc"],
+      "rules": {
+        // * Import Rules
+        "no-restricted-imports": "off", // Disabled in favor of `@typescript-eslint/no-restricted-imports`
+        "@typescript-eslint/no-restricted-imports": [
+          "error",
+          { "patterns": ["**/environments/environment.prod*", "**/environments/environment.alpha*"] }
+        ],
+        "sort-imports": [
+          // Disabled in favor of `simple-import-sort/imports`
+          "off",
+          {
+            "ignoreDeclarationSort": true
+          }
+        ],
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [["^\\u0000", "^@?\\w", "^[^.]", "^\\."]]
+          }
+        ],
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error",
+
+        // * Avoid possible Problems
+        "array-callback-return": "error",
+        "no-await-in-loop": "error",
+        "no-constant-binary-expression": "error",
+        "no-constructor-return": "error",
+        "no-promise-executor-return": "error",
+        "no-self-compare": "error",
+        "no-template-curly-in-string": "error",
+        "no-unmodified-loop-condition": "error",
+        "no-unreachable-loop": "error",
+        "no-unused-private-class-members": "error",
+        "require-atomic-updates": "error",
+        "use-isnan": "error",
+        "eqeqeq": ["error", "always"],
+
+        // * Limit the complexity of the code
+        "id-length": ["error", { "min": 2, "max": 50 }],
+        "complexity": ["error", 20],
+        "max-depth": ["error", 4],
+        "max-classes-per-file": ["error", 5],
+        "max-statements": ["error", 20],
+        // "max-params": ["error", 3], //? Also applies to constructor, so we are disabling for now
+        "max-nested-callbacks": ["error", 6],
+        "max-lines-per-function": ["error", { "max": 65, "skipBlankLines": true, "skipComments": true }],
+        "max-lines": ["error", { "max": 300, "skipBlankLines": true, "skipComments": true }],
+
+        // * Alternate ways of doing things
+        "accessor-pairs": "off", // ? Doesn't work well with angular input
+        "block-scoped-var": "error",
+        "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
+        "consistent-this": "error",
+        "curly": "error",
+        "default-case-last": "error",
+        "default-param-last": "error",
+        "func-name-matching": "error",
+        "func-names": ["error", "always"],
+        "func-style": "error",
+        "grouped-accessor-pairs": "error",
+        "id-denylist": ["error", "err", "e", "cb", "callback"],
+        "no-alert": "error",
+        "no-array-constructor": "error",
+        "no-bitwise": "error",
+        "no-caller": "error",
+        "no-case-declarations": "error",
+        "no-continue": "error",
+        "no-delete-var": "error",
+        "no-div-regex": "error",
+        "no-else-return": "error",
+        "no-empty": "warn",
+        "no-eval": "error",
+        "no-extend-native": "error",
+        "no-extra-boolean-cast": "error",
+        "no-implicit-coercion": "error",
+        "no-lone-blocks": "error",
+        "no-lonely-if": "error",
+        "no-mixed-operators": "error",
+        "no-multi-assign": "error",
+        "no-negated-condition": "error",
+        "no-nested-ternary": "error",
+        "no-octal-escape": "error",
+        "no-param-reassign": "error",
+        "no-plusplus": "error",
+        "no-return-assign": "error",
+        "no-return-await": "off",
+        "no-sequences": "error",
+        "no-global-assign": "error",
+        "no-shadow-restricted-names": "error",
+        "no-useless-computed-key": "error",
+        "no-useless-concat": "error",
+        "no-useless-rename": "error",
+        "no-useless-return": "error",
+        "prefer-destructuring": "error",
+        "prefer-object-spread": "error",
+        "prefer-template": "error",
+        "quote-props": ["error", "consistent-as-needed"],
+        "radix": "error",
+        "sort-vars": "error",
+        "vars-on-top": "error",
+        "yoda": "error",
+        "spaced-comment": [
+          "error",
+          "always",
+          {
+            "line": {
+              "markers": ["/"],
+              "exceptions": ["-", "+"]
+            },
+            "block": {
+              "markers": ["!"],
+              "exceptions": ["*"],
+              "balanced": true
+            }
+          }
+        ],
+
+        // * Layout & Formatting
+        "array-bracket-newline": ["error", "consistent"],
+        "array-element-newline": ["error", "consistent"],
+        "block-spacing": ["error", "always"],
+        "brace-style": "error",
+        "lines-around-comment": [
+          "error",
+          { "beforeBlockComment": false, "allowArrayStart": true, "allowBlockStart": true, "allowObjectStart": true }
+        ],
+        "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+
+        // * Regular Rules
+        "eol-last": ["error"],
+        "new-parens": ["error"],
+        "no-trailing-spaces": ["error"],
+        "constructor-super": ["error"],
+        "guard-for-in": ["error"],
+        "id-blacklist": [
+          "error",
+          "any",
+          "Number",
+          "number",
+          "String",
+          "string",
+          "Boolean",
+          "boolean",
+          "Undefined",
+          "undefined"
+        ],
+        "id-match": ["error"],
+        "import/no-deprecated": ["warn"],
+        "no-cond-assign": ["error"],
+        "no-console": [
+          "error",
+          {
+            "allow": [
+              "log",
+              "warn",
+              "dir",
+              "timeLog",
+              "assert",
+              "clear",
+              "count",
+              "countReset",
+              "group",
+              "groupEnd",
+              "table",
+              "dirxml",
+              "error",
+              "groupCollapsed",
+              "Console",
+              "profile",
+              "profileEnd",
+              "timeStamp",
+              "context"
+            ]
+          }
+        ],
+        "no-debugger": ["error"],
+        "no-fallthrough": ["error"],
+        "no-new-wrappers": ["error"],
+        "no-undef-init": ["error"],
+        "no-unsafe-finally": ["error"],
+        "no-unused-labels": ["error"],
+        "no-var": ["error"],
+        "object-shorthand": ["error"],
+        "one-var": ["error", "never"],
+        "no-extra-semi": "off",
+        "no-loss-of-precision": "error",
+        "prefer-const": "error",
+        "no-unused-vars": "off",
+
+        // * Disable to use typescript related rules
+        "no-throw-literal": "off", // Disabled in favor of `@typescript-eslint/no-throw-literal`
+        "no-redeclare": "off", // Disabled in favor of `@typescript-eslint/no-redeclare`
+        "no-shadow": "off", // Disabled in favor of `@typescript-eslint/no-shadow`
+        "require-await": "off", // Disabled in favor of `@typescript-eslint/require-await`
+
+        // * Typescript Rules
+        "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+        "@typescript-eslint/await-thenable": "error",
+        "@typescript-eslint/ban-ts-comment": "error",
+        "@typescript-eslint/ban-tslint-comment": "error",
+        "@typescript-eslint/class-literal-property-style": "error",
+        "@typescript-eslint/consistent-type-assertions": [
+          "error",
+          { "assertionStyle": "as", "objectLiteralTypeAssertions": "never" }
+        ],
+        "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+        "@typescript-eslint/consistent-type-exports": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "accessibility": "explicit",
+            "overrides": { "constructors": "no-public" }
+          }
+        ],
+        "init-declarations": "off",
+        "@typescript-eslint/init-declarations": "error",
+        "@typescript-eslint/member-ordering": [
+          "warn",
+          {
+            "default": {
+              "memberTypes": ["instance-field", "constructor", "instance-method"]
+            }
+          }
+        ],
+        "@typescript-eslint/no-base-to-string": "error",
+        "@typescript-eslint/no-confusing-void-expression": ["error", { "ignoreArrowShorthand": true }],
+        "@typescript-eslint/no-duplicate-enum-values": "error",
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": ["warn"],
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-for-in-array": "error",
+        "@typescript-eslint/no-inferrable-types": "error",
+        "@typescript-eslint/no-invalid-void-type": "error",
+        "no-loop-func": "off",
+        "@typescript-eslint/no-loop-func": ["error"],
+        "no-magic-numbers": "off",
+        // "@typescript-eslint/no-magic-numbers": ["warn"], // ? I don't think that it's been helpful, we should for sure try to avoid 'magic-numbers', but we don't really need to use it as a religion, almost all the cases it are understandable
+        "@typescript-eslint/no-misused-promises": "off", // TODO: enable it
+        "@typescript-eslint/no-redundant-type-constituents": "error",
+        "@typescript-eslint/no-require-imports": "error",
+
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": [
+          "off",
+          {
+            "allowComparingNullableBooleansToFalse": false
+          }
+        ],
+        "@typescript-eslint/no-unnecessary-condition": "error",
+        "@typescript-eslint/no-unsafe-assignment": "error",
+        "@typescript-eslint/no-unsafe-return": "error",
+        "no-unused-expressions": "off",
+        "@typescript-eslint/no-unused-expressions": "error",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "@typescript-eslint/prefer-as-const": "error",
+        "@typescript-eslint/prefer-enum-initializers": "error",
+        "@typescript-eslint/prefer-for-of": "error",
+        "@typescript-eslint/prefer-includes": "error",
+        "@typescript-eslint/prefer-literal-enum-member": "error",
+        "@typescript-eslint/prefer-nullish-coalescing": "warn",
+        "@typescript-eslint/prefer-optional-chain": "warn",
+        "@typescript-eslint/prefer-readonly": ["error", { "onlyInlineLambdas": true }],
+        "@typescript-eslint/prefer-string-starts-ends-with": "error",
+        "@typescript-eslint/promise-function-async": "off",
+        "@typescript-eslint/require-array-sort-compare": "error",
+        "@typescript-eslint/require-await": "off", // TODO: enable after implements database
+        "@typescript-eslint/type-annotation-spacing": ["error"],
+        "@typescript-eslint/adjacent-overload-signatures": ["error"],
+        "@typescript-eslint/no-empty-interface": ["error"],
+        "@typescript-eslint/no-misused-new": ["error"],
+        "@typescript-eslint/no-namespace": ["error"],
+        "@typescript-eslint/prefer-function-type": ["error"],
+        "@typescript-eslint/prefer-namespace-keyword": ["error"],
+        "@typescript-eslint/no-shadow": [
+          "error",
+          {
+            "hoist": "all"
+          }
+        ],
+        "@typescript-eslint/no-non-null-assertion": "error",
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/method-signature-style": "error",
+        "@typescript-eslint/no-confusing-non-null-assertion": "error",
+        "@typescript-eslint/no-dynamic-delete": "error",
+        "@typescript-eslint/consistent-type-imports": "error",
+        "@typescript-eslint/restrict-plus-operands": "error",
+        "@typescript-eslint/restrict-template-expressions": "error",
+        "@typescript-eslint/unified-signatures": "error",
+        "@typescript-eslint/dot-notation": "error",
+        "@typescript-eslint/no-redeclare": "error",
+        "@typescript-eslint/no-throw-literal": "error",
+        "@typescript-eslint/strict-boolean-expressions": "error",
+        "@typescript-eslint/triple-slash-reference": [
+          "error",
+          {
+            "path": "never",
+            "types": "prefer-import",
+            "lib": "never"
+          }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": [
+          "error",
+          {
+            "allowArgumentsExplicitlyTypedAsAny": true
+          }
+        ],
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "extendDefaults": false,
+            "types": {
+              "Function": "Avoid using the `Function` type. Use a specific function type, like `() => void`.",
+              "Object": {
+                "message": "Avoid using the `Object` type. Did you mean `object`?",
+                "fixWith": "object"
+              },
+              "Boolean": {
+                "message": "Avoid using the `Boolean` type. Did you mean `boolean`?",
+                "fixWith": "boolean"
+              },
+              "Number": {
+                "message": "Avoid using the `Number` type. Did you mean `number`?",
+                "fixWith": "number"
+              },
+              "String": {
+                "message": "Avoid using the `String` type. Did you mean `string`?",
+                "fixWith": "string"
+              },
+              "Symbol": {
+                "message": "Avoid using the `Symbol` type. Did you mean `symbol`?",
+                "fixWith": "symbol"
+              }
+            }
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true,
+            "allowConciseArrowFunctionExpressionsStartingWithVoid": true
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "default",
+            "format": ["camelCase", "UPPER_CASE"],
+            "leadingUnderscore": "allowSingleOrDouble",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "typeLike",
+            "format": ["UPPER_CASE", "PascalCase"],
+            "modifiers": ["unused"],
+            "leadingUnderscore": "require"
+          },
+          {
+            "selector": "variable",
+            "modifiers": ["const"],
+            "leadingUnderscore": "allow",
+            "format": ["UPPER_CASE", "camelCase", "snake_case"] // TODO (rules): replace by a regex that accepts "snake_case" in case of number
+          },
+          {
+            "selector": ["variableLike", "memberLike"],
+            "format": ["camelCase"],
+            "modifiers": ["private"],
+            "prefix": ["__", "_"]
+          },
+          {
+            "selector": ["variableLike", "memberLike"],
+            "format": ["camelCase"],
+            "modifiers": ["unused"],
+            "leadingUnderscore": "require"
+          },
+          {
+            "selector": "enumMember",
+            "format": ["snake_case"]
+          },
+          {
+            "selector": ["typeProperty", "objectLiteralProperty", "objectLiteralMethod"],
+            "format": null
+          }
+        ],
+
+        // * TSDocs Rules
+        "tsdoc/syntax": "warn",
+
+        // * Custom Rules
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "CallExpression[callee.name='getEnvVariableUnsafe']",
+            "message": "Don't use getEnvVariableUnsafe() outside of the environments folder"
+          }
+        ]
+      },
+      "overrides": [
+        {
+          "files": ["**/environments/*.ts"], // Disabling this rule only for the files inside this folder
+          "rules": {
+            "no-restricted-syntax": "off"
+          }
+        }
+      ]
+    },
+    // * Plugin Rules
+    {
+      "files": ["*.ts"],
+      "excludedFiles": ["*.spec.ts"],
+
+      "plugins": ["functional", "lodash", "n"],
+      "extends": ["plugin:lodash/canonical"],
+      "rules": {
+        // * Node
+        "n/no-process-env": "error",
+
+        // * Lodash
+        "lodash/prefer-noop": "off",
+        "lodash/prefer-constant": "off",
+        "lodash/prop-shorthand": "off",
+
+        // * Custom rules
+        "lodash/import-scope": ["error", "member"],
+        "lodash/prefer-lodash-method": "off", // ? Disabling because lodash doesn't work with immutable
+        "functional/no-expression-statements": "off",
+        "functional/no-return-void": "off",
+        "functional/no-conditional-statements": "off",
+
+        // * Functional Programming
+        "functional/immutable-data": ["off", { "ignoreClasses": true, "ignoreImmediateMutation": true }],
+        "functional/no-let": "error",
+        "functional/prefer-immutable-types": "off", // TODO: may we can enable it on the backend
+        "functional/type-declaration-immutability": ["off"], // TODO: make this an error, but allow ReadonlyDeep
+        "functional/no-mixed-types": "error",
+        "functional/no-promise-reject": "error",
+        "functional/no-throw-statements": "error",
+        "functional/prefer-tacit": "error",
+        "no-var": "error"
+      },
+      "overrides": [
+        {
+          "files": ["**/get-env-variable.ts"], // Disabling this rule only for this exact file
+          "rules": {
+            "n/no-process-env": "off"
+          }
+        }
+      ]
+    },
+    // * Tests Rules
+    {
+      "files": ["*.spec.ts", "*.cy.ts"],
+      "rules": {
+        // * Disable unnecessary rules
+        "@typescript-eslint/init-declarations": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-await-in-loop": "off",
+
+        // * Overrides
+        "max-nested-callbacks": ["error", 7],
+        "max-lines-per-function": ["error", { "max": 300, "skipBlankLines": true, "skipComments": true }],
+
+        // * Rules
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "CallExpression[callee.name='fdescribe']",
+            "message": "fdescribe: don't focus suites"
+          },
+          {
+            "selector": "CallExpression[callee.name='fit']",
+            "message": "fit: don't focus specs"
+          },
+          {
+            "selector": "MemberExpression[object.name='describe'][property.name='only']",
+            "message": "describe.only: don't focus suites"
+          },
+          {
+            "selector": "MemberExpression[object.name='it'][property.name='only']",
+            "message": "it.only: don't focus specs"
+          }
+        ]
+      }
+    }
+  ]
+}

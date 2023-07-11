@@ -1,0 +1,83 @@
+{
+  "plugins": ["stylelint-scss"],
+  "extends": ["stylelint-config-standard-scss"],
+  "ignoreFiles": ["apps/frontend/src/styles/reset.scss"],
+  "overrides": [
+    {
+      "files": ["**/*.scss"],
+      "rules": {
+        "string-quotes": "single",
+        "declaration-colon-newline-after": null,
+        "value-list-comma-newline-after": null,
+        "custom-property-empty-line-before": null,
+        "no-empty-source": null,
+        "no-eol-whitespace": null,
+        "declaration-empty-line-before": null,
+
+        "no-descending-specificity": true,
+
+        "declaration-block-no-duplicate-custom-properties": true,
+        "declaration-block-no-duplicate-properties": [
+          true,
+          {
+            "ignore": ["consecutive-duplicates-with-different-values"]
+          }
+        ],
+        "font-family-no-duplicate-names": true,
+        "keyframe-block-no-duplicate-selectors": true,
+        "no-duplicate-at-import-rules": true,
+        "no-duplicate-selectors": true,
+
+        "color-no-invalid-hex": true,
+        "keyframe-declaration-no-important": true,
+        "named-grid-areas-no-invalid": true,
+        "no-invalid-position-at-import-rule": true,
+        "string-no-newline": true,
+        "font-family-no-missing-generic-family-keyword": true,
+        "function-linear-gradient-no-nonstandard-direction": true,
+        "declaration-block-no-shorthand-property-overrides": true,
+
+        "annotation-no-unknown": true,
+        "scss/at-rule-no-unknown": [
+          true,
+          {
+            "ignoreAtRules": ["tailwind"]
+          }
+        ],
+        "function-no-unknown": true,
+        "media-feature-name-no-unknown": true,
+        "no-unknown-animations": true,
+        "property-no-unknown": true,
+        "selector-pseudo-class-no-unknown": true,
+        "selector-pseudo-element-no-unknown": [
+          true,
+          {
+            "ignorePseudoElements": ["ng-deep"]
+          }
+        ],
+
+        "length-zero-no-unit": true,
+
+        "declaration-property-unit-allowed-list": {
+          "font-size": "rem",
+          "border-radius": ["px", "%"],
+          "/^border/": "px",
+          "/^animation/": "ms"
+        },
+
+        "declaration-block-no-redundant-longhand-properties": true,
+        "shorthand-property-no-redundant-values": true,
+        "value-keyword-case": "lower",
+        "function-name-case": "lower",
+        "selector-type-case": "lower",
+
+        "scss/selector-nest-combinators": "always",
+        "scss/selector-no-redundant-nesting-selector": true
+      }
+    },
+    {
+      "files": ["components/**/*.css", "pages/**/*.css"],
+      "rules": {}
+    }
+  ]
+}
