@@ -23,7 +23,8 @@
     "paths": {
       "@shared/services": ["src/app/shared/services"],
       "@shared/models": ["src/app/shared/models"],
-      "@shared/utils": ["src/app/shared/utils"]
+      "@shared/utils": ["src/app/shared/utils"],
+      "@shared/constants": ["src/app/shared/constants"]
     }
   },
   "angularCompilerOptions": {
