@@ -1,13 +1,15 @@
 <main>
   <!-- Map -->
   <rag-map [map]="currentMap" (click)="attack()">
-    <ng-container *ngIf="image">
+    <ng-container *ngIf="loadMonster$ | async">
       <!-- Monster image -->
       <img class="monster" [src]="image" alt="" draggable="false" (dragstart)="(false)" />
       <!-- Monster Life bar -->
       <div class="hp-container">
-        <div class="hp" [style.width.%]="life"></div>
+        <div class="hp" [style.width.%]="life$ | async"></div>
       </div>
     </ng-container>
+    <h2>Player</h2>
+    <p style="background-color: rgba(255, 255, 255, 0.411)">{{ (player$ | async)?.exp?.current | json }}</p>
   </rag-map>
 </main>
