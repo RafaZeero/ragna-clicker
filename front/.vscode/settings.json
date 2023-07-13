@@ -1,0 +1,20 @@
+{
+  // * VSCode configs
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+
+  // * Extensions configs
+  "prettier.configPath": ".prettierrc",
+  "gitlens.plusFeatures.enabled": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "stylelint.snippet": ["css", "less", "postcss", "scss"],
+  "stylelint.validate": ["css", "less", "postcss", "scss"],
+  "css.customData": [".vscode/css_custom_data.json"],
+  "cSpell.words": ["Cooldown"]
+}
