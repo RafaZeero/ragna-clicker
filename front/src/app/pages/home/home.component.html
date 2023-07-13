@@ -1,10 +1,13 @@
-<main class="bg-map" (click)="attack()">
-  <ng-container *ngIf="image">
-    <!-- Monster image -->
-    <img class="monster" [src]="image" alt="" draggable="false" (dragstart)="(false)" />
-    <!-- Monster Life bar -->
-    <div class="hp-container">
-      <div class="hp" [style.width.%]="life"></div>
-    </div>
-  </ng-container>
+<main>
+  <!-- Map -->
+  <rag-map [map]="currentMap" (click)="attack()">
+    <ng-container *ngIf="image">
+      <!-- Monster image -->
+      <img class="monster" [src]="image" alt="" draggable="false" (dragstart)="(false)" />
+      <!-- Monster Life bar -->
+      <div class="hp-container">
+        <div class="hp" [style.width.%]="life"></div>
+      </div>
+    </ng-container>
+  </rag-map>
 </main>
