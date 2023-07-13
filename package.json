@@ -1,0 +1,13 @@
+{
+  "name": "ragna-clicker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "front": "cd front && ng serve",
+    "back": "cd back && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
