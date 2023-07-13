@@ -1,0 +1,7 @@
+:host {
+  .bg-map {
+    @apply flex flex-col w-[100vw] h-[100vh];
+    @apply bg-cover;
+    @apply items-center justify-center;
+  }
+}

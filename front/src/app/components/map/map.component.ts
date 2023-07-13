@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonsterComponent } from 'src/app/components/monster';
-import { ApiService } from '@shared/services';
+import { makeMapFileURL } from '@shared/utils';
+import { Maps } from '@shared/models';
 
 /**
  * TODO: Dynamically change field maps
@@ -17,15 +18,14 @@ import { ApiService } from '@shared/services';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class MapComponent {
-  private readonly _api = inject(ApiService);
+export default class MapComponent implements AfterViewInit {
+  @ViewChild('map')
+  public element!: ElementRef;
 
-  public monsterImage!: any;
+  @Input({ required: true })
+  public map!: Maps;
 
-  public ngOnInit(): void {
-    this._api.getImage(1002).subscribe(data => {
-      console.log('aaaa');
-      this.monsterImage = data;
-    });
+  public ngAfterViewInit(): void {
+    this.element.nativeElement.style.backgroundImage = makeMapFileURL(this.map);
   }
 }
