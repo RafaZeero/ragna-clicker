@@ -7,6 +7,7 @@ const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./pages/home/home.component'),
   },
+  { path: ':map', loadComponent: () => import('./pages/map/map.component') },
 ];
 
 @NgModule({
