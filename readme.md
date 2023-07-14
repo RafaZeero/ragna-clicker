@@ -6,7 +6,6 @@ Ragna clicker is a incremental game based on the MMORPG Ragnarok Online. You can
 
 Let's ROK! ~
 
-This is a non-profitable project.
 All rights and copyright reserved by © 2023 Gravity Interactive, Inc. © 2002 ~ 2023, Gravity Corp. & LeeMyougjin.
 
 ## Game
