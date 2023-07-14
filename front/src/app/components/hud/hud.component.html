@@ -1,0 +1,8 @@
+<button (click)="toggleHud()" class="toggle-hud">Click to collapse</button>
+<ng-container *ngIf="hudState; else closed">
+  <p>HUD OPEN</p>
+</ng-container>
+
+<ng-template #closed>
+  <p>HUD CLOSED</p>
+</ng-template>

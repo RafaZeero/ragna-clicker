@@ -1,0 +1,14 @@
+:host {
+  @apply absolute;
+  @apply flex flex-col gap-[16px] items-center justify-center;
+  @apply w-[13%] h-[75%];
+  @apply bg-[#ffffff54];
+
+  border: 1px solid red;
+
+  .toggle-hud {
+    @apply border-[2px] border-solid border-[#c5cbff];
+    @apply bg-white;
+    @apply flex px-[16px] py-[8px];
+  }
+}
