@@ -1,8 +1,11 @@
-<button (click)="toggleHud()" class="toggle-hud">Click to collapse</button>
-<ng-container *ngIf="hudState; else closed">
-  <rag-player />
-</ng-container>
+<div class="gradient-top"></div>
+<div class="container-hud">
+  <button (click)="toggleHud()" class="toggle-hud">Click to collapse</button>
+  <ng-container *ngIf="hudState; else closed">
+    <rag-player />
+  </ng-container>
 
-<ng-template #closed>
-  <p>HUD CLOSED</p>
-</ng-template>
+  <ng-template #closed>
+    <p>HUD CLOSED</p>
+  </ng-template>
+</div>
