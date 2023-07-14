@@ -1,7 +1,7 @@
-export interface MonsterRequest {
+export type MonsterRequest = {
   id: number;
   name: string;
-  stats: Stats;
+  stats: MonsterRequestStats;
   slaves: any[];
   sounds: string[];
   questObjective: number[];
@@ -9,9 +9,9 @@ export interface MonsterRequest {
   mvpdrops: any[];
   spawn: Spawn[];
   skill: Skill[];
-}
+};
 
-export interface Stats {
+export type MonsterRequestStats = {
   attackRange: number;
   level: number;
   health: number;
@@ -39,26 +39,26 @@ export interface Stats {
   ai: string;
   mvp: number;
   _class: number;
-}
+};
 
-export interface Attack {
+export type Attack = {
   minimum: number;
   maximum: number;
-}
+};
 
-export interface Drop {
+export type Drop = {
   itemId: number;
   chance: number;
   stealProtected: boolean;
-}
+};
 
-export interface Spawn {
+export type Spawn = {
   mapname: string;
   amount: number;
   respawnTime: number;
-}
+};
 
-export interface Skill {
+export type Skill = {
   skillId: number;
   status: string;
   level: number;
@@ -68,4 +68,4 @@ export interface Skill {
   interruptable: boolean;
   condition: any;
   conditionValue: any;
-}
+};
