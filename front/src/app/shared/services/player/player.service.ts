@@ -36,23 +36,21 @@ export class PlayerService {
   }
 
   public unequipPreviousWeapon() {
-    const player = this.player;
-    const previousPlayerDamages = player.stats.damage;
-    this.player = { ...player, stats: { damage: { ...previousPlayerDamages, weapon: 0 } } };
+    // TODO: Remove any other bonus that the weapon may provide
+    this.player.stats.damage.weapon = 0;
   }
 
   public checkLevelUp() {
     const updatedPlayerLevel = calculateLevel(this.player);
     const updatedExpLevel = calculateExpAfterLevelUp(this.player);
-    this.player = {
-      ...this.player,
-      level: { base: updatedPlayerLevel.baseLevel, job: updatedPlayerLevel.jobLevel },
-      exp: {
-        current: { base: updatedExpLevel.baseExp, job: updatedExpLevel.jobExp },
-        toLevelUp: {
-          base: expToLevelUp.base[updatedPlayerLevel.baseLevel],
-          job: expToLevelUp.job[updatedPlayerLevel.jobLevel],
-        },
+    // Update Level
+    this.player.level = { base: updatedPlayerLevel.baseLevel, job: updatedPlayerLevel.jobLevel };
+    // Update exp values
+    this.player.exp = {
+      current: { base: updatedExpLevel.baseExp, job: updatedExpLevel.jobExp },
+      toLevelUp: {
+        base: expToLevelUp.base[updatedPlayerLevel.baseLevel],
+        job: expToLevelUp.job[updatedPlayerLevel.jobLevel],
       },
     };
   }
