@@ -3,20 +3,11 @@
   <rag-map [map]="currentMap" (click)="attack()">
     <ng-container *ngIf="loadMonster$ | async">
       <!-- Monster image -->
-      <img class="monster" [src]="image" alt="" draggable="false" (dragstart)="(false)" />
+      <img class="monster" [src]="image$ | async" alt="" draggable="false" (dragstart)="(false)" />
       <!-- Monster Life bar -->
       <div class="hp-container">
         <div class="hp" [style.width.%]="life$ | async"></div>
       </div>
     </ng-container>
-    <div (click)="(false)" style="border: 1px solid red; z-index: 1">
-      <h2>Player</h2>
-      <p style="background-color: rgba(255, 255, 255, 0.411)">{{ (player$ | async)?.exp?.current | json }}</p>
-      <div>
-        <h2>Choose weapon</h2>
-        <button (click)="setWeaponDamage(player, 3)">Knife +3</button>
-        <button (click)="setWeaponDamage(player, 5)">Dagger +5</button>
-      </div>
-    </div>
   </rag-map>
 </main>
