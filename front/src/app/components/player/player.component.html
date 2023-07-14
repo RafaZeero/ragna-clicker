@@ -1,1 +1,11 @@
-<p>player works!</p>
+<div *ngIf="player$ | async as player">
+  <div>
+    <h2>Name: Rafael</h2>
+    <p>Base Level: {{ player.level.base }}</p>
+    <p>Job Level: {{ player.level.job }}</p>
+  </div>
+  <div>
+    <p>Base exp: {{ player.exp.current.base }}/{{ player.exp.toLevelUp.base }}</p>
+    <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p>
+  </div>
+</div>
