@@ -23,10 +23,10 @@ export default class HomeComponent implements OnInit {
   // Mocked data
   public currentMap: Maps = 'prontera-south';
   public monsterData = {
-    life: 100,
+    life: 10,
     id: 10002,
     exp: {
-      base: 10,
+      base: 3,
       job: 7,
     },
   };
@@ -87,7 +87,7 @@ export default class HomeComponent implements OnInit {
     this._playerService.checkLevelUp();
 
     // New monster
-    this._life$.next(100);
+    this._life$.next(this.monsterData.life);
     console.log('live again !!');
   };
 }
