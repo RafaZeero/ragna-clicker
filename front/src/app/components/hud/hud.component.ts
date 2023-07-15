@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerComponent } from '../player/player.component';
 
@@ -11,13 +11,9 @@ import { PlayerComponent } from '../player/player.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HudComponent {
-  @HostBinding('style.height.%')
-  public hostHeight = 75;
-
   public hudState = true;
 
   public toggleHud() {
     this.hudState = !this.hudState;
-    this.hostHeight = this.hudState ? 75 : 20;
   }
 }
