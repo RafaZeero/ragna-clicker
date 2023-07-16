@@ -1,41 +1,46 @@
 :host {
-  @apply absolute;
-  @apply flex flex-col gap-[16px] items-center;
-  @apply w-[400px] h-fit;
-  @apply px-[8px] pt-[25px] pb-[5px];
-  @apply border-x-[2px] border-b-[2px] border-solid border-[#B1B3A4];
-  @apply rounded-br-[5px] rounded-bl-[5px];
+  .hud {
+    @apply absolute;
+    @apply flex flex-col gap-[16px] items-center;
+    @apply w-[400px] h-fit;
+    @apply px-[8px] pt-[25px] pb-[5px];
+    @apply border-x-[2px] border-b-[2px] border-solid border-[#B1B3A4];
+    @apply rounded-br-[5px] rounded-bl-[5px];
 
-  @apply bg-[#FBFBFB];
-  cursor: url('/assets/cursors/cursor.webp'), auto;
+    @apply bg-[#FBFBFB];
+    cursor: url('/assets/cursors/cursor.webp'), auto;
 
-  .gradient-top {
-    @apply absolute top-0;
-    @apply w-[100%] h-[20px];
-    @apply bg-[linear-gradient(to_top,#d3f0f4,#a7bbf6)];
-    @apply border-b-[2px] border-solid border-[#686D6F];
+    .gradient-top {
+      @apply absolute top-0;
+      @apply flex items-center justify-between px-[20px] py-[2px];
+      @apply w-[100%] h-[20px];
+      @apply bg-[linear-gradient(to_top,#d3f0f4,#a7bbf6)];
+      @apply border-b-[2px] border-solid border-[#686D6F];
 
-    .basic-info {
-      @apply flex;
-      @apply text-[1rem] font-[roboto] font-[400] leading-[100%];
-      @apply mt-[2px] ml-[20px];
-    }
-  }
-
-  .container-hud {
-    @apply flex flex-col px-[16px] py-[8px] gap-[16px];
-    @apply w-[100%];
-
-    .toggle-hud {
-      @apply px-[16px] py-[8px];
-      @apply border-[2px] border-solid border-[#c5cbff];
-      @apply bg-white;
-
-      cursor: url('/assets/cursors/cursor.webp'), auto;
-
-      &:hover {
-        @apply bg-[hsl(187,60%,93%)];
+      .basic-info {
+        @apply flex;
+        @apply text-[1rem] font-[roboto] font-[400] leading-[100%];
       }
+
+      .toggle-hud {
+        @apply flex;
+        @apply p-[5px];
+        border-radius: 50%;
+        // @apply w-[5px] h-[5px];
+        // @apply border-[2px] border-solid border-[#c5cbff];
+        // @apply bg-white;
+
+        // cursor: url('/assets/cursors/cursor.webp'), auto;
+
+        // &:hover {
+        //   @apply bg-[hsl(187,60%,93%)];
+        // }
+      }
+    }
+
+    .container-hud {
+      @apply flex flex-col px-[16px] py-[8px] gap-[16px];
+      @apply w-[100%];
     }
   }
 }

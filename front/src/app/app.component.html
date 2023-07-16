@@ -1,3 +1,4 @@
-<rag-hud class="hud" />
-<router-outlet class="router-outlet" />
-<div class="saka"></div>
+<main #game class="game">
+  <rag-hud class="hud" [boundaryParentContainer]="game" />
+  <router-outlet class="router-outlet" />
+</main>
