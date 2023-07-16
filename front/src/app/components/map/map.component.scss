@@ -2,8 +2,7 @@
   cursor: url('/assets/cursors/attack.webp'), auto;
 
   .bg-map {
-    @apply flex flex-col w-[100vw] h-[100vh];
-    @apply bg-cover;
-    @apply items-center justify-center;
+    @apply flex flex-col items-center justify-center;
+    @apply w-[100vw] h-[100vh];
   }
 }
