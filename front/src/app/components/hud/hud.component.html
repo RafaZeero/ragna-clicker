@@ -1,7 +1,7 @@
 <div class="hud" cdkDrag cdkDragBoundary=".game">
   <div class="gradient-top" cdkDragHandle>
     <span class="basic-info">Basic info</span>
-    <button class="toggle-hud" (click)="toggleHud()">-</button>
+    <rag-button-rounded (click)="toggleHud()" #toggle (mousedown)="$event.stopPropagation()">-</rag-button-rounded>
   </div>
   <div class="container-hud">
     <ng-container *ngIf="hudState; else closed">
