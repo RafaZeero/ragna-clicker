@@ -4,12 +4,12 @@
     <rag-button-rounded (click)="toggleHud()" #toggle (mousedown)="$event.stopPropagation()">-</rag-button-rounded>
   </div>
   <div class="container-hud">
-    <ng-container *ngIf="hudState; else closed">
-      <rag-player />
+    <ng-container *ngIf="hudState; else closedState">
+      <ng-content />
     </ng-container>
 
-    <ng-template #closed>
-      <p>HUD CLOSED</p>
+    <ng-template #closedState>
+      <ng-content select="[closed]" />
     </ng-template>
   </div>
 </div>

@@ -1,4 +1,7 @@
 <main #game class="game">
-  <rag-hud class="hud" [boundaryParentContainer]="game" />
+  <rag-hud class="hud" [boundaryParentContainer]="game">
+    <rag-player />
+    <div closed>FECHADO</div>
+  </rag-hud>
   <router-outlet class="router-outlet" />
 </main>
