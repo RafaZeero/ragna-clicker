@@ -1,0 +1,9 @@
+:host {
+  @apply flex items-center justify-center;
+  @apply w-[14px] h-[13px];
+  @apply bg-[linear-gradient(to_right,#587EEE,#BDD6F5,#587EEE)];
+  @apply rounded-[50%];
+  @apply border-[1px] border-solid border-[hsl(213,52%,31%)];
+  @apply cursor-pointer;
+  @apply font-[500] text-[1.375rem];
+}
