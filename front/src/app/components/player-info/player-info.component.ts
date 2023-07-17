@@ -1,18 +1,17 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '@shared/services';
-import { map } from 'rxjs';
 import { Experience } from '@shared/models';
 
 @Component({
-  selector: 'rag-player',
+  selector: 'rag-player-info',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
+  templateUrl: './player-info.component.html',
+  styleUrls: ['./player-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlayerComponent {
+export class PlayerInfoComponent {
   @Input({ required: true }) public mode: 'complete' | 'compact' = 'complete';
 
   private readonly _playerService = inject(PlayerService);

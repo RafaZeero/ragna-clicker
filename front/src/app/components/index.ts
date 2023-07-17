@@ -1,7 +1,9 @@
 // Game mechanics
 export * from './map';
 export * from './monster';
-export * from './player';
+
+// Player stuff
+export * from './player-info';
 
 // Huds
 export * from './hud';

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlayerComponent } from '../player/player.component';
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { ButtonRoundedComponent } from '../button-rounded';
+import { PlayerInfoComponent } from '../player-info';
 @Component({
   selector: 'rag-hud',
   standalone: true,
-  imports: [CommonModule, PlayerComponent, CdkDrag, CdkDragHandle, ButtonRoundedComponent],
+  imports: [CommonModule, CdkDrag, CdkDragHandle, PlayerInfoComponent, ButtonRoundedComponent],
   templateUrl: './hud.component.html',
   styleUrls: ['./hud.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
