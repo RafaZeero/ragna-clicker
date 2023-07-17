@@ -1,0 +1,20 @@
+<div *ngIf="player$ | async as player">
+  <ng-container *ngIf="mode === 'complete'; else compact">
+    <div>
+      <p>str: {{ player.attributes.strength }}</p>
+      <p>agi: {{ player.attributes.agility }}</p>
+      <p>vit: {{ player.attributes.vitality }}</p>
+      <p>dex: {{ player.attributes.dexterity }}</p>
+      <p>int: {{ player.attributes.inteligence }}</p>
+      <p>luk: {{ player.attributes.luck }}</p>
+    </div>
+  </ng-container>
+  <ng-template #compact>
+    <div class="line one">
+      <p>
+        Nv. {{ player.level.base }} / Sicário / Nv. {{ player.level.job }} / Exp.
+        {{ (player.exp.current.base / player.exp.toLevelUp.base) * 100 | number : '1.0-2' }}%
+      </p>
+    </div>
+  </ng-template>
+</div>
