@@ -16,3 +16,5 @@ Let's goooo ~ 🔵
 - [] Create pet to loot items/gold while afk
 - [] Add Party with limited number of participants to make different strategies to kill differents MVPs
 - [] Toggle skills to auto-cast whenever the cooldown is 0 -> Maybe enable this when skill is level 5
+- [] Add one or more apprentices when reach X base level / or do certain quest / or kill first MVP
+- [] Make players buffs/skill more powerful than your teammembers buffs/skills
