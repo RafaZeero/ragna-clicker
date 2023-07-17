@@ -2,11 +2,9 @@
   .hud {
     @apply absolute;
     @apply flex flex-col gap-[16px] items-center;
-    @apply w-[400px] h-fit;
+    @apply w-[320px] h-fit;
     @apply px-[8px] pt-[25px] pb-[5px];
-    // @apply border-x-[2px] border-b-[2px] border-solid border-[#B1B3A4];
     @apply rounded-[5px];
-
     @apply bg-[#FBFBFB];
     cursor: url('/assets/cursors/cursor.webp'), auto;
 
@@ -14,14 +12,8 @@
       @apply absolute top-0;
       @apply flex items-center justify-between pl-[20px] pr-[8px] py-[2px];
       @apply w-[100%] h-[26px];
-      @apply bg-[linear-gradient(to_top,#d3f0f4,#a7bbf6,#d3f0f4)];
       @apply border-b-[2px] border-solid border-[#686D6F];
       @apply rounded-tr-[5px] rounded-tl-[5px];
-
-      .basic-info {
-        @apply flex;
-        @apply text-[1rem] font-[roboto] font-[400] leading-[100%];
-      }
     }
 
     .container-hud {
