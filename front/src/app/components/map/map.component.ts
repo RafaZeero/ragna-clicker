@@ -18,13 +18,14 @@ import { Maps } from '@shared/models';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit {
   @ViewChild('map')
   public element!: ElementRef;
 
   @Input({ required: true })
   public map!: Maps;
 
+  // Update map
   public ngAfterViewInit(): void {
     this.element.nativeElement.style.background = makeMapFileURL(this.map);
     this.element.nativeElement.style.backgroundSize = 'cover';
