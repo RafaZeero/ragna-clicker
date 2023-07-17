@@ -1,1 +1,14 @@
-<p>game works!</p>
+<main #game class="game">
+  <rag-hud-info [game]="game" />
+  <!-- Map -->
+  <rag-map [map]="currentMap" (click)="attack()">
+    <ng-container *ngIf="loadMonster$ | async">
+      <!-- Monster image -->
+      <img class="monster" [src]="image$ | async" alt="" draggable="false" (dragstart)="(false)" />
+      <!-- Monster Life bar -->
+      <div class="hp-container">
+        <div class="hp" [style.width.%]="life$ | async"></div>
+      </div>
+    </ng-container>
+  </rag-map>
+</main>

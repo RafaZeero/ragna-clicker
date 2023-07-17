@@ -1,0 +1,19 @@
+:host {
+  @apply select-none;
+
+  .monster {
+    @apply w-[75px] h-[75px];
+  }
+
+  .hp-container {
+    @apply w-[200px] mt-[15px];
+    @apply border-[1px] border-blue-50 rounded-[4px];
+
+    .hp {
+      @apply flex;
+      @apply h-[10px];
+      @apply bg-red-700;
+      @apply rounded-[4px];
+    }
+  }
+}

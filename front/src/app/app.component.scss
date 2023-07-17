@@ -1,7 +1,11 @@
 :host {
-  @apply relative;
-
   .game {
-    /**/
+    background-color: antiquewhite;
+    @apply flex justify-center items-center;
+    @apply h-[100%];
+
+    .rok {
+      border: 1px solid teal;
+    }
   }
 }

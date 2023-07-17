@@ -1,7 +1,9 @@
-<main #game class="game">
-  <rag-hud class="hud" [boundaryParentContainer]="game">
-    <rag-player />
-    <div closed>FECHADO</div>
+<!-- TODO: Login/Register screen -->
+<div class="game" *ngIf="!hasRoute('play')" #game>
+  <rag-hud [boundaryParentContainer]="game">
+    <p info>Let's play!! ~</p>
+    <a class="rok" [routerLink]="['/play']">Play</a>
   </rag-hud>
-  <router-outlet class="router-outlet" />
-</main>
+</div>
+<!-- Game~ -->
+<router-outlet class="router-outlet" />
