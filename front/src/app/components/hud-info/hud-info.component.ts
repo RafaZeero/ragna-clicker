@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HudComponent } from '../hud/hud.component';
 import { PlayerComponent } from '../player';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PlayerService } from '@shared/services';
 
 @Component({
   selector: 'rag-hud-info',
@@ -13,5 +14,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HudInfoComponent {
+  private readonly _playerService = inject(PlayerService);
+
+  public player$ = this._playerService.player$;
+
   @Input({ required: true }) public game!: HTMLElement;
 }
