@@ -1,0 +1,8 @@
+:host {
+  .hud {
+    .basic-info {
+      @apply flex;
+      @apply text-[1rem] font-[roboto] font-[400] leading-[100%];
+    }
+  }
+}
