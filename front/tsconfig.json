@@ -21,6 +21,7 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
     "paths": {
+      "@components": ["src/app/components"],
       "@shared/services": ["src/app/shared/services"],
       "@shared/models": ["src/app/shared/models"],
       "@shared/utils": ["src/app/shared/utils"],
