@@ -7,7 +7,7 @@
       <div class="level-container">
         <!-- Type of level with current level -->
         <div class="exp-container" *ngFor="let levelType of levelTypes">
-          <p class="level">{{ levelType | titlecase }}. {{ player.level.base }}</p>
+          <p class="level">{{ levelType | titlecase }}. {{ player.level[levelType] }}</p>
           <!-- Exp bar -->
           <div class="exp-bar-container">
             <div
