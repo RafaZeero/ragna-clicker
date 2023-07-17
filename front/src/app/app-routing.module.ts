@@ -7,6 +7,10 @@ const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./pages/home/home.component'),
   },
+  {
+    path: 'play',
+    loadComponent: () => import('./pages/game/game.component'),
+  },
 ];
 
 @NgModule({
