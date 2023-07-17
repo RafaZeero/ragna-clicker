@@ -1,3 +1,14 @@
+// Monster Data
+export type MonsterData = {
+  life: number;
+  id: number;
+  exp: {
+    base: number;
+    job: number;
+  };
+};
+
+// Monster request from Divine-Pride
 export type MonsterRequest = {
   id: number;
   name: string;

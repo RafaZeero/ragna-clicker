@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HudInfoComponent, MapComponent } from '@components';
-import { Maps } from '@shared/models';
+import { Maps, MonsterData } from '@shared/models';
 import { ApiService, PlayerService } from '@shared/services';
 import { Observable, BehaviorSubject, map, filter, delay, of } from 'rxjs';
 
@@ -21,7 +21,7 @@ export default class GameComponent implements OnInit {
 
   // Mocked data
   public currentMap: Maps = 'prontera-south';
-  public monsterData = {
+  public monsterData: MonsterData = {
     life: 10,
     id: 10002,
     exp: {
@@ -71,18 +71,10 @@ export default class GameComponent implements OnInit {
   // Move to utils
   private giveExp = () => {
     console.log('exp!!');
-    // Get exp
-    this._playerService.player = {
-      ...this._playerService.player,
-      exp: {
-        ...this._playerService.player.exp,
-        current: {
-          base: this._playerService.player.exp.current.base + this.monsterData.exp.base,
-          job: this._playerService.player.exp.current.job + this.monsterData.exp.job,
-        },
-      },
-    };
+    // // Get exp
+    this._playerService.gainExp(this.monsterData.exp);
 
+    // Check if player has leveled up
     this._playerService.checkLevelUp();
 
     // New monster
