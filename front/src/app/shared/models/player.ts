@@ -1,6 +1,9 @@
 import { Experience, Level } from './commons';
 
 export type Player = {
+  name: string;
+  // Todo: make classes with skills
+  class: string;
   attributes: Attributes;
   stats: {
     damage: {

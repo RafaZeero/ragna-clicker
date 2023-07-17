@@ -1,6 +1,8 @@
 import { Player } from '@shared/models';
 
 export const defaultPlayer: Player = {
+  name: 'Rafael',
+  class: 'Sicário',
   attributes: {
     strength: 3,
     agility: 5,
