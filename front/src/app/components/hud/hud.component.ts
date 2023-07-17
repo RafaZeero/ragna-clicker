@@ -16,8 +16,10 @@ export class HudComponent {
   @ViewChild('toggle') public toggle!: HTMLElement;
 
   public hudState = true;
+  public hudStateTop = true;
 
   public toggleHud() {
     this.hudState = !this.hudState;
+    this.hudStateTop = !this.hudStateTop;
   }
 }
