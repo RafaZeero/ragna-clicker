@@ -1,19 +1,41 @@
 <div *ngIf="player$ | async as player">
-  <div>
-    <h2>Name: Rafael</h2>
-    <p>Base Level: {{ player.level.base }}</p>
-    <p>Job Level: {{ player.level.job }}</p>
-  </div>
-  <div>
-    <p>Base exp: {{ player.exp.current.base }}/{{ player.exp.toLevelUp.base }}</p>
-    <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p>
-  </div>
-  <div>
-    <p>str: {{ player.attributes.strength }}</p>
-    <p>agi: {{ player.attributes.agility }}</p>
-    <p>vit: {{ player.attributes.vitality }}</p>
-    <p>dex: {{ player.attributes.dexterity }}</p>
-    <p>int: {{ player.attributes.inteligence }}</p>
-    <p>luk: {{ player.attributes.luck }}</p>
-  </div>
+  <ng-container *ngIf="mode === 'complete'; else compact">
+    <div>
+      <!-- Player name -->
+      <h2>{{ player.name }}</h2>
+      <h3>{{ player.class }}</h3>
+      <div class="level-container">
+        <!-- Type of level with current level -->
+        <div class="exp-container" *ngFor="let levelType of levelTypes">
+          <p class="level">{{ levelType | titlecase }}. {{ player.level.base }}</p>
+          <!-- Exp bar -->
+          <div class="exp-bar-container">
+            <div
+              [style.width.%]="(player.exp.current[levelType] / player.exp.toLevelUp[levelType]) * 100"
+              class="exp-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p>Base exp: {{ player.exp.current.base }}/{{ player.exp.toLevelUp.base }}</p>
+      <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p>
+    </div>
+    <div>
+      <p>str: {{ player.attributes.strength }}</p>
+      <p>agi: {{ player.attributes.agility }}</p>
+      <p>vit: {{ player.attributes.vitality }}</p>
+      <p>dex: {{ player.attributes.dexterity }}</p>
+      <p>int: {{ player.attributes.inteligence }}</p>
+      <p>luk: {{ player.attributes.luck }}</p>
+    </div>
+  </ng-container>
+  <ng-template #compact>
+    <div class="line one">
+      <p>
+        Nv. {{ player.level.base }} / Sicário / Nv. {{ player.level.job }} / Exp.
+        {{ (player.exp.current.base / player.exp.toLevelUp.base) * 100 | number : '1.0-2' }}%
+      </p>
+    </div>
+  </ng-template>
 </div>

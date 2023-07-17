@@ -1,0 +1,27 @@
+:host {
+  .level-container {
+    @apply pl-[16px] pr-[24px];
+    @apply bg-gray-200 rounded-[6px];
+
+    .exp-container {
+      @apply flex items-center justify-between;
+      @apply w-[100%];
+
+      .level {
+        @apply text-[0.875rem] font-[500];
+      }
+
+      .exp-bar-container {
+        @apply flex items-center justify-between;
+        @apply w-[70%];
+        @apply border-[1px] border-[#4e4e4e];
+
+        .exp-bar {
+          @apply flex;
+          @apply h-[6px];
+          @apply bg-[#4A79C3];
+        }
+      }
+    }
+  }
+}
