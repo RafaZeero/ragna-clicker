@@ -15,3 +15,4 @@ Let's goooo ~ 🔵
 - [] Create homunculus to farm exp while afk
 - [] Create pet to loot items/gold while afk
 - [] Add Party with limited number of participants to make different strategies to kill differents MVPs
+- [] Toggle skills to auto-cast whenever the cooldown is 0 -> Maybe enable this when skill is level 5
