@@ -2,17 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+// TODO: Move this to a /styles/themes
+:root {
+  --primary-color: #d3f0f4;
+  --secondary-color: #a7bbf6;
+}
+
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+  @apply p-0 m-0 box-border;
 }
 
 html,
 body {
-  height: 100%;
+  @apply h-[100%];
 }
 body {
-  margin: 0;
+  @apply m-0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.gradient {
+  @apply bg-[linear-gradient(to_top,#d3f0f4,#a7bbf6,#d3f0f4)];
 }
