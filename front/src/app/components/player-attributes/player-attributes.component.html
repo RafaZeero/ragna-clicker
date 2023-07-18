@@ -1,14 +1,18 @@
 <div *ngIf="player$ | async as player">
-  <ng-container *ngIf="mode === 'complete'; else compact">
-    <div>
-      <p>str: {{ player.attributes.strength }}</p>
-      <p>agi: {{ player.attributes.agility }}</p>
-      <p>vit: {{ player.attributes.vitality }}</p>
-      <p>dex: {{ player.attributes.dexterity }}</p>
-      <p>int: {{ player.attributes.inteligence }}</p>
-      <p>luk: {{ player.attributes.luck }}</p>
+  <div class="attributes-container" *ngIf="mode === 'complete'; else compact">
+    <div class="attribute-container">
+      <div class="attribute-individual" *ngFor="let attribute of attributesList">
+        <p class="attribute-name">{{ makeAttributeAlias(attribute) }}</p>
+        <p class="attribute-value">{{ player.attributes[attribute] }}</p>
+        <div class="attribute-add">
+          <button class="button" *ngIf="player.attributes_to_spend > 0" (click)="addAttribute(attribute)">+</button>
+        </div>
+      </div>
     </div>
-  </ng-container>
+    <div class="attributes-points-to-add">
+      <p>Points to add: {{ player.attributes_to_spend }}</p>
+    </div>
+  </div>
   <ng-template #compact>
     <div class="line one">
       <p>

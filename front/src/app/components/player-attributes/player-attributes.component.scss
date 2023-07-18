@@ -1,0 +1,52 @@
+:host {
+  @apply text-[0.875rem];
+
+  .attributes {
+    &-container {
+      @apply flex;
+    }
+
+    &-points-to-add {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+  }
+
+  .attribute {
+    &-container {
+      @apply flex flex-col justify-between;
+    }
+
+    &-individual {
+      @apply flex;
+      @apply w-[100px];
+
+      .attribute {
+        &-name {
+          @apply flex items-center;
+          @apply font-[500] leading-[110%];
+          @apply capitalize;
+          @apply w-[35%];
+        }
+
+        &-value {
+          @apply flex items-center justify-start px-[8px];
+          @apply grow;
+          @apply border-[1px] border-solid border-[#000];
+        }
+
+        &-add {
+          @apply flex items-center justify-center w-[20px];
+          @apply border-r-[1px] border-solid border-[#000];
+          @apply border-y-[1px] border-solid border-[#000];
+
+          .button {
+            @apply bg-blue-300 text-[white] w-[100%];
+          }
+        }
+      }
+    }
+  }
+}

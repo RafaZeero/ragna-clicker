@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '@shared/services';
-import { Experience } from '@shared/models';
+import { Attributes, AttributesAliases, Experience } from '@shared/models';
+import { attributesList, levelTypes } from '@shared/constants';
+import { filter, first, map, takeWhile, tap } from 'rxjs';
 
 @Component({
   selector: 'rag-player-attributes',
@@ -17,5 +19,42 @@ export class PlayerAttributesComponent {
   private readonly _playerService = inject(PlayerService);
 
   public player$ = this._playerService.player$;
-  public levelTypes: Array<keyof Experience> = ['base', 'job'];
+  public levelTypes: Array<keyof Experience> = levelTypes;
+  public attributesList: Array<keyof Attributes> = attributesList;
+
+  public addAttribute(attribute: keyof Attributes) {
+    this.player$
+      .pipe(
+        // Map attribute to spend quantity
+        map(player => player.attributes_to_spend),
+        // Take while has attribute to spend
+        takeWhile(attributesAvailableToSpend => attributesAvailableToSpend > 0),
+        // Reduce one point for attribute used
+        map(attributesAvailableToSpend => attributesAvailableToSpend - 1),
+        first(),
+      )
+      .subscribe(() => {
+        // Add attribute to player
+        this._playerService.addOnePointToAttribute(attribute);
+      });
+  }
+
+  public makeAttributeAlias(attribute: keyof Attributes): AttributesAliases {
+    switch (attribute) {
+      case 'strength':
+        return 'str';
+      case 'agility':
+        return 'agi';
+      case 'vitality':
+        return 'vit';
+      case 'inteligence':
+        return 'int';
+      case 'dexterity':
+        return 'dex';
+      case 'luck':
+        return 'luk';
+      default:
+        throw Error('Invalid attribute');
+    }
+  }
 }
