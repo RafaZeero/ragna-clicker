@@ -10,6 +10,11 @@ Let's goooo ~ 🔵
 
 ## Todos
 
+- [] Create level up mechanic to gain attributes points
+- [] Add points in attributes points hud to get stronger
+  - [] Define what will every attribute do. If I choose to go with them, I will have to add classes and stuff. Could be cool.
+  - [] If I have 6 attributes, monster should have some powers to make players decide on which attribute they will make their build for.
+
 ## Ideas
 
 - [] Create homunculus to farm exp while afk
@@ -18,3 +23,4 @@ Let's goooo ~ 🔵
 - [] Toggle skills to auto-cast whenever the cooldown is 0 -> Maybe enable this when skill is level 5
 - [] Add one or more apprentices when reach X base level / or do certain quest / or kill first MVP
 - [] Make players buffs/skill more powerful than your teammembers buffs/skills
+- [] Blockchain to create unique/special items in the game -> will need market to improve this
