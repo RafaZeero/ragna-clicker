@@ -25,8 +25,8 @@ export default class GameComponent implements OnInit {
     life: 10,
     id: 10002,
     exp: {
-      base: 3,
-      job: 7,
+      base: 90,
+      job: 28,
     },
   };
 
@@ -35,7 +35,7 @@ export default class GameComponent implements OnInit {
   public life$ = this._life$.asObservable();
 
   public loadMonster$ = this.life$.pipe(
-    // Map current life
+    // Map monster current life
     map(currentLife => currentLife > 0),
   );
 
@@ -70,7 +70,6 @@ export default class GameComponent implements OnInit {
 
   // Move to utils
   private giveExp = () => {
-    console.log('exp!!');
     // // Get exp
     this._playerService.gainExp(this.monsterData.exp);
 
@@ -79,6 +78,5 @@ export default class GameComponent implements OnInit {
 
     // New monster
     this._life$.next(this.monsterData.life);
-    console.log('live again !!');
   };
 }
