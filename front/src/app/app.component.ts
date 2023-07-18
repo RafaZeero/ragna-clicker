@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Point } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'rag-root',
@@ -10,6 +11,7 @@ export default class AppComponent {
   private readonly _router = inject(Router);
 
   public title = 'ragna-clicker';
+  public hudStartingPosition: Point = { x: 720, y: 0 };
 
   /**
    * Check if the router url contains the specified route
