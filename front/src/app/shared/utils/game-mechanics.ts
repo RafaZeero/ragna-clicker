@@ -1,4 +1,4 @@
-import { MonsterData, Player } from '@shared/models';
+import { Attributes, MonsterData, Player } from '@shared/models';
 
 export const addExp = (
   player: Player,
@@ -11,4 +11,10 @@ export const addExp = (
     base: sumBaseExp,
     job: sumJobExp,
   };
+};
+
+export const addAttributeToPlayer = (attribute: keyof Attributes, player: Player): Player['attributes'] => {
+  ++player.attributes[attribute];
+
+  return player.attributes;
 };

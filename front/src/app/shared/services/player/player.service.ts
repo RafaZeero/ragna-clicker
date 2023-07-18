@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { defaultPlayer, expToLevelUp } from '@shared/constants';
-import { MonsterData, Player } from '@shared/models';
-import { addExp, calculateExpAfterLevelUp, calculateLevel } from '@shared/utils';
+import { Attributes, MonsterData, Player } from '@shared/models';
+import { addAttributeToPlayer, addExp, calculateExpAfterLevelUp, calculateLevel } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +104,20 @@ export class PlayerService {
     // Add weaponType & weaponRefine to calc
     const damage = player.attributes.strength * 2 + weaponDamage;
     return damage;
+  }
+
+  public addOnePointToAttribute(attribute: keyof Attributes) {
+    if (this.player.attributes_to_spend <= 0) return;
+    // Update all attributes of a player
+    const updatedAttributes = addAttributeToPlayer(attribute, this.player);
+    // Update player
+    const player: Player = {
+      ...this.player,
+      attributes: updatedAttributes,
+      attributes_to_spend: this.player.attributes_to_spend - 1,
+    };
+    // Emits new player attributes
+    this._player$.next(player);
   }
 
   public calculateDamageDealt = () => this.player.stats.damage.base + this.player.stats.damage.weapon;
