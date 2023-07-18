@@ -1,7 +1,7 @@
 // Data from https://www.divine-pride.net/api/database/Experience?apiKey=APIKEY
+// Level: expToLevelUp
 export const expToLevelUp: Record<'base' | 'job', Record<string, number>> = {
   base: {
-    // Level: expToLevelUp
     '1': 350,
     '2': 550,
     '3': 900,
