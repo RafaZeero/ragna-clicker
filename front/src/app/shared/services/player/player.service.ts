@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { defaultPlayer, expToLevelUp } from '@shared/constants';
 import { Attributes, MonsterData, Player } from '@shared/models';
-import { addAttributeToPlayer, addExp, calculateExpAfterLevelUp, calculateLevel } from '@shared/utils';
+import { addAttributeToPlayer, addExp, calculate, expNeededToLevelUp } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,8 @@ export class PlayerService {
   public set player(data: Player) {
     this._player$.next(data);
   }
+
+  public calculate = calculate(this.player);
 
   public setWeaponDamage(weaponDamage: number) {
     const player = this.player;
@@ -41,51 +43,54 @@ export class PlayerService {
   }
 
   public checkLevelUp() {
-    const updatedPlayerLevel = calculateLevel(this.player);
-    const updatedExpLevel = calculateExpAfterLevelUp(this.player);
-    const playerData = this.player;
+    const player = this.player;
 
-    if (playerData.level.job === 50) {
+    // Do not level up job
+    if (player.level.job === 50) {
       // TODO: Stop leveling up
       console.log('Player level max [JOB]');
+      return;
     }
 
-    if (playerData.level.base === 99) {
+    // Do not level up base
+    if (player.level.base === 99) {
       // TODO: Stop leveling up
       console.log('Player level max [BASE]');
+      return;
     }
 
-    if (playerData.level.base !== updatedPlayerLevel.baseLevel) {
-      // TODO: Add call to backend and update player data in DB
-      console.log('Player leveled up [BASE]');
+    // Calculate player new values
+    const updatedPlayerLevel = this.calculate.level();
+    const updatedExpLevel = this.calculate.exp();
+
+    // Control
+    const hasLeveldUp = updatedPlayerLevel.hasLeveled;
+
+    if (hasLeveldUp.base || hasLeveldUp.job) {
+      if (hasLeveldUp.base) {
+        // TODO: Add call to backend and update player data in DB
+        console.log('Player leveled up [BASE]');
+
+        const updatedPoints = this.calculate.attributesAvailable();
+
+        // Update attributes points
+        player.attributes_to_spend = updatedPoints;
+      }
+      if (hasLeveldUp.job) {
+        // TODO: Add call to backend and update player data in DB
+        console.log('Player leveled up [JOB]');
+      }
+
       // Update Level
-      // Update Level
-      playerData.level = { base: updatedPlayerLevel.baseLevel, job: updatedPlayerLevel.jobLevel };
+      player.level = updatedPlayerLevel;
 
       // Update exp values
-      playerData.exp = {
-        current: { base: updatedExpLevel.baseExp, job: updatedExpLevel.jobExp },
-        toLevelUp: {
-          base: expToLevelUp.base[updatedPlayerLevel.baseLevel],
-          job: expToLevelUp.job[updatedPlayerLevel.jobLevel],
-        },
+      player.exp = {
+        current: updatedExpLevel,
+        toLevelUp: expNeededToLevelUp(updatedPlayerLevel),
       };
-    }
 
-    if (playerData.level.job !== updatedPlayerLevel.jobLevel) {
-      // TODO: Add call to backend and update player data in DB
-      console.log('Player leveled up [JOB]');
-      // Update Level
-      playerData.level = { base: updatedPlayerLevel.baseLevel, job: updatedPlayerLevel.jobLevel };
-
-      // Update exp values
-      playerData.exp = {
-        current: { base: updatedExpLevel.baseExp, job: updatedExpLevel.jobExp },
-        toLevelUp: {
-          base: expToLevelUp.base[updatedPlayerLevel.baseLevel],
-          job: expToLevelUp.job[updatedPlayerLevel.jobLevel],
-        },
-      };
+      this._player$.next(player);
     }
   }
 
