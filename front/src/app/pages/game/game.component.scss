@@ -1,6 +1,9 @@
 :host {
   @apply select-none;
 
+  .hud-attributes {
+  }
+
   .monster {
     @apply w-[75px] h-[75px];
   }

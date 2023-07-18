@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HudInfoComponent, MapComponent } from '@components';
+import { HudInfoComponent, HudAttributesComponent, MapComponent } from '@components';
 import { Maps, MonsterData } from '@shared/models';
 import { ApiService, PlayerService } from '@shared/services';
 import { Observable, BehaviorSubject, map, filter, delay, of } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, HudInfoComponent, MapComponent],
+  imports: [CommonModule, MapComponent, HudInfoComponent, HudAttributesComponent],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

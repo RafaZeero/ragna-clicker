@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HudComponent, PlayerAttributesComponent } from '@components';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule, Point } from '@angular/cdk/drag-drop';
 import { PlayerService } from '@shared/services';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'rag-hud-attributes',
@@ -13,9 +14,24 @@ import { PlayerService } from '@shared/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HudAttributesComponent {
+  // Angular
+  @Input({ required: true }) public game!: HTMLElement;
+
+  // Dependency Injections
   private readonly _playerService = inject(PlayerService);
 
+  // Streams
+  // Streams
   public player$ = this._playerService.player$;
+  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
+  public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
-  @Input({ required: true }) public game!: HTMLElement;
+  // Variables
+  public hudStartingPosition!: Point;
+
+  //Functions
+  public ngOnInit(): void {
+    this._hudStartingPosition$.next({ x: 0, y: 183 });
+    this.hudStartingPosition = this._hudStartingPosition$.value;
+  }
 }

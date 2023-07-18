@@ -1,5 +1,5 @@
 <!-- Base Hud component -->
-<div class="hud" cdkDrag cdkDragBoundary=".game">
+<div class="hud" cdkDrag cdkDragBoundary=".game" [cdkDragFreeDragPosition]="startPosition">
   <!-- Top draggable -->
   <div class="gradient-top gradient" cdkDragHandle>
     <ng-container *ngIf="hudStateTop; else closedStateTop">
