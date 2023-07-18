@@ -18,3 +18,6 @@ export const attributeAliases = {
   dexterity: 'dex',
   luck: 'luk',
 } as const;
+
+// Attributes points gained to spend per level
+export const POINTS_PER_LEVEL = 3 as const;
