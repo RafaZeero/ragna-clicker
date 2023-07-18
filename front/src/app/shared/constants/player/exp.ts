@@ -1,32 +1,3 @@
-import { Player } from '@shared/models';
-
-export const defaultPlayer: Player = {
-  name: 'Rafael',
-  class: 'Sicário',
-  attributes: {
-    strength: 3,
-    agility: 5,
-    dexterity: 3,
-    inteligence: 4,
-    luck: 1,
-    vitality: 1,
-  },
-  level: {
-    base: 1,
-    job: 1,
-  },
-  exp: {
-    current: { base: 0, job: 0 },
-    toLevelUp: { base: 350, job: 30 },
-  },
-  stats: {
-    damage: {
-      base: 13,
-      weapon: 0,
-    },
-  },
-};
-
 // Data from https://www.divine-pride.net/api/database/Experience?apiKey=APIKEY
 export const expToLevelUp: Record<'base' | 'job', Record<string, number>> = {
   base: {
