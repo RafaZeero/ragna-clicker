@@ -26,7 +26,7 @@ type Calculate = (player: Player) => {
  * @param player Current player
  * @returns functions that calculate changes in the player properties
  */
-export const calculate: Calculate = player => {
+export const makeCalculate: Calculate = player => {
   // Create functions
   const changeLevelAndExp = makeChangeLevelAndExp(player);
   const changeAttributesAvailable = makeChangeAttributesAvailable(player);

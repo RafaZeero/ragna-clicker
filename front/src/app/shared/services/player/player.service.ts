@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, shareReplay } from 'rxjs';
 import { defaultPlayer, expToLevelUp } from '@shared/constants';
-import { Attributes, MonsterData, Player } from '@shared/models';
-import { addAttributeToPlayer, addExp, calculate, expNeededToLevelUp } from '@shared/utils';
+import { Attributes, MonsterData, Player, Stats } from '@shared/models';
+import { addAttributeToPlayer, addExp, makeCalculate, expNeededToLevelUp } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,6 @@ export class PlayerService {
   public set player(data: Player) {
     this._player$.next(data);
   }
-
-  public calculate = calculate(this.player);
 
   public setWeaponDamage(weaponDamage: number) {
     const player = this.player;
@@ -59,8 +57,11 @@ export class PlayerService {
       return;
     }
 
+    // Instantiate calculations
+    const calculate = makeCalculate(this.player);
+
     // Calculate player new values
-    const updatedValues = this.calculate.levelAndExp();
+    const updatedValues = calculate.levelAndExp();
     const updatedExp = updatedValues.exp;
     const updatedLevel = updatedValues.level;
 
@@ -72,7 +73,7 @@ export class PlayerService {
         // TODO: Add call to backend and update player data in DB
         console.log('Player leveled up [BASE]');
 
-        const updatedPoints = this.calculate.attributesAvailable();
+        const updatedPoints = calculate.attributesAvailable();
 
         // Update attributes points
         player.attributes_to_spend = updatedPoints;
@@ -114,22 +115,32 @@ export class PlayerService {
 
   public addOnePointToAttribute(attribute: keyof Attributes) {
     if (this.player.attributes_to_spend <= 0) return;
+
     // Update all attributes of a player
     const updatedAttributes = addAttributeToPlayer(attribute, this.player);
 
     // Update secondary stats
-    // Calculate new damage
-    const updatedAtkDamage = this.calculate.atkDamage();
+    const updatedStats = this.updateStats();
 
     // Update player
     const player: Player = {
       ...this.player,
       attributes: updatedAttributes,
       attributes_to_spend: this.player.attributes_to_spend - 1,
-      stats: { damage: updatedAtkDamage },
+      stats: updatedStats,
     };
     // Emits new player attributes
     this._player$.next(player);
+  }
+
+  private updateStats(): Stats {
+    // Instantiate calculations
+    const calculate = makeCalculate(this.player);
+
+    // Calculate new damage
+    const updatedAtkDamage = calculate.atkDamage();
+
+    return { damage: updatedAtkDamage };
   }
 
   public calculateDamageDealt = () => this.player.stats.damage.base + this.player.stats.damage.weapon;
