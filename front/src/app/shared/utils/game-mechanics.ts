@@ -20,6 +20,6 @@ export const addAttributeToPlayer = (attribute: keyof Attributes, player: Player
 };
 
 export const meleeAtk = (
-  baseDamage: Player['stats']['damage']['base'],
+  baseLevel: Player['level']['base'],
   { strength, dexterity, luck }: Pick<Player['attributes'], 'strength' | 'dexterity' | 'luck'>,
-) => Math.ceil(baseDamage / 4 + strength + dexterity / 5 + luck / 3);
+) => Math.ceil(baseLevel / 4 + strength + dexterity / 5 + luck / 3);

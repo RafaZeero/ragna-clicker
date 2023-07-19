@@ -59,7 +59,7 @@ export const makeCalculateDamage = (player: Player) => (): Damages => {
   switch (player.class) {
     case 'Aprendiz':
       // (BaseLevel ÷ 4) + Str + (Dex ÷ 5) + (Luk ÷ 3)
-      const newDamage = meleeAtk(damage.base, { strength, dexterity, luck });
+      const newDamage = meleeAtk(player.level.base, { strength, dexterity, luck });
       return { ...damage, base: newDamage };
 
     default:

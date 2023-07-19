@@ -55,6 +55,9 @@ export default class GameComponent implements OnInit {
 
     // Reload monster after it dies
     this.reloadMonster$.subscribe(this.giveExp);
+
+    const playerStats = this._playerService.updateStats();
+    this._playerService.player = { ...this._playerService.player, stats: playerStats };
   }
 
   public attack() {

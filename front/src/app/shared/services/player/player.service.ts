@@ -64,6 +64,7 @@ export class PlayerService {
     const updatedValues = calculate.levelAndExp();
     const updatedExp = updatedValues.exp;
     const updatedLevel = updatedValues.level;
+    const updatedStats = this.updateStats();
 
     // Control
     const hasLeveldUp = updatedValues.hasLeveled;
@@ -91,6 +92,9 @@ export class PlayerService {
         current: updatedExp,
         toLevelUp: expNeededToLevelUp(updatedLevel),
       };
+
+      // Update stats on level up
+      player.stats = updatedStats;
 
       this._player$.next(player);
     }
@@ -133,7 +137,7 @@ export class PlayerService {
     this._player$.next(player);
   }
 
-  private updateStats(): Stats {
+  public updateStats(): Stats {
     // Instantiate calculations
     const calculate = makeCalculate(this.player);
 
