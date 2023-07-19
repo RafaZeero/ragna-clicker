@@ -9,8 +9,18 @@
         </div>
       </div>
     </div>
-    <div class="attributes-points-to-add">
-      <p>Points to add: {{ player.attributes_to_spend }}</p>
+    <div class="attributes-secondary">
+      <div class="attributes-secondary-stats">
+        <p>Weapon dpc: {{ player.stats.damage.weapon | number : '1.0-0' }}</p>
+        <p>base: {{ player.stats.damage.base | number : '1.0-0' }}</p>
+        <p>
+          Total atk: {{ player.stats.damage.base | number : '1.0-0' }} +
+          {{ player.stats.damage.weapon | number : '1.0-0' }}
+        </p>
+      </div>
+      <div class="attributes-secondary-points-to-add">
+        <p>Points to add: {{ player.attributes_to_spend }}</p>
+      </div>
     </div>
   </div>
   <ng-template #compact>

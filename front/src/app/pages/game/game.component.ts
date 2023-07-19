@@ -22,11 +22,11 @@ export default class GameComponent implements OnInit {
   // Mocked data
   public currentMap: Maps = 'prontera-south';
   public monsterData: MonsterData = {
-    life: 10,
+    life: 60,
     id: 10002,
     exp: {
-      base: 90,
-      job: 28,
+      base: 72,
+      job: 40,
     },
   };
 

@@ -1,15 +1,20 @@
 import { POINTS_PER_LEVEL, expToLevelUp } from '@shared/constants';
-import { Player } from '@shared/models';
+import { Damages, Player } from '@shared/models';
+import { meleeAtk } from '@shared/utils';
 
-export const expNeededToLevelUp = (currentPlayerLevel: Player['level']) => ({
-  base: expToLevelUp.base[currentPlayerLevel.base],
-  job: expToLevelUp.job[currentPlayerLevel.job],
+export const expNeededToLevelUp = (currentPlayerLevel: Player['level']): Player['exp']['toLevelUp'] => ({
+  base: expToLevelUp.base[currentPlayerLevel.base.toString()],
+  job: expToLevelUp.job[currentPlayerLevel.job.toString()],
 });
 
-export const makeChangeLevel = (player: Player) => () => {
+export const makeChangeLevelAndExp = (player: Player) => () => {
   const currentPlayerLevel: Player['level'] = player.level;
   const currentPlayerExp: Player['exp']['current'] = player.exp.current;
-  const expNeeded: Player['exp']['toLevelUp'] = expNeededToLevelUp(currentPlayerLevel);
+  // const expNeeded: Player['exp']['toLevelUp'] = expNeededToLevelUp(currentPlayerLevel);
+  const expNeeded: Player['exp']['toLevelUp'] = {
+    base: expToLevelUp.base[currentPlayerLevel.base.toString()],
+    job: expToLevelUp.job[currentPlayerLevel.job.toString()],
+  };
 
   const hasLeveled = { base: false, job: false };
 
@@ -21,45 +26,20 @@ export const makeChangeLevel = (player: Player) => () => {
   // Check base exp
   if (checkExp.base) {
     hasLeveled.base = true;
-    ++currentPlayerLevel.base;
+    currentPlayerExp.base -= expNeeded.base;
+    currentPlayerLevel.base++;
   }
 
   // Check job exp
   if (checkExp.job) {
     hasLeveled.job = true;
-    ++currentPlayerLevel.job;
+    currentPlayerExp.job -= expNeeded.job;
+    currentPlayerLevel.job++;
   }
 
   // Return new Player level if leveled up
 
-  return { ...currentPlayerLevel, hasLeveled };
-};
-
-export const makeChangeExp = (player: Player) => () => {
-  const currentPlayerLevel: Player['level'] = player.level;
-  const currentPlayerExp: Player['exp']['current'] = player.exp.current;
-  const expNeeded: Player['exp']['toLevelUp'] = expNeededToLevelUp(currentPlayerLevel);
-
-  // Validations
-  const checkExp = {
-    base: currentPlayerExp.base >= expNeeded.base,
-    job: currentPlayerExp.job >= expNeeded.job,
-  };
-
-  // Check base exp
-  if (checkExp.base) {
-    console.log('BEFORE add base EXP', currentPlayerExp.base);
-    currentPlayerExp.base -= expNeeded.base;
-    console.log('add base EXP', currentPlayerExp.base);
-  }
-
-  // Check job exp
-  if (checkExp.job) {
-    currentPlayerExp.job -= expNeeded.job;
-  }
-
-  // Return new Player exp if leveled up
-  return currentPlayerExp;
+  return { level: currentPlayerLevel, exp: currentPlayerExp, hasLeveled };
 };
 
 export const makeChangeAttributesAvailable = (player: Player) => () => {
@@ -68,4 +48,21 @@ export const makeChangeAttributesAvailable = (player: Player) => () => {
   const updatedPoints = currentPoints + POINTS_PER_LEVEL;
 
   return updatedPoints;
+};
+
+// TODO: check player class to define base attribute damage
+export const makeCalculateDamage = (player: Player) => (): Damages => {
+  const damage = player.stats.damage;
+  const { strength, agility, vitality, inteligence, dexterity, luck } = player.attributes;
+
+  // TODO: check class to increase base damage
+  switch (player.class) {
+    case 'Aprendiz':
+      // (BaseLevel ÷ 4) + Str + (Dex ÷ 5) + (Luk ÷ 3)
+      const newDamage = meleeAtk(damage.base, { strength, dexterity, luck });
+      return { ...damage, base: newDamage };
+
+    default:
+      return damage;
+  }
 };

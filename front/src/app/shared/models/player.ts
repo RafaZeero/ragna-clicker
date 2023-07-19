@@ -8,6 +8,7 @@ export type Player = {
   // Todo: make classes with skills
   class: string;
   /**
+   * TODO: Move to attributes type
    * How many points player have to add in attributes when level up
    */
   attributes_to_spend: number;
@@ -19,12 +20,7 @@ export type Player = {
    * Secondary stats to do damage, resist spells, drop chance, etc
    * TODO: Improve this
    */
-  stats: {
-    damage: {
-      base: number;
-      weapon: number;
-    };
-  };
+  stats: Stats;
   /**
    * Experience points.
    * Current experience points value
@@ -41,7 +37,7 @@ export type Player = {
 };
 
 export type Stats = {
-  // TODO
+  damage: Damages;
 };
 
 export type Attributes = {
@@ -54,3 +50,8 @@ export type Attributes = {
 };
 
 export type AttributesAliases = 'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk';
+
+export type Damages = {
+  base: number;
+  weapon: number;
+};

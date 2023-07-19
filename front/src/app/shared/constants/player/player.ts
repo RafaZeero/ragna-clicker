@@ -2,8 +2,8 @@ import { Player } from '@shared/models';
 
 export const defaultPlayer: Player = {
   name: 'Rafael',
-  class: 'Sicário',
-  attributes_to_spend: 5,
+  class: 'Aprendiz',
+  attributes_to_spend: 9,
   attributes: {
     strength: 1,
     agility: 1,
@@ -22,7 +22,7 @@ export const defaultPlayer: Player = {
   },
   stats: {
     damage: {
-      base: 13,
+      base: 10,
       weapon: 0,
     },
   },
