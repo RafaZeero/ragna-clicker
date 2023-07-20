@@ -32,12 +32,12 @@ export class ApiService {
       .pipe(
         map(mapMonsterData),
         switchMap(monsterInfo =>
-          this._http.get<string>(`http://localhost:3000/monsters/${id}`).pipe(map(img => ({ ...monsterInfo, img }))),
+          this._http.get<string>(`${environment.apiURL}/monsters/${id}`).pipe(map(img => ({ ...monsterInfo, img }))),
         ),
       );
   }
 
   public getImage(id: number) {
-    return this._http.get<string>(`http://localhost:3000/monsters/${id}`);
+    return this._http.get<string>(`${environment.apiURL}/monsters/${id}`);
   }
 }

@@ -6,4 +6,5 @@ export type Environment = Readonly<{
   hash: {
     salt: string;
   };
+  apiURL: string;
 }>;
