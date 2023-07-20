@@ -12,7 +12,15 @@ const mockedUsers = [
     name: 'Rafael',
     username: 'rafa',
     password: 'Rafa1234',
-    id: 0
+    id: 0,
+    attributes: {
+      strength: 1,
+      agility: 1,
+      dexterity: 1,
+      inteligence: 1,
+      luck: 1,
+      vitality: 1
+    }
   }
 ];
 
