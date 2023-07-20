@@ -6,5 +6,5 @@ export const environment: Environment = {
     'divine-pride': '1aa1f34e90e8afdcadcb3c61b6d5fcd9',
   },
   hash: { salt: 'ragzin' },
-  apiURL: 'https://ragna-clicker-back.vercel.app/ping',
+  apiURL: 'https://ragna-clicker-back.vercel.app',
 };
