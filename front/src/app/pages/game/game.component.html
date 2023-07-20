@@ -9,7 +9,7 @@
       <img class="monster" [src]="image$ | async" alt="" draggable="false" (dragstart)="(false)" />
       <!-- Monster Life bar -->
       <div class="hp-container">
-        <div class="hp" [style.width.%]="life$ | async"></div>
+        <div class="hp" [style.width.%]="((life$ | async)! / monsterData.life) * 100"></div>
       </div>
     </ng-container>
   </rag-map>
