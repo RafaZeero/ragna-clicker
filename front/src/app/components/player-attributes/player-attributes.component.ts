@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PlayerService } from '@shared/services';
 import { Attributes, AttributesAliases, Experience } from '@shared/models';
 import { attributesList, levelTypes } from '@shared/constants';
-import { filter, first, map, takeWhile, tap } from 'rxjs';
+import { first, map, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'rag-player-attributes',
