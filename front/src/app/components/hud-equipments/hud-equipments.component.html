@@ -1,1 +1,9 @@
-<p>hud-equipments works!</p>
+<!-- Basic Info -->
+<rag-hud #hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="hudStartingPosition">
+  <span class="basic-info" infoOpened>Equipments</span>
+  <span class="basic-info" infoClosed>{{ (player$ | async)?.name }}</span>
+
+  <!-- Does this makes sense? -->
+  <rag-player-equipments [mode]="'complete'" />
+  <rag-player-equipments closed [mode]="'compact'" />
+</rag-hud>

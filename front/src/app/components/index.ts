@@ -8,6 +8,7 @@ export * from './monster';
 // Player stuff
 export * from './player-info';
 export * from './player-attributes';
+export * from './player-equipments';
 
 // Huds
 export * from './hud';
