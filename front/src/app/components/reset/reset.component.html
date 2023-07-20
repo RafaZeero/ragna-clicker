@@ -1,0 +1,18 @@
+<!-- Basic Info -->
+<rag-hud class="hud" #hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!">
+  <span class="basic-info" infoOpened>RESET</span>
+  <span class="basic-info" infoClosed>RESET</span>
+
+  <!-- Opened -->
+  <ng-container *ngIf="false; else default" closed />
+  <ng-container *ngIf="false; else default" />
+  <!-- Closed -->
+</rag-hud>
+
+<ng-template #default>
+  <div class="resets">
+    <button class="btn" (click)="reset()">Reset player</button>
+    <button class="btn" (click)="levelUpBase()">Level up Base</button>
+    <button class="btn" (click)="levelUpJob()">Level up Job</button>
+  </div>
+</ng-template>

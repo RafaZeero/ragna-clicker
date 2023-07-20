@@ -1,3 +1,6 @@
+// FOR DEBUG PURPOSES
+export * from './reset';
+
 // Game mechanics
 export * from './map';
 export * from './monster';
