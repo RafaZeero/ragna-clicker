@@ -33,9 +33,6 @@ export default class GameComponent implements OnInit {
 
     // Reload monster after it dies
     this._monsterService.reloadMonster().subscribe(this.giveExp);
-
-    const playerStats = this._playerService.updateStats();
-    this._playerService.player = { ...this._playerService.player, stats: playerStats };
   }
 
   // Basic click attack
@@ -80,5 +77,8 @@ export default class GameComponent implements OnInit {
       console.log('saving initial data [LOCAL_STORAGE]');
       this._api.savePlayer(this._playerService.player);
     }
+
+    const playerStats = this._playerService.updateStats();
+    this._playerService.player = { ...this._playerService.player, stats: playerStats };
   }
 }
