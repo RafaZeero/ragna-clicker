@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject }
 import { CommonModule } from '@angular/common';
 import { HudInfoComponent, HudAttributesComponent, MapComponent, ResetComponent } from '@components';
 import { Maps, MonsterData } from '@shared/models';
-import { ApiService, PlayerService } from '@shared/services';
-import { Observable, BehaviorSubject, map, filter, delay, of } from 'rxjs';
-import { StoreService } from 'src/app/shared/services/store/store.service';
+import { ApiService, MonsterService, PlayerService } from '@shared/services';
+import { Observable, BehaviorSubject, map, filter, delay, of, combineLatest, tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -14,38 +13,17 @@ import { StoreService } from 'src/app/shared/services/store/store.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class GameComponent implements OnInit {
+  private readonly _cd = inject(ChangeDetectorRef);
   private readonly _api = inject(ApiService);
   private readonly _playerService = inject(PlayerService);
-  private readonly _cd = inject(ChangeDetectorRef);
+  private readonly _monsterService = inject(MonsterService);
 
   public image$!: Observable<string>;
+  public loadMonster$ = this._monsterService.loadMonster$;
+  public monsterHPBar$ = this._monsterService.monsterLifeBar$;
 
   // Mocked data
   public currentMap: Maps = 'prontera-south';
-  public monsterData: MonsterData = {
-    life: 60,
-    id: 10002,
-    exp: {
-      base: 72,
-      job: 40,
-    },
-  };
-
-  // streams
-  private _life$ = new BehaviorSubject<number>(this.monsterData.life);
-  public life$ = this._life$.asObservable();
-
-  public loadMonster$ = this.life$.pipe(
-    // Map monster current life
-    map(currentLife => currentLife > 0),
-  );
-
-  // Reload monster after it dies
-  public reloadMonster$ = this.loadMonster$.pipe(
-    filter(data => !data),
-    // reload after 500 ms
-    delay(350),
-  );
 
   public async ngOnInit(): Promise<void> {
     const playerFromLocalStorage = await this._api.getPlayer();
@@ -65,32 +43,28 @@ export default class GameComponent implements OnInit {
     });
 
     // Reload monster after it dies
-    this.reloadMonster$.subscribe(this.giveExp);
+    this._monsterService.reloadMonster().subscribe(this.giveExp);
 
     const playerStats = this._playerService.updateStats();
     this._playerService.player = { ...this._playerService.player, stats: playerStats };
   }
 
+  // Basic click attack
   public attack() {
-    const currentLife = this._life$.value;
     const damageDealt = this._playerService.calculateDamageDealt();
 
-    // Only do damage if there is hp
-    if (currentLife > 0) {
-      console.log('damageDealt: ', damageDealt);
-      this._life$.next(currentLife - damageDealt);
-    }
+    this._monsterService.makeDamageToMonster(damageDealt);
   }
 
   // Move to utils
   private giveExp = () => {
     // // Get exp
-    this._playerService.gainExp(this.monsterData.exp);
+    this._playerService.gainExp(this._monsterService.currentMonster.exp);
 
     // Check if player has leveled up
     this._playerService.checkLevelUp();
 
     // New monster
-    this._life$.next(this.monsterData.life);
+    this._monsterService.updateMonster();
   };
 }
