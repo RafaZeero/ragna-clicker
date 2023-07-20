@@ -1,6 +1,6 @@
 // Monster Data
 export type MonsterData = {
-  life: number;
+  hp: number;
   id: number;
   exp: {
     base: number;

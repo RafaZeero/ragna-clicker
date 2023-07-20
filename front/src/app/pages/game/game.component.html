@@ -1,16 +1,15 @@
 <main #game class="game">
+  <!-- Player info -->
   <rag-hud-info class="hud-info" [game]="game" />
+  <!-- Player attributes -->
   <rag-hud-attributes class="hud-attributes" [game]="game" />
+  <!-- DEBUGGER -->
   <rag-reset class="reset" [game]="game" />
   <!-- Map -->
   <rag-map [map]="currentMap" (click)="attack()">
+    <!-- Monster -->
     <ng-container *ngIf="loadMonster$ | async">
-      <!-- Monster image -->
-      <img class="monster" [src]="image$ | async" alt="" draggable="false" (dragstart)="(false)" />
-      <!-- Monster Life bar -->
-      <div class="hp-container">
-        <div class="hp" [style.width.%]="monsterHPBar$ | async"></div>
-      </div>
+      <rag-monster [image$]="image$" />
     </ng-container>
   </rag-map>
 </main>

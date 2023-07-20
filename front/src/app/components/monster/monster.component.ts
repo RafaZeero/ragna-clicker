@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { MonsterService } from '@shared/services';
 
 @Component({
   selector: 'rag-monster',
@@ -10,6 +12,10 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonsterComponent {
+  private readonly _monsterService = inject(MonsterService);
+
   @Input({ required: true })
-  public monsterImage!: number;
+  public image$!: Observable<string>;
+
+  public monsterHPBar$ = this._monsterService.monsterLifeBar$;
 }

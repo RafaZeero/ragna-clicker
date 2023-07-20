@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HudInfoComponent, HudAttributesComponent, MapComponent, ResetComponent } from '@components';
-import { Maps, MonsterData } from '@shared/models';
+import { HudInfoComponent, HudAttributesComponent, MapComponent, ResetComponent, MonsterComponent } from '@components';
+import { Maps } from '@shared/models';
 import { ApiService, MonsterService, PlayerService } from '@shared/services';
-import { Observable, BehaviorSubject, map, filter, delay, of, combineLatest, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MapComponent, HudInfoComponent, HudAttributesComponent, ResetComponent],
+  imports: [CommonModule, MapComponent, HudInfoComponent, HudAttributesComponent, MonsterComponent, ResetComponent],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,27 +20,16 @@ export default class GameComponent implements OnInit {
 
   public image$!: Observable<string>;
   public loadMonster$ = this._monsterService.loadMonster$;
-  public monsterHPBar$ = this._monsterService.monsterLifeBar$;
 
   // Mocked data
   public currentMap: Maps = 'prontera-south';
 
   public async ngOnInit(): Promise<void> {
-    const playerFromLocalStorage = await this._api.getPlayer();
+    // Load player from db
+    await this._loadPlayer();
 
-    if (playerFromLocalStorage) {
-      console.log('player from local storage: ', playerFromLocalStorage);
-      this._playerService.player = playerFromLocalStorage;
-    } else {
-      console.log('saving initial data to local storage');
-      this._api.savePlayer(this._playerService.player);
-    }
-
-    this._api.getImage(1002).subscribe(data => {
-      // This way the empty image will not appear
-      this.image$ = of(data);
-      this._cd.detectChanges();
-    });
+    // Load monster image to show on map
+    this._loadMonsterImage();
 
     // Reload monster after it dies
     this._monsterService.reloadMonster().subscribe(this.giveExp);
@@ -51,8 +40,10 @@ export default class GameComponent implements OnInit {
 
   // Basic click attack
   public attack() {
+    // Damage dealt to monster
     const damageDealt = this._playerService.calculateDamageDealt();
 
+    // Reduce monster hp
     this._monsterService.makeDamageToMonster(damageDealt);
   }
 
@@ -67,4 +58,27 @@ export default class GameComponent implements OnInit {
     // New monster
     this._monsterService.updateMonster();
   };
+
+  // Load monster image to show on map
+  private _loadMonsterImage() {
+    this._api.getImage(1002).subscribe(data => {
+      // This way an empty square will not appear
+      this.image$ = of(data);
+      this._cd.detectChanges();
+    });
+  }
+
+  // Load player from db
+  private async _loadPlayer() {
+    // TODO: change localstorage to db
+    const playerInfoFromDB = await this._api.getPlayer();
+
+    if (playerInfoFromDB) {
+      console.log('player info [LOCAL_STORAGE]: ', playerInfoFromDB);
+      this._playerService.player = playerInfoFromDB;
+    } else {
+      console.log('saving initial data [LOCAL_STORAGE]');
+      this._api.savePlayer(this._playerService.player);
+    }
+  }
 }

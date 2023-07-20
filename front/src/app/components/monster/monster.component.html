@@ -1,1 +1,8 @@
-<img [src]="monsterImage" alt="" />
+<section class="monster-container">
+  <!-- Monster image -->
+  <img class="monster" [src]="image$ | async" alt="" draggable="false" (dragstart)="(false)" />
+  <!-- Monster Life bar -->
+  <div class="hp-container">
+    <div class="hp" [style.width.%]="monsterHPBar$ | async"></div>
+  </div>
+</section>
