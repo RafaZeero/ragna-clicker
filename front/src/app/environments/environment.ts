@@ -7,4 +7,5 @@ export const environment: Environment = {
   },
   hash: { salt: 'ragzin' },
   apiURL: 'http://localhost:3000',
+  debugger: true,
 };

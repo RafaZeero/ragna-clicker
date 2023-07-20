@@ -7,4 +7,5 @@ export type Environment = Readonly<{
     salt: string;
   };
   apiURL: string;
+  debugger: boolean;
 }>;

@@ -4,6 +4,7 @@ import { HudInfoComponent, HudAttributesComponent, MapComponent, ResetComponent,
 import { Maps } from '@shared/models';
 import { ApiService, MonsterService, PlayerService } from '@shared/services';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
 
 @Component({
   standalone: true,
@@ -18,6 +19,7 @@ export default class GameComponent implements OnInit {
   private readonly _playerService = inject(PlayerService);
   private readonly _monsterService = inject(MonsterService);
 
+  public showDebugger = environment.debugger;
   public image$!: Observable<string>;
   public loadMonster$ = this._monsterService.loadMonster$;
 

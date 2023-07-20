@@ -4,7 +4,7 @@
   <!-- Player attributes -->
   <rag-hud-attributes class="hud-attributes" [game]="game" />
   <!-- DEBUGGER -->
-  <rag-reset class="reset" [game]="game" />
+  <rag-reset *ngIf="showDebugger" class="reset" [game]="game" />
   <!-- Map -->
   <rag-map [map]="currentMap" (click)="attack()">
     <!-- Monster -->

@@ -7,4 +7,5 @@ export const environment: Environment = {
   },
   hash: { salt: 'ragzin' },
   apiURL: 'https://ragna-clicker-back.vercel.app',
+  debugger: false,
 };
