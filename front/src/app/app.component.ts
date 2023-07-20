@@ -20,7 +20,7 @@ export default class AppComponent {
    * @returns
    * @memberof AppComponent
    */
-  hasRoute(route: string) {
+  public hasRoute(route: string) {
     return this._router.url.includes(route);
   }
 }
