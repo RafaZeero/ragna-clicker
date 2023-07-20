@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('./app.component'),
+    loadComponent: () => import('./pages/home/home.component'),
   },
   {
     path: 'play',

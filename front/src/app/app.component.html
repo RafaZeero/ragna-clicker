@@ -1,9 +1,2 @@
-<!-- TODO: Login/Register screen -->
-<div class="game" *ngIf="!hasRoute('play')" #game>
-  <rag-hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="hudStartingPosition">
-    <p info>Let's play!! ~</p>
-    <a class="rok" [routerLink]="['/play']">Play</a>
-  </rag-hud>
-</div>
 <!-- Game~ -->
 <router-outlet class="router-outlet" />

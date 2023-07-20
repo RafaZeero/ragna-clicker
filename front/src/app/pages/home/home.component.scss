@@ -1,0 +1,11 @@
+:host {
+  .game {
+    background-color: antiquewhite;
+    @apply flex items-center;
+    @apply h-[100%];
+
+    .rok {
+      border: 1px solid rgb(0, 119, 128);
+    }
+  }
+}
