@@ -26,8 +26,8 @@
   <ng-template #compact>
     <div class="line one">
       <p>
-        Nv. {{ player.level.base }} / Sicário / Nv. {{ player.level.job }} / Exp.
-        {{ (player.exp.current.base / player.exp.toLevelUp.base) * 100 | number : '1.0-2' }}%
+        Dmg. {{ player.stats.damage.base }} + {{ player.stats.damage.weapon }} / Free points:
+        {{ player.attributes_to_spend }}
       </p>
     </div>
   </ng-template>
