@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HudInfoComponent, HudAttributesComponent, MapComponent } from '@components';
+import { HudInfoComponent, HudAttributesComponent, MapComponent, ResetComponent } from '@components';
 import { Maps, MonsterData } from '@shared/models';
 import { ApiService, PlayerService } from '@shared/services';
 import { Observable, BehaviorSubject, map, filter, delay, of } from 'rxjs';
+import { StoreService } from 'src/app/shared/services/store/store.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MapComponent, HudInfoComponent, HudAttributesComponent],
+  imports: [CommonModule, MapComponent, HudInfoComponent, HudAttributesComponent, ResetComponent],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,7 +47,17 @@ export default class GameComponent implements OnInit {
     delay(350),
   );
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
+    const playerFromLocalStorage = await this._api.getPlayer();
+
+    if (playerFromLocalStorage) {
+      console.log('player from local storage: ', playerFromLocalStorage);
+      this._playerService.player = playerFromLocalStorage;
+    } else {
+      console.log('saving initial data to local storage');
+      this._api.savePlayer(this._playerService.player);
+    }
+
     this._api.getImage(1002).subscribe(data => {
       // This way the empty image will not appear
       this.image$ = of(data);

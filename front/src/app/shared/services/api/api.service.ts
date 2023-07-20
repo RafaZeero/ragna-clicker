@@ -2,16 +2,27 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { MonsterRequest } from '@shared/models';
+import { MonsterRequest, Player } from '@shared/models';
 import { mapMonsterData } from '../../utils/api';
+import { StoreService } from '../store/store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private readonly _http = inject(HttpClient);
+  private readonly _store = inject(StoreService);
   private divinePrideUrl = `https://www.divine-pride.net/api/database`;
   public ragnarok = 'online';
+
+  // Saving in localstorage at the moment
+  public savePlayer(player: Player) {
+    return this._store.savePlayer(player);
+  }
+
+  public getPlayer() {
+    return this._store.getPlayer();
+  }
 
   public getMonster(id: number) {
     return this._http

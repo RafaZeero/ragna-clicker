@@ -22,7 +22,7 @@ export const defaultPlayer: Player = {
   },
   stats: {
     damage: {
-      base: 10,
+      base: 2,
       weapon: 0,
     },
   },

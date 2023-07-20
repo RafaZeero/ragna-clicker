@@ -1,6 +1,7 @@
 <main #game class="game">
   <rag-hud-info class="hud-info" [game]="game" />
   <rag-hud-attributes class="hud-attributes" [game]="game" />
+  <!-- <rag-reset class="reset" [game]="game" /> -->
   <!-- Map -->
   <rag-map [map]="currentMap" (click)="attack()">
     <ng-container *ngIf="loadMonster$ | async">

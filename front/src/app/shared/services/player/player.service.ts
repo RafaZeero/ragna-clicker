@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, inject } from '@angular/core';
 import { BehaviorSubject, shareReplay } from 'rxjs';
 import { defaultPlayer, expToLevelUp } from '@shared/constants';
 import { Attributes, MonsterData, Player, Stats } from '@shared/models';
 import { addAttributeToPlayer, addExp, makeCalculate, expNeededToLevelUp } from '@shared/utils';
+import { StoreService } from '../store/store.service';
+import { ApiService } from '../api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
+  private readonly _api = inject(ApiService);
+
   // Change to current user player
   private _player$ = new BehaviorSubject<Player>(defaultPlayer);
   public player$ = this._player$.asObservable().pipe(shareReplay());
@@ -96,6 +100,9 @@ export class PlayerService {
       // Update stats on level up
       player.stats = updatedStats;
 
+      // Saving in the db
+      this._api.savePlayer(player);
+
       this._player$.next(player);
     }
   }
@@ -133,6 +140,10 @@ export class PlayerService {
       attributes_to_spend: this.player.attributes_to_spend - 1,
       stats: updatedStats,
     };
+
+    // Saving in the db
+    this._api.savePlayer(player);
+
     // Emits new player attributes
     this._player$.next(player);
   }
@@ -145,6 +156,29 @@ export class PlayerService {
     const updatedAtkDamage = calculate.atkDamage();
 
     return { damage: updatedAtkDamage };
+  }
+
+  public reset() {
+    this._player$.next(defaultPlayer);
+    this.updateStats();
+    this._api.savePlayer(defaultPlayer);
+  }
+
+  public levelUpBase() {
+    const level = this.player.level;
+    const attr = this.player.attributes_to_spend;
+    this._player$.next({
+      ...this.player,
+      level: { base: level.base + 1, job: level.job },
+      attributes_to_spend: attr + 3,
+    });
+    this.updateStats();
+  }
+
+  public levelUpJob() {
+    const level = this.player.level;
+    this._player$.next({ ...this.player, level: { job: level.job + 1, base: level.base } });
+    this.updateStats();
   }
 
   public calculateDamageDealt = () => this.player.stats.damage.base + this.player.stats.damage.weapon;
