@@ -14,13 +14,11 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HudAttributesComponent {
-  // Angular
   @Input({ required: true }) public game!: HTMLElement;
 
   // Dependency Injections
   private readonly _playerService = inject(PlayerService);
 
-  // Streams
   // Streams
   public player$ = this._playerService.player$;
   private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
@@ -29,7 +27,7 @@ export class HudAttributesComponent {
   // Variables
   public hudStartingPosition!: Point;
 
-  //Functions
+  // Functions
   public ngOnInit(): void {
     this._hudStartingPosition$.next({ x: 0, y: 183 });
     this.hudStartingPosition = this._hudStartingPosition$.value;

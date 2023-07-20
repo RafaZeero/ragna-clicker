@@ -19,6 +19,7 @@ export class HudComponent {
   public hudState = true;
   public hudStateTop = true;
 
+  // Actions
   public toggleHud() {
     this.hudState = !this.hudState;
     this.hudStateTop = !this.hudStateTop;

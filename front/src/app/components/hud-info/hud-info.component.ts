@@ -14,7 +14,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HudInfoComponent implements OnInit {
-  // Angular
   @Input({ required: true }) public game!: HTMLElement;
 
   // Dependency Injections
