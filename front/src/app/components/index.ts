@@ -13,3 +13,4 @@ export * from './player-attributes';
 export * from './hud';
 export * from './hud-info';
 export * from './hud-attributes';
+export * from './hud-equipments';
