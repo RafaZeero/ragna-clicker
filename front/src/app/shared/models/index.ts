@@ -1,4 +1,11 @@
+// Game mechanics
+
+// Layout
 export * from './monster';
 export * from './maps';
-export * from './player';
+
+// Player
 export * from './commons';
+export * from './player';
+export * from './classes';
+export * from './skills';
