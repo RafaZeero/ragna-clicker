@@ -1,0 +1,6 @@
+<div *ngIf="player$ | async as player">
+  <ng-container *ngIf="mode === 'complete'; else compact">
+    <h1>SKILLS</h1>
+  </ng-container>
+  <ng-template #compact> SKILLS COMPACT </ng-template>
+</div>

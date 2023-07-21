@@ -12,6 +12,7 @@ import { Maps } from '@shared/models';
 import { ApiService, MonsterService, PlayerService } from '@shared/services';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
+import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 
 @Component({
   standalone: true,
@@ -21,6 +22,7 @@ import { environment } from 'src/app/environments/environment';
     HudInfoComponent,
     HudAttributesComponent,
     HudEquipmentsComponent,
+    HudSkillsComponent,
     MonsterComponent,
     ResetComponent,
   ],

@@ -1,9 +1,8 @@
-import { Injectable, OnInit, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, shareReplay } from 'rxjs';
-import { defaultPlayer, expToLevelUp } from '@shared/constants';
+import { defaultPlayer } from '@shared/constants';
 import { Attributes, MonsterData, Player, Stats } from '@shared/models';
 import { addAttributeToPlayer, addExp, makeCalculate, expNeededToLevelUp } from '@shared/utils';
-import { StoreService } from '../store/store.service';
 import { ApiService } from '../api';
 
 @Injectable({
