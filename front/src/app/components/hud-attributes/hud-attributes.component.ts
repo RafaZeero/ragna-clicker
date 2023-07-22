@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { HudComponent, PlayerAttributesComponent } from '@components';
 import { DragDropModule, Point } from '@angular/cdk/drag-drop';
-import { PlayerService } from '@shared/services';
-import { BehaviorSubject } from 'rxjs';
+import { HudService, PlayerService } from '@shared/services';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Component({
   selector: 'rag-hud-attributes',
@@ -18,9 +18,11 @@ export class HudAttributesComponent {
 
   // Dependency Injections
   private readonly _playerService = inject(PlayerService);
+  private readonly _hudService = inject(HudService);
 
   // Streams
   public player$ = this._playerService.player$;
+  public hudControl$ = this._hudService.hudControl$.pipe(map(huds => huds.attr));
   private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
   public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 

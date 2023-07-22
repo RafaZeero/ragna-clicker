@@ -1,5 +1,9 @@
 <!-- Basic Info -->
-<rag-hud #hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="hudStartingPosition">
+<rag-hud
+  #hud
+  [boundaryParentContainer]="game"
+  [cdkDragFreeDragPosition]="hudStartingPosition"
+  *ngIf="hudControl$ | async">
   <span class="basic-info" infoOpened>Equipments</span>
   <span class="basic-info" infoClosed>{{ (player$ | async)?.name }}</span>
 

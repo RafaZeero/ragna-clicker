@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Point } from '@angular/cdk/drag-drop';
-import { PlayerService } from '@shared/services';
-import { BehaviorSubject } from 'rxjs';
+import { HudService, PlayerService } from '@shared/services';
+import { BehaviorSubject, map } from 'rxjs';
 import { HudComponent } from '../hud/hud.component';
 import { PlayerSkillsComponent } from '../player-skills';
 
@@ -19,10 +19,12 @@ export class HudSkillsComponent {
 
   // Dependency Injections
   private readonly _playerService = inject(PlayerService);
+  private readonly _hudService = inject(HudService);
 
   // Streams
   public player$ = this._playerService.player$;
-  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
+  public hudControl$ = this._hudService.hudControl$.pipe(map(huds => huds.skills));
+  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 400, y: 0 });
   public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
   // Variables

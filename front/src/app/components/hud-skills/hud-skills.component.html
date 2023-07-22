@@ -1,5 +1,10 @@
 <!-- Skills Info -->
-<rag-hud class="hud" #hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="hudStartingPosition">
+<rag-hud
+  class="hud"
+  #hud
+  [boundaryParentContainer]="game"
+  [cdkDragFreeDragPosition]="hudStartingPosition"
+  *ngIf="hudControl$ | async">
   <span class="basic-info" infoOpened>Skills</span>
   <span class="basic-info" infoClosed>Skills</span>
 

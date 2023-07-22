@@ -1,26 +1,39 @@
 <div *ngIf="player$ | async as player">
   <ng-container *ngIf="mode === 'complete'; else compact">
-    <div>
-      <!-- Player name -->
-      <h2>{{ player.name }}</h2>
-      <h3>{{ player.class }}</h3>
-      <div class="level-container">
-        <!-- Type of level with current level -->
-        <div class="exp-container" *ngFor="let levelType of levelTypes">
-          <p class="level">{{ levelType | titlecase }}. {{ player.level[levelType] }}</p>
-          <!-- Exp bar -->
-          <div class="exp-bar-container">
-            <div
-              [style.width.%]="(player.exp.current[levelType] / player.exp.toLevelUp[levelType]) * 100"
-              class="exp-bar"></div>
+    <section class="hud-container">
+      <div class="left">
+        <!-- Player name -->
+        <h2>{{ player.name }}</h2>
+        <h3>{{ player.class }}</h3>
+        <div class="level-container">
+          <!-- Type of level with current level -->
+          <div class="exp-container" *ngFor="let levelType of levelTypes">
+            <p class="level">{{ levelType | titlecase }}. {{ player.level[levelType] }}</p>
+            <!-- Exp bar -->
+            <div class="exp-bar-container">
+              <div
+                [style.width.%]="(player.exp.current[levelType] / player.exp.toLevelUp[levelType]) * 100"
+                class="exp-bar"></div>
+            </div>
           </div>
         </div>
+
+        <div>
+          <p>Base exp: {{ player.exp.current.base }}/{{ player.exp.toLevelUp.base }}</p>
+          <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p>
+        </div>
       </div>
-    </div>
-    <div>
-      <p>Base exp: {{ player.exp.current.base }}/{{ player.exp.toLevelUp.base }}</p>
-      <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p>
-    </div>
+      <div class="right">
+        <ul class="items">
+          <li class="item" (click)="toggleOnePlayerHud('char')">Char</li>
+          <li class="item" (click)="toggleOnePlayerHud('attr')">Attr</li>
+          <li class="item" (click)="toggleOnePlayerHud('skills')">Skills</li>
+          <li class="item" (click)="toggleOnePlayerHud('equip')">Equip</li>
+          <li class="item"></li>
+          <li class="item"></li>
+        </ul>
+      </div>
+    </section>
   </ng-container>
   <ng-template #compact>
     <div class="line one">
