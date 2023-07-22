@@ -9,3 +9,6 @@ export * from './commons';
 export * from './player';
 export * from './classes';
 export * from './skills';
+
+// Etc
+export * from './hud';
