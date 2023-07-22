@@ -1,4 +1,6 @@
+import { novice } from '../constants/skills';
 import { Experience, Level } from './commons';
+import { Skills } from './skills';
 
 export type Player = {
   /**
@@ -16,6 +18,17 @@ export type Player = {
    * List of attributes to create you own build
    */
   attributes: Attributes;
+
+  /**
+   * TODO: this
+   */
+  skills: {
+    skill_points: number;
+    // Change this
+    skill_list: typeof novice;
+    skills_player_has: [{ name: keyof typeof novice; level: number }];
+  };
+
   /**
    * Secondary stats to do damage, resist spells, drop chance, etc
    * TODO: Improve this

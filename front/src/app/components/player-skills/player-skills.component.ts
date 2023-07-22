@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Experience } from '@shared/models';
 import { PlayerService } from '@shared/services';
+import { first, map, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'rag-player-skills',
@@ -11,10 +11,17 @@ import { PlayerService } from '@shared/services';
   styleUrls: ['./player-skills.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlayerSkillsComponent {
+export class PlayerSkillsComponent implements OnInit {
   @Input({ required: true }) public mode: 'complete' | 'compact' = 'complete';
 
   private readonly _playerService = inject(PlayerService);
 
   public player$ = this._playerService.player$;
+  public skills$ = this.player$.pipe(
+    map(player => player.skills),
+    first(),
+    shareReplay(),
+  );
+
+  public ngOnInit(): void {}
 }

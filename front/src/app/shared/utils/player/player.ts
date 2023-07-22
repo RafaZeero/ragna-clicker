@@ -1,5 +1,10 @@
 import { Damages, Experience, Level, Player } from '@shared/models';
-import { makeCalculateDamage, makeChangeAttributesAvailable, makeChangeLevelAndExp } from './helpers';
+import {
+  makeCalculateDamage,
+  makeChangeAttributesAvailable,
+  makeChangeLevelAndExp,
+  makeChangeSkillPointsAvailable,
+} from './helpers';
 
 type Calculate = (player: Player) => {
   levelAndExp: () => {
@@ -11,6 +16,7 @@ type Calculate = (player: Player) => {
     };
   };
   attributesAvailable: () => number;
+  skillPoints: () => number;
   atkDamage: () => Damages;
 };
 
@@ -30,12 +36,14 @@ export const makeCalculate: Calculate = player => {
   // Create functions
   const changeLevelAndExp = makeChangeLevelAndExp(player);
   const changeAttributesAvailable = makeChangeAttributesAvailable(player);
+  const changeSkillPointsAvailable = makeChangeSkillPointsAvailable(player);
   const changeAtkDamage = makeCalculateDamage(player);
 
   return {
     // Calculation functions to change player data
     levelAndExp: changeLevelAndExp,
     attributesAvailable: changeAttributesAvailable,
+    skillPoints: changeSkillPointsAvailable,
     atkDamage: changeAtkDamage,
   };
 };

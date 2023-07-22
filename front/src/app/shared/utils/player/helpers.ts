@@ -45,7 +45,15 @@ export const makeChangeLevelAndExp = (player: Player) => () => {
 export const makeChangeAttributesAvailable = (player: Player) => () => {
   const currentPoints: Player['attributes_to_spend'] = player.attributes_to_spend;
   // Sum with points per level
-  const updatedPoints = currentPoints + POINTS_PER_LEVEL;
+  const updatedPoints = currentPoints + POINTS_PER_LEVEL.attributes;
+
+  return updatedPoints;
+};
+
+export const makeChangeSkillPointsAvailable = (player: Player) => () => {
+  const currentPoints: Player['skills']['skill_points'] = player.skills.skill_points;
+  // Sum with points per level
+  const updatedPoints = currentPoints + POINTS_PER_LEVEL.skills;
 
   return updatedPoints;
 };

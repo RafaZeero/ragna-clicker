@@ -1,4 +1,5 @@
 import { Player } from '@shared/models';
+import { novice } from '../skills';
 
 export const defaultPlayer: Player = {
   name: 'Rafael',
@@ -11,6 +12,13 @@ export const defaultPlayer: Player = {
     inteligence: 1,
     luck: 1,
     vitality: 1,
+  },
+  skills: {
+    skill_list: {
+      'Perícia com armas': novice['Perícia com armas'],
+    },
+    skill_points: 3,
+    skills_player_has: [{ name: 'Perícia com armas', level: 1 }],
   },
   level: {
     base: 1,

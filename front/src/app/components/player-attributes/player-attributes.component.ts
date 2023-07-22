@@ -20,7 +20,7 @@ export class PlayerAttributesComponent {
 
   public player$ = this._playerService.player$;
   public levelTypes: Array<keyof Experience> = levelTypes;
-  public attributesList: Array<keyof Attributes> = attributesList;
+  public attributesList: ReadonlyArray<keyof Attributes> = attributesList;
 
   public addAttribute(attribute: keyof Attributes) {
     this.player$

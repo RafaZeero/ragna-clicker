@@ -23,6 +23,7 @@ export class PlayerService {
     this._player$.next(data);
   }
 
+  // TODO: Move to equip service
   public setWeaponDamage(weaponDamage: number) {
     const player = this.player;
     // Remove any damage from previous weapon
@@ -38,6 +39,7 @@ export class PlayerService {
     return newWeaponDamage;
   }
 
+  // TODO: Move to equip service
   public unequipPreviousWeapon() {
     // TODO: Remove any other bonus that the weapon may provide
     this.player.stats.damage.weapon = 0;
@@ -74,7 +76,6 @@ export class PlayerService {
 
     if (hasLeveldUp.base || hasLeveldUp.job) {
       if (hasLeveldUp.base) {
-        // TODO: Add call to backend and update player data in DB
         console.log('Player leveled up [BASE]');
 
         const updatedPoints = calculate.attributesAvailable();
@@ -83,8 +84,11 @@ export class PlayerService {
         player.attributes_to_spend = updatedPoints;
       }
       if (hasLeveldUp.job) {
-        // TODO: Add call to backend and update player data in DB
         console.log('Player leveled up [JOB]');
+        const updateSKillPoint = calculate.attributesAvailable();
+
+        // Update skill points
+        player.skills.skill_points = updateSKillPoint;
       }
 
       // Update Level
@@ -100,6 +104,7 @@ export class PlayerService {
       player.stats = updatedStats;
 
       // Saving in the db
+      // TODO: Add call to backend and update player data in DB
       this._api.savePlayer(player);
 
       this._player$.next(player);
