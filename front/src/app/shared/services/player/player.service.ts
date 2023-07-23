@@ -85,7 +85,7 @@ export class PlayerService {
       }
       if (hasLeveldUp.job) {
         console.log('Player leveled up [JOB]');
-        const updateSKillPoint = calculate.attributesAvailable();
+        const updateSKillPoint = calculate.skillPoints();
 
         // Update skill points
         player.skills.skill_points = updateSKillPoint;

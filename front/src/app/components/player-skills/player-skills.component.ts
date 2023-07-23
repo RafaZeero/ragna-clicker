@@ -19,7 +19,6 @@ export class PlayerSkillsComponent implements OnInit {
   public player$ = this._playerService.player$;
   public skills$ = this.player$.pipe(
     map(player => player.skills),
-    first(),
     shareReplay(),
   );
 
