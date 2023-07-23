@@ -5,6 +5,7 @@ import { HudService, PlayerService } from '@shared/services';
 import { BehaviorSubject, map } from 'rxjs';
 import { HudComponent } from '../hud/hud.component';
 import { PlayerSkillsComponent } from '../player-skills';
+import { INITIAL_POSITION } from '@shared/constants';
 
 @Component({
   selector: 'rag-hud-skills',
@@ -24,14 +25,14 @@ export class HudSkillsComponent {
   // Streams
   public player$ = this._playerService.player$;
   public hudControl$ = this._hudService.hudControl$.pipe(map(huds => huds.skills));
-  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 400, y: 0 });
+  private _hudStartingPosition$ = new BehaviorSubject<Point>(INITIAL_POSITION.skills);
   public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
-
-  // Variables
-  public hudStartingPosition!: Point;
 
   //Functions
   public ngOnInit(): void {
-    this.hudStartingPosition = this._hudStartingPosition$.value;
+    this._hudService.saveHudPositioning$.subscribe(({ skills }) => {
+      // console.log({ attr });
+      this._hudStartingPosition$.next(skills);
+    });
   }
 }

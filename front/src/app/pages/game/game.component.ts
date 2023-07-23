@@ -9,7 +9,7 @@ import {
   HudEquipmentsComponent,
 } from '@components';
 import { Maps } from '@shared/models';
-import { ApiService, MonsterService, PlayerService } from '@shared/services';
+import { ApiService, HudService, MonsterService, PlayerService } from '@shared/services';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
@@ -35,6 +35,7 @@ export default class GameComponent implements OnInit {
   private readonly _api = inject(ApiService);
   private readonly _playerService = inject(PlayerService);
   private readonly _monsterService = inject(MonsterService);
+  private readonly _hudService = inject(HudService);
 
   public showDebugger = environment.debugger;
   public image$!: Observable<string>;
@@ -99,5 +100,9 @@ export default class GameComponent implements OnInit {
 
     const playerStats = this._playerService.updateStats();
     this._playerService.player = { ...this._playerService.player, stats: playerStats };
+  }
+
+  public resetAllHudsPositioning() {
+    this._hudService.resetHudPosition();
   }
 }

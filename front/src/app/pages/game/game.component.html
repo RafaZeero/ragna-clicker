@@ -11,6 +11,7 @@
   <rag-reset *ngIf="showDebugger" class="reset" [game]="game" />
   <!-- Map -->
   <rag-map [map]="currentMap" (click)="attack()">
+    <button class="btn" (click)="resetAllHudsPositioning()">RESET</button>
     <!-- Monster -->
     <ng-container *ngIf="loadMonster$ | async">
       <rag-monster [image$]="image$" />

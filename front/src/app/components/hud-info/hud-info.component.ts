@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angu
 import { CommonModule } from '@angular/common';
 import { HudComponent, PlayerInfoComponent } from '@components';
 import { DragDropModule, Point } from '@angular/cdk/drag-drop';
-import { PlayerService } from '@shared/services';
+import { HudService, PlayerService } from '@shared/services';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { INITIAL_POSITION } from '@shared/constants';
 
 @Component({
   selector: 'rag-hud-info',
@@ -18,10 +19,11 @@ export class HudInfoComponent implements OnInit {
 
   // Dependency Injections
   private readonly _playerService = inject(PlayerService);
+  private readonly _hudService = inject(HudService);
 
   // Streams
   public player$ = this._playerService.player$;
-  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
+  private _hudStartingPosition$ = new BehaviorSubject<Point>(INITIAL_POSITION.info);
   public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
   // Variables
@@ -29,6 +31,9 @@ export class HudInfoComponent implements OnInit {
 
   //Functions
   public ngOnInit(): void {
-    this.hudStartingPosition = this._hudStartingPosition$.value;
+    this._hudService.saveHudPositioning$.subscribe(({ info }) => {
+      // console.log({ attr });
+      this._hudStartingPosition$.next(info);
+    });
   }
 }

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Point } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, Point } from '@angular/cdk/drag-drop';
 import { HudService, PlayerService } from '@shared/services';
 import { BehaviorSubject, map } from 'rxjs';
 import { HudComponent, PlayerEquipmentsComponent } from '@components';
+import { INITIAL_POSITION } from '@shared/constants';
 
 @Component({
   selector: 'rag-hud-equipments',
@@ -23,15 +24,15 @@ export class HudEquipmentsComponent {
   // Streams
   public player$ = this._playerService.player$;
   public hudControl$ = this._hudService.hudControl$.pipe(map(huds => huds.equip));
-  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
-  public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
-  // Variables
-  public hudStartingPosition!: Point;
+  private _hudStartingPosition$ = new BehaviorSubject<Point>(INITIAL_POSITION.equip);
+  public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
   // Functions
   public ngOnInit(): void {
-    this._hudStartingPosition$.next({ x: 0, y: 367 });
-    this.hudStartingPosition = this._hudStartingPosition$.value;
+    this._hudService.saveHudPositioning$.subscribe(({ equip }) => {
+      // console.log({ attr });
+      this._hudStartingPosition$.next(equip);
+    });
   }
 }

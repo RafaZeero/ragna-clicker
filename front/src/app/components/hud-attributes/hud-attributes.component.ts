@@ -3,7 +3,20 @@ import { CommonModule } from '@angular/common';
 import { HudComponent, PlayerAttributesComponent } from '@components';
 import { DragDropModule, Point } from '@angular/cdk/drag-drop';
 import { HudService, PlayerService } from '@shared/services';
-import { BehaviorSubject, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  first,
+  forkJoin,
+  last,
+  map,
+  takeLast,
+  takeWhile,
+  tap,
+} from 'rxjs';
+import { INITIAL_POSITION } from '@shared/constants';
 
 @Component({
   selector: 'rag-hud-attributes',
@@ -23,15 +36,15 @@ export class HudAttributesComponent {
   // Streams
   public player$ = this._playerService.player$;
   public hudControl$ = this._hudService.hudControl$.pipe(map(huds => huds.attr));
-  private _hudStartingPosition$ = new BehaviorSubject<Point>({ x: 0, y: 0 });
-  public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
-  // Variables
-  public hudStartingPosition!: Point;
+  private _hudStartingPosition$ = new BehaviorSubject<Point>(INITIAL_POSITION.attr);
+  public hudStartingPosition$ = this._hudStartingPosition$.asObservable();
 
   // Functions
   public ngOnInit(): void {
-    this._hudStartingPosition$.next({ x: 0, y: 183 });
-    this.hudStartingPosition = this._hudStartingPosition$.value;
+    this._hudService.saveHudPositioning$.subscribe(({ attr }) => {
+      // console.log({ attr });
+      this._hudStartingPosition$.next(attr);
+    });
   }
 }

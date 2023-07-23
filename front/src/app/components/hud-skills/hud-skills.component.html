@@ -3,7 +3,7 @@
   class="hud"
   #hud
   [boundaryParentContainer]="game"
-  [cdkDragFreeDragPosition]="hudStartingPosition"
+  [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!"
   *ngIf="hudControl$ | async">
   <span class="basic-info" infoOpened>Skills</span>
   <span class="basic-info" infoClosed>Skills</span>
