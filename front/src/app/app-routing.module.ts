@@ -6,10 +6,12 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('./pages/home/home.component'),
+    title: 'Ragna clicker',
   },
   {
     path: 'play',
     loadComponent: () => import('./pages/game/game.component'),
+    title: 'Ragna clicker',
   },
 ];
 
