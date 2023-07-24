@@ -66,7 +66,7 @@ export type Attributes = {
 export type AttributesList = (typeof attributesList)[number];
 export type StatsList = (typeof statsList)[number];
 
-export type AttributesAliases = 'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk';
+export type AttributesAliases = 'for' | 'agi' | 'vit' | 'int' | 'des' | 'sor';
 
 export type Damages = {
   base: number;

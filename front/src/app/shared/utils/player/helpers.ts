@@ -42,7 +42,7 @@ export const makeChangeLevelAndExp = (player: Player) => () => {
   return { level: currentPlayerLevel, exp: currentPlayerExp, hasLeveled };
 };
 
-export const makeChangeAttributesAvailable = (player: Player) => () => {
+export const makeChangeAttributesAvailable = (player: Player) => (): number => {
   const currentPoints: Player['attributes_to_spend'] = player.attributes_to_spend;
   // Sum with points per level
   const updatedPoints = currentPoints + POINTS_PER_LEVEL.attributes;
@@ -50,8 +50,12 @@ export const makeChangeAttributesAvailable = (player: Player) => () => {
   return updatedPoints;
 };
 
-export const makeChangeSkillPointsAvailable = (player: Player) => () => {
-  // TODO!!
+export const makeChangeSkillPointsAvailable = (player: Player) => (): number => {
+  const currentPoints: Player['skills']['skills_to_spend'] = player.skills.skills_to_spend;
+  // Sum with points per level
+  const updatedPoints = currentPoints + POINTS_PER_LEVEL.skills;
+
+  return updatedPoints;
 };
 
 // TODO: check player class to define base attribute damage

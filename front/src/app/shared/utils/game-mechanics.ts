@@ -15,7 +15,7 @@ export const addExp = (
   };
 };
 
-export const addAttributeToPlayer = (attribute: keyof Attributes, player: Player): Player['attributes'] => {
+export const addAttributeToPlayer = (attribute: keyof Attributes, player: Player): Attributes => {
   ++player.attributes[attribute];
   return player.attributes;
 };

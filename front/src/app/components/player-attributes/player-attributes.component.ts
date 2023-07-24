@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '@shared/services';
 import { Attributes, AttributesAliases, Experience, AttributesList } from '@shared/models';
-import { attributesList, levelTypes } from '@shared/constants';
+import { attributeMapping, attributesList, levelTypes } from '@shared/constants';
 import { first, map, takeWhile } from 'rxjs';
 
 @Component({
@@ -39,22 +39,7 @@ export class PlayerAttributesComponent {
       });
   }
 
-  public makeAttributeAlias(attribute: keyof Attributes): AttributesAliases {
-    switch (attribute) {
-      case 'strength':
-        return 'str';
-      case 'agility':
-        return 'agi';
-      case 'vitality':
-        return 'vit';
-      case 'inteligence':
-        return 'int';
-      case 'dexterity':
-        return 'dex';
-      case 'luck':
-        return 'luk';
-      default:
-        throw Error('Invalid attribute');
-    }
+  public makeAttributeAlias(attribute: AttributesList): AttributesAliases {
+    return attributeMapping[attribute];
   }
 }

@@ -1,4 +1,4 @@
-import { Player } from '@shared/models';
+import { AttributesAliases, AttributesList, Player } from '@shared/models';
 import { noviceSkillsList } from '../skills';
 
 export const defaultPlayer: Player = {
@@ -33,4 +33,13 @@ export const defaultPlayer: Player = {
       skills: 0,
     },
   },
+};
+
+export const attributeMapping: Record<AttributesList, AttributesAliases> = {
+  strength: 'for',
+  agility: 'agi',
+  vitality: 'vit',
+  inteligence: 'int',
+  dexterity: 'des',
+  luck: 'sor',
 };

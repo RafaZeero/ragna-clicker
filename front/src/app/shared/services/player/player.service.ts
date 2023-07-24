@@ -85,10 +85,10 @@ export class PlayerService {
       }
       if (hasLeveldUp.job) {
         console.log('Player leveled up [JOB]');
-        // const updateSKillPoint = calculate.skillPoints();
+        const updateSKillPoint = calculate.skillPoints();
 
         // Update skill points
-        // player.skills.skill_points = updateSKillPoint;
+        player.skills.skills_to_spend = updateSKillPoint;
       }
 
       // Update Level
@@ -132,10 +132,10 @@ export class PlayerService {
     if (this.player.attributes_to_spend <= 0) return;
 
     // Updated attributes of a player
-    const updatedAttributes = addAttributeToPlayer(attribute, this.player);
+    const updatedAttributes: Attributes = addAttributeToPlayer(attribute, this.player);
 
     // Updated secondary stats
-    const updatedStats = this.updateStats();
+    const updatedStats: Stats = this.updateStats();
 
     // Update player
     const updatedPlayer: Player = {
