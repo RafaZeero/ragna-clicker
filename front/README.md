@@ -14,6 +14,9 @@ Let's goooo ~ 🔵
 - [] Add points in attributes points hud to get stronger
   - [] Define what will every attribute do. If I choose to go with them, I will have to add classes and stuff. Could be cool.
   - [] If I have 6 attributes, monster should have some powers to make players decide on which attribute they will make their build for.
+- [] Social login:
+  - [] Check https://www.npmjs.com/package/@abacritt/angularx-social-login
+  - [] Check https://github.com/dnlrbz/social-login/blob/main/src/app/login/login.component.ts
 
 ## Ideas
 
