@@ -1,5 +1,5 @@
 import { POINTS_PER_LEVEL, expToLevelUp } from '@shared/constants';
-import { Damages, Player } from '@shared/models';
+import { Damages, NoviceSkillsName, Player } from '@shared/models';
 import { meleeAtk } from '@shared/utils';
 
 export const expNeededToLevelUp = (currentPlayerLevel: Player['level']): Player['exp']['toLevelUp'] => ({
@@ -56,21 +56,27 @@ export const makeChangeSkillPointsAvailable = (player: Player) => () => {
 
 // TODO: check player class to define base attribute damage
 export const makeCalculateDamage = (player: Player) => (): Damages => {
+  // Get player all damage
   const damage = player.stats.damage;
+
+  // Get player damage by the class
   const baseDamageByClass = checkClassDamage(player);
 
-  // const baseDamageBySkills = checkSkillDamage(player);
+  // Get player damage by the skills
+  const baseDamageBySkills = checkSkillDamage(player);
 
+  // Sum up all damages
   const totalDamage = baseDamageByClass;
 
-  return { ...damage, base: totalDamage };
+  // return the object of all player damages
+  return { ...damage, base: totalDamage, skills: baseDamageBySkills };
 };
 
-export const checkClassDamage = (player: Player) => {
+export const checkClassDamage = (player: Player): number => {
   const { strength, agility, vitality, inteligence, dexterity, luck } = player.attributes;
   // TODO: check class to increase base damage
   switch (player.class) {
-    case 'Aprendiz':
+    case 'aprendiz':
       // (BaseLevel ÷ 4) + Str + (Dex ÷ 5) + (Luk ÷ 3)
       const newDamage = meleeAtk(player.level.base, { strength, dexterity, luck });
       return newDamage;
@@ -80,6 +86,19 @@ export const checkClassDamage = (player: Player) => {
   }
 };
 
-export const checkSkillDamage = (player: Player) => {
-  // TODO!!
+export const checkSkillDamage = (player: Player): number => {
+  // Each skill that increase damage will update this value with the correct calculations
+  let increasedDamage = 0;
+  // Check for novice skills
+  if (player.class === 'aprendiz') {
+    // Update damage for each novice skill
+    if (player.skills.passive['Aumentar dano']) {
+      const skillLevel = player.skills.passive['Aumentar dano'].level;
+      // TODO: Abstract this to the skill implementation
+      const skillDamage = 5 * skillLevel;
+      increasedDamage += skillDamage;
+    }
+  }
+
+  return increasedDamage;
 };

@@ -15,4 +15,4 @@ export const attributeAliases = {
 } as const;
 
 // Attributes points gained to spend per level
-export const POINTS_PER_LEVEL = { attributes: 3, skills: 2 } as const;
+export const POINTS_PER_LEVEL = { attributes: 3, skills: 1 } as const;

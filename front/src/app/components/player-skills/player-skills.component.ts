@@ -28,6 +28,6 @@ export class PlayerSkillsComponent implements OnInit {
   public uparSKill(skill: NoviceSkillsName) {
     // TODO
     console.log(`skill ${skill} subiu de nível!`);
-    // this._playerService.addOnePointToSkill(skill);
+    this._playerService.addOnePointToSkill(skill);
   }
 }

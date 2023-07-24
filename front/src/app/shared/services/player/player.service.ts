@@ -131,14 +131,14 @@ export class PlayerService {
   public addOnePointToAttribute(attribute: keyof Attributes) {
     if (this.player.attributes_to_spend <= 0) return;
 
-    // Update all attributes of a player
+    // Updated attributes of a player
     const updatedAttributes = addAttributeToPlayer(attribute, this.player);
 
-    // Update secondary stats
+    // Updated secondary stats
     const updatedStats = this.updateStats();
 
     // Update player
-    const player: Player = {
+    const updatedPlayer: Player = {
       ...this.player,
       attributes: updatedAttributes,
       attributes_to_spend: this.player.attributes_to_spend - 1,
@@ -146,14 +146,36 @@ export class PlayerService {
     };
 
     // Saving in the db
-    this._api.savePlayer(player);
+    this._api.savePlayer(updatedPlayer);
 
-    // Emits new player attributes
-    this._player$.next(player);
+    // Emits new player attributes and stats value
+    this._player$.next(updatedPlayer);
   }
 
   public addOnePointToSkill(skill: keyof Player['skills']['passive']) {
-    // TODO !!
+    if (this.player.skills.skills_to_spend <= 0) return;
+
+    // Update skills of a player
+    const updatedSkills: Player['skills']['passive'] = addSkillLevelToPlayer(skill, this.player);
+
+    // Updated secondary stats
+    const updatedStats: Stats = this.updateStats();
+
+    // Update player
+    const updatedPlayer: Player = {
+      ...this.player,
+      skills: {
+        passive: updatedSkills,
+        skills_to_spend: this.player.skills.skills_to_spend - 1,
+      },
+      stats: updatedStats,
+    };
+
+    // Saving in the db
+    this._api.savePlayer(updatedPlayer);
+
+    // Emits new player attributes and stats value
+    this._player$.next(updatedPlayer);
   }
 
   public updateStats(): Stats {
@@ -172,6 +194,7 @@ export class PlayerService {
     this._api.savePlayer(defaultPlayer);
   }
 
+  // There is a bug in this Debugger, EXP is not updating. Since it is just a debugger, I don't care hehe
   public levelUpBase() {
     const level = this.player.level;
     const attr = this.player.attributes_to_spend;
@@ -183,9 +206,21 @@ export class PlayerService {
     this.updateStats();
   }
 
+  // There is a bug in this Debugger, EXP is not updating. Since it is just a debugger, I don't care hehe
   public levelUpJob() {
-    // TODO !!
+    const level = this.player.level;
+    const skills = this.player.skills.skills_to_spend;
+    this._player$.next({
+      ...this.player,
+      level: { base: level.base, job: level.job + 1 },
+      skills: {
+        passive: this.player.skills.passive,
+        skills_to_spend: skills + POINTS_PER_LEVEL.skills,
+      },
+    });
+    this.updateStats();
   }
 
-  public calculateDamageDealt = () => this.player.stats.damage.base + this.player.stats.damage.weapon;
+  public calculateDamageDealt = () =>
+    this.player.stats.damage.base + this.player.stats.damage.weapon + this.player.stats.damage.skills;
 }

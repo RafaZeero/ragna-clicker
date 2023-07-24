@@ -3,7 +3,7 @@ import { noviceSkillsList } from '../skills';
 
 export const defaultPlayer: Player = {
   name: 'Rafael',
-  class: 'Aprendiz',
+  class: 'aprendiz',
   attributes_to_spend: 9,
   attributes: {
     strength: 1,
@@ -30,6 +30,7 @@ export const defaultPlayer: Player = {
     damage: {
       base: 2,
       weapon: 0,
+      skills: 0,
     },
   },
 };

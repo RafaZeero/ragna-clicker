@@ -1,5 +1,5 @@
 import { attributesList, statsList } from '@shared/constants';
-import { NoviceSkillsName } from './classes';
+import { Classes, NoviceSkillsName } from './classes';
 import { Experience, Level } from './commons';
 import { PassiveSkill } from './skills';
 
@@ -9,7 +9,7 @@ export type Player = {
    */
   name: string;
   // Todo: make classes with skills
-  class: string;
+  class: Classes;
   /**
    * TODO: Move to attributes type
    * How many points player have to add in attributes when level up
@@ -71,4 +71,9 @@ export type AttributesAliases = 'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk';
 export type Damages = {
   base: number;
   weapon: number;
+  /**
+   * For the sake of simplicity, I'm adding just the total number for the skills instead of
+   * an object with specific value for each skill
+   */
+  skills: number;
 };
