@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '@shared/services';
-import { Attributes, AttributesAliases, Experience } from '@shared/models';
+import { Attributes, AttributesAliases, Experience, AttributesList } from '@shared/models';
 import { attributesList, levelTypes } from '@shared/constants';
 import { first, map, takeWhile } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class PlayerAttributesComponent {
 
   public player$ = this._playerService.player$;
   public levelTypes: Array<keyof Experience> = levelTypes;
-  public attributesList: ReadonlyArray<keyof Attributes> = attributesList;
+  public attributesList: ReadonlyArray<AttributesList> = attributesList;
 
   public addAttribute(attribute: keyof Attributes) {
     this.player$

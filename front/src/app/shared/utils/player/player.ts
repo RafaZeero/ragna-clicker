@@ -16,7 +16,7 @@ type Calculate = (player: Player) => {
     };
   };
   attributesAvailable: () => number;
-  skillPoints: () => number;
+  // skillPoints: () => number;
   atkDamage: () => Damages;
 };
 
@@ -36,14 +36,14 @@ export const makeCalculate: Calculate = player => {
   // Create functions
   const changeLevelAndExp = makeChangeLevelAndExp(player);
   const changeAttributesAvailable = makeChangeAttributesAvailable(player);
-  const changeSkillPointsAvailable = makeChangeSkillPointsAvailable(player);
+  // const changeSkillPointsAvailable = makeChangeSkillPointsAvailable(player);
   const changeAtkDamage = makeCalculateDamage(player);
 
   return {
     // Calculation functions to change player data
     levelAndExp: changeLevelAndExp,
     attributesAvailable: changeAttributesAvailable,
-    skillPoints: changeSkillPointsAvailable,
+    // skillPoints: changeSkillPointsAvailable,
     atkDamage: changeAtkDamage,
   };
 };

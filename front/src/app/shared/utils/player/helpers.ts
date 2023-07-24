@@ -51,26 +51,35 @@ export const makeChangeAttributesAvailable = (player: Player) => () => {
 };
 
 export const makeChangeSkillPointsAvailable = (player: Player) => () => {
-  const currentPoints: Player['skills']['skill_points'] = player.skills.skill_points;
-  // Sum with points per level
-  const updatedPoints = currentPoints + POINTS_PER_LEVEL.skills;
-
-  return updatedPoints;
+  // TODO!!
 };
 
 // TODO: check player class to define base attribute damage
 export const makeCalculateDamage = (player: Player) => (): Damages => {
   const damage = player.stats.damage;
-  const { strength, agility, vitality, inteligence, dexterity, luck } = player.attributes;
+  const baseDamageByClass = checkClassDamage(player);
 
+  // const baseDamageBySkills = checkSkillDamage(player);
+
+  const totalDamage = baseDamageByClass;
+
+  return { ...damage, base: totalDamage };
+};
+
+export const checkClassDamage = (player: Player) => {
+  const { strength, agility, vitality, inteligence, dexterity, luck } = player.attributes;
   // TODO: check class to increase base damage
   switch (player.class) {
     case 'Aprendiz':
       // (BaseLevel ÷ 4) + Str + (Dex ÷ 5) + (Luk ÷ 3)
       const newDamage = meleeAtk(player.level.base, { strength, dexterity, luck });
-      return { ...damage, base: newDamage };
+      return newDamage;
 
     default:
-      return damage;
+      return player.stats.damage.base;
   }
+};
+
+export const checkSkillDamage = (player: Player) => {
+  // TODO!!
 };

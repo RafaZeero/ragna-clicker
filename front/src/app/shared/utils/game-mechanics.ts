@@ -1,4 +1,4 @@
-import { Attributes, MonsterData, Player } from '@shared/models';
+import { Attributes, MonsterData, NoviceSkillsName, Player } from '@shared/models';
 
 export const addExp = (
   player: Player,
@@ -23,3 +23,8 @@ export const meleeAtk = (
   baseLevel: Player['level']['base'],
   { strength, dexterity, luck }: Pick<Player['attributes'], 'strength' | 'dexterity' | 'luck'>,
 ) => Math.ceil(baseLevel / 4 + strength + dexterity / 5 + luck / 3);
+
+export const addSkillLevelToPlayer = (skillName: NoviceSkillsName, player: Player) => {
+  // ++player.skills.skill_list[skillName].level;
+  // return player.skills.skill_list;
+};

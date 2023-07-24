@@ -1,17 +1,18 @@
 <div *ngIf="player$ | async">
   <div *ngIf="skills$ | async as skills">
     <ng-container *ngIf="mode === 'complete'; else compact">
-      <div *ngFor="let skill of skills.skills_player_has">
-        <p>Has: {{ skill.name }}/ level: {{ skill.level }}</p>
-      </div>
-      <div *ngFor="let skillFromList of skills.skill_list | keyvalue">
-        <p>List: {{ skillFromList.key }}</p>
+      <div *ngFor="let skill of skills.passive | keyvalue">
+        <p>Has: {{ skill.key }}/ level: {{ skill.value.level }}</p>
+        <button class="btn" (click)="uparSKill(skill.value.name)">
+          Upar {{ skill.value.name }} to level: {{ skill.value.level + 1 }}
+        </button>
+
         <ul>
-          <li>Type: {{ skillFromList.value.type }}</li>
-          <li>Description: {{ skillFromList.value.description }}</li>
+          <li>Upgrade: {{ skill.value.upgrade }}</li>
+          <li>Description: {{ skill.value.description }}</li>
         </ul>
       </div>
-      <p>Free: {{ skills.skill_points }}</p>
+      <p>Free: {{ skills.skills_to_spend }}</p>
     </ng-container>
     <ng-template #compact> SKILLS COMPACT </ng-template>
   </div>

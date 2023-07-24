@@ -1,6 +1,7 @@
-import { novice } from '../constants/skills';
+import { attributesList, statsList } from '@shared/constants';
+import { NoviceSkillsName } from './classes';
 import { Experience, Level } from './commons';
-import { Skills } from './skills';
+import { PassiveSkill } from './skills';
 
 export type Player = {
   /**
@@ -20,13 +21,13 @@ export type Player = {
   attributes: Attributes;
 
   /**
-   * TODO: this
+   * List of skills that player acumulates by upgrading from novice to the other classes
    */
   skills: {
-    skill_points: number;
-    // Change this
-    skill_list: typeof novice;
-    skills_player_has: [{ name: keyof typeof novice; level: number }];
+    passive: Record<NoviceSkillsName, PassiveSkill>;
+    // TODO: active skills
+    // active: ActiveSkill;
+    skills_to_spend: number;
   };
 
   /**
@@ -61,6 +62,9 @@ export type Attributes = {
   dexterity: number;
   luck: number;
 };
+
+export type AttributesList = (typeof attributesList)[number];
+export type StatsList = (typeof statsList)[number];
 
 export type AttributesAliases = 'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk';
 

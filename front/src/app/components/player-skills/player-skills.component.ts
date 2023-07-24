@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '@shared/services';
-import { first, map, shareReplay } from 'rxjs';
+import { Observable, first, map, shareReplay, tap } from 'rxjs';
+import { NoviceSkillsName, Player } from '@shared/models';
 
 @Component({
   selector: 'rag-player-skills',
@@ -17,10 +18,16 @@ export class PlayerSkillsComponent implements OnInit {
   private readonly _playerService = inject(PlayerService);
 
   public player$ = this._playerService.player$;
-  public skills$ = this.player$.pipe(
+  public skills$: Observable<Player['skills']> = this.player$.pipe(
     map(player => player.skills),
     shareReplay(),
   );
 
   public ngOnInit(): void {}
+
+  public uparSKill(skill: NoviceSkillsName) {
+    // TODO
+    console.log(`skill ${skill} subiu de nível!`);
+    // this._playerService.addOnePointToSkill(skill);
+  }
 }

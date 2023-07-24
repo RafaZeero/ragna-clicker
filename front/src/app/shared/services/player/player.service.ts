@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, shareReplay } from 'rxjs';
-import { defaultPlayer } from '@shared/constants';
+import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
 import { Attributes, MonsterData, Player, Stats } from '@shared/models';
-import { addAttributeToPlayer, addExp, makeCalculate, expNeededToLevelUp } from '@shared/utils';
+import { addAttributeToPlayer, addExp, makeCalculate, expNeededToLevelUp, addSkillLevelToPlayer } from '@shared/utils';
 import { ApiService } from '../api';
 
 @Injectable({
@@ -85,10 +85,10 @@ export class PlayerService {
       }
       if (hasLeveldUp.job) {
         console.log('Player leveled up [JOB]');
-        const updateSKillPoint = calculate.skillPoints();
+        // const updateSKillPoint = calculate.skillPoints();
 
         // Update skill points
-        player.skills.skill_points = updateSKillPoint;
+        // player.skills.skill_points = updateSKillPoint;
       }
 
       // Update Level
@@ -152,6 +152,10 @@ export class PlayerService {
     this._player$.next(player);
   }
 
+  public addOnePointToSkill(skill: keyof Player['skills']['passive']) {
+    // TODO !!
+  }
+
   public updateStats(): Stats {
     // Instantiate calculations
     const calculate = makeCalculate(this.player);
@@ -174,15 +178,13 @@ export class PlayerService {
     this._player$.next({
       ...this.player,
       level: { base: level.base + 1, job: level.job },
-      attributes_to_spend: attr + 3,
+      attributes_to_spend: attr + POINTS_PER_LEVEL.attributes,
     });
     this.updateStats();
   }
 
   public levelUpJob() {
-    const level = this.player.level;
-    this._player$.next({ ...this.player, level: { job: level.job + 1, base: level.base } });
-    this.updateStats();
+    // TODO !!
   }
 
   public calculateDamageDealt = () => this.player.stats.damage.base + this.player.stats.damage.weapon;
