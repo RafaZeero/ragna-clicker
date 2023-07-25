@@ -117,6 +117,9 @@ export class PlayerService {
     // Add exp to Player
     player.exp.current = addExp(this.player, monsterExp);
 
+    // Save in DB
+    this._api.savePlayer(player);
+
     // Emits new exp values
     this._player$.next(player);
   }
