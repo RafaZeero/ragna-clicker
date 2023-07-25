@@ -21,6 +21,7 @@ export class PlayerAttributesComponent {
   public player$ = this._playerService.player$;
   public levelTypes: Array<keyof Experience> = levelTypes;
   public attributesList: ReadonlyArray<AttributesList> = attributesList;
+  public totalDamage$ = this.player$.pipe(map(({ stats: { damage } }) => damage.base + damage.weapon + damage.skills));
 
   public addAttribute(attribute: keyof Attributes) {
     this.player$

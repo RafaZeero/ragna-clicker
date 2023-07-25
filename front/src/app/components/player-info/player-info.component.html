@@ -3,8 +3,8 @@
     <section class="hud-container">
       <div class="left">
         <!-- Player name -->
-        <h2>{{ player.name }}</h2>
-        <h3>{{ player.class }}</h3>
+        <h2 class="player-name">{{ player.name }}</h2>
+        <h3 class="player-class">{{ player.class }}</h3>
         <div class="level-container">
           <!-- Type of level with current level -->
           <div class="exp-container" *ngFor="let levelType of levelTypes">
@@ -38,7 +38,8 @@
   <ng-template #compact>
     <div class="line one">
       <p>
-        Nv. {{ player.level.base }} / Sicário / Nv. {{ player.level.job }} / Exp.
+        Nv. {{ player.level.base }} / <span class="player-class">{{ player.class }}</span> / Nv.
+        {{ player.level.job }} / Exp.
         {{ (player.exp.current.base / player.exp.toLevelUp.base) * 100 | number : '1.0-2' }}%
       </p>
     </div>

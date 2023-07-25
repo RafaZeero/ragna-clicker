@@ -1,19 +1,33 @@
-<div *ngIf="player$ | async">
+<div class="skills-container" *ngIf="player$ | async as player">
   <div *ngIf="skills$ | async as skills">
-    <ng-container *ngIf="mode === 'complete'; else compact">
-      <div *ngFor="let skill of skills.passive | keyvalue">
+    <ng-container *ngIf="mode !== 'complete'; else compact">
+      <div class="skill-info" *ngFor="let skill of skills.passive | keyvalue">
         <p>Has: {{ skill.key }}/ level: {{ skill.value.level }}</p>
-        <button class="btn" (click)="uparSKill(skill.value.name)">
+        <button class="btn" (click)="levelUpSKill(skill.value.name)">
           Upar {{ skill.value.name }} to level: {{ skill.value.level + 1 }}
         </button>
-
         <ul>
-          <li>Upgrade: {{ skill.value.upgrade }}</li>
-          <li>Description: {{ skill.value.description }}</li>
+          <li>Descrição: {{ skill.value.description }}</li>
         </ul>
       </div>
-      <p>Free: {{ skills.skills_to_spend }}</p>
     </ng-container>
-    <ng-template #compact> SKILLS COMPACT </ng-template>
+    <ng-template #compact>
+      <div class="skill-compact" *ngFor="let skill of skills.passive | keyvalue">
+        <div class="skill">
+          <button class="btn-compact" (click)="levelUpSKill(skill.value.name)">
+            {{ skill.value.icon.length > 0 ? skill.value.icon : '+' }}
+          </button>
+          <div>
+            <h2>{{ skill.value.name }} Lv. {{ skill.value.level }}</h2>
+            <p class="skill-mapping">
+              {{ skillMapping(player.class, skill.value.upgrade) }} +{{
+                skill.value.level * skill.value.increaseAmount
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <p class="free">Points: {{ skills.skills_to_spend }}</p>
   </div>
 </div>

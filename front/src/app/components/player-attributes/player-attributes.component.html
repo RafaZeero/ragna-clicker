@@ -11,12 +11,12 @@
     </div>
     <div class="attributes-secondary">
       <div class="attributes-secondary-stats">
-        <p>Base: +{{ player.stats.damage.base | number : '1.0-0' }} Dano</p>
-        <p>Armamentos: +{{ player.stats.damage.weapon | number : '1.0-0' }} Dano</p>
-        <p>Skills: +{{ player.stats.damage.skills | number : '1.0-0' }} Dano</p>
+        <p>Base: +{{ player.stats.damage.base | number : '1.0-0' }}</p>
+        <p>Arma: +{{ player.stats.damage.weapon | number : '1.0-0' }}</p>
+        <p>Skills: +{{ player.stats.damage.skills | number : '1.0-0' }}</p>
         <p>
           Dano total:
-          {{ player.stats.damage.base + player.stats.damage.weapon + player.stats.damage.skills | number : '1.0-0' }}
+          {{ totalDamage$ | async | number : '1.0-0' }}
         </p>
       </div>
       <div class="attributes-secondary-points-to-add">
@@ -27,7 +27,7 @@
   <ng-template #compact>
     <div class="line one">
       <p>
-        Dmg. {{ player.stats.damage.base }} + {{ player.stats.damage.weapon }} / Free points:
+        Dano por click: {{ totalDamage$ | async | number : '1.0-0' }} / Free points:
         {{ player.attributes_to_spend }}
       </p>
     </div>

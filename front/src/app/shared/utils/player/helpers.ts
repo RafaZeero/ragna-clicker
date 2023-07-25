@@ -1,5 +1,5 @@
 import { POINTS_PER_LEVEL, expToLevelUp } from '@shared/constants';
-import { Damages, NoviceSkillsName, Player } from '@shared/models';
+import { Classes, Damages, NoviceSkillsName, PassiveSkillNames, Player } from '@shared/models';
 import { meleeAtk } from '@shared/utils';
 
 export const expNeededToLevelUp = (currentPlayerLevel: Player['level']): Player['exp']['toLevelUp'] => ({
@@ -95,14 +95,20 @@ export const checkSkillDamage = (player: Player): number => {
   let increasedDamage = 0;
   // Check for novice skills
   if (player.class === 'aprendiz') {
+    const noviceSkills = player.skills.passive;
     // Update damage for each novice skill
-    if (player.skills.passive['Aumentar dano']) {
-      const skillLevel = player.skills.passive['Aumentar dano'].level;
-      // TODO: Abstract this to the skill implementation
-      const skillDamage = 5 * skillLevel;
+    if (noviceSkills['Aumentar dano']) {
+      const skillDamage = skillAtk(noviceSkills['Aumentar dano'].level, noviceSkills['Aumentar dano'].increaseAmount);
       increasedDamage += skillDamage;
     }
   }
 
   return increasedDamage;
+};
+
+export const skillAtk = (skillLevel: number, increaseAmount: number) => {
+  const currentLevel = skillLevel;
+  const increasePerLevel = increaseAmount;
+
+  return increasePerLevel * currentLevel;
 };

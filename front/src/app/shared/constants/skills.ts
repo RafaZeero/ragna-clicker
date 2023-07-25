@@ -1,6 +1,6 @@
 // import { NoviceSkillsName, PassiveSKill, Skills } from '@shared/models';
 
-import { NoviceSkillsName, PassiveSkill, PassiveSkillNames } from '@shared/models';
+import { Classes, NoviceSkillsName, PassiveSkill, PassiveSkillNames, UpgradableBySkills } from '@shared/models';
 
 /**
  * Mocked skills
@@ -17,6 +17,7 @@ export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
     gameClass: 'aprendiz',
     description: `Aumenta a perícia com armas aumentando o seu dano a cada level.
     Ganha +5 de dano por nível.`,
+    increaseAmount: 5,
     level: 0,
     icon: '',
     upgrade: 'damage',
@@ -38,4 +39,11 @@ export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
   //     { level: 15, exp: 50 },
   //   ],
   // },
+};
+
+// TODO: Remove partial later when all classes are done
+export const skillEffectAlias: Partial<Record<Classes, Record<UpgradableBySkills, string>>> = {
+  aprendiz: {
+    damage: 'dano',
+  },
 };

@@ -1,9 +1,16 @@
 :host {
+  .player-class {
+    @apply capitalize;
+  }
+
   .hud-container {
     @apply flex gap-[8px];
 
     .left {
       @apply flex flex-col grow;
+
+      .player-name {
+      }
 
       .level-container {
         @apply pl-[16px] pr-[24px];
@@ -43,7 +50,6 @@
           @apply flex w-[30px] h-[30px];
           @apply border-[1px] border-solid border-gray-500 rounded-[6px];
           @apply shadow-[0px_0px_2px_#A7A7A7];
-
           @apply text-[0.5rem] font-[400] text-center uppercase;
 
           &:hover {

@@ -11,6 +11,7 @@ export type PassiveSkill<T extends 'aprendiz' = 'aprendiz'> = {
   name: PassiveSkillNames[T];
   description: string;
   upgrade: UpgradableBySkills;
+  increaseAmount: number;
   level: number;
   gameClass: Classes;
   icon: string;
