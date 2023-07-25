@@ -82,7 +82,7 @@ export class MonsterService {
 
     const box = componentRef.location.nativeElement;
 
-    //
+    // Make damage appears wherever the user clicks
     box.style.left = event.clientX - 50 + 'px';
     box.style.top = event.clientY - 50 + 'px';
     componentRef.instance.damage = damage;
