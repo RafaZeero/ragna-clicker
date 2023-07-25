@@ -4,6 +4,7 @@ export * from './reset';
 // Game mechanics
 export * from './map';
 export * from './monster';
+export * from './hitbox';
 
 // Player stuff
 export * from './player-info';
