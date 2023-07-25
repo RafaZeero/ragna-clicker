@@ -5,6 +5,7 @@ export * from './reset';
 export * from './map';
 export * from './monster';
 export * from './hitbox';
+export * from './config';
 
 // Player stuff
 export * from './player-info';
