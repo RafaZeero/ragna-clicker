@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, delay, filter, map } from 'rxjs';
 import { MonsterData } from '@shared/models';
+import { GameMechanicsService } from '../game-mechanics';
 
 // Mocked monster
 const poring: MonsterData = {
@@ -47,12 +48,14 @@ export class MonsterService {
   );
 
   // Damage monster
-  public makeDamageToMonster(damageTaken: number): void {
+  public makeDamageToMonster(damage: number, event: MouseEvent): void {
     const currentHP = this._hp$.value;
 
     // Only do damage if there is hp
     if (currentHP > 0) {
-      this._hp$.next(currentHP - damageTaken);
+      this._showDamageOnScreen(damage, event);
+
+      this._hp$.next(currentHP - damage);
     }
   }
 
@@ -70,5 +73,19 @@ export class MonsterService {
     // TODO: random choose next monster
     const totalHP = this._monster$.getValue().hp;
     this._hp$.next(totalHP);
+  }
+
+  private _showDamageOnScreen(damage: number, event: MouseEvent) {
+    const box = document.getElementById('box')!;
+
+    box.style.left = event.clientX - 50 + 'px'; // Adjust position to center the box on the click
+    box.style.top = event.clientY - 50 + 'px';
+    box.style.display = 'block'; // Show the red box
+    box.innerText = `${damage}`;
+
+    // Set a timeout to hide the red box after 1 second
+    setTimeout(function () {
+      box.style.display = 'none';
+    }, 1000);
   }
 }

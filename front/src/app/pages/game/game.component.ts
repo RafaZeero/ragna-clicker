@@ -9,7 +9,7 @@ import {
   HudEquipmentsComponent,
 } from '@components';
 import { Maps } from '@shared/models';
-import { ApiService, HudService, MonsterService, PlayerService } from '@shared/services';
+import { ApiService, GameMechanicsService, HudService, MonsterService, PlayerService } from '@shared/services';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
@@ -36,6 +36,7 @@ export default class GameComponent implements OnInit {
   private readonly _playerService = inject(PlayerService);
   private readonly _monsterService = inject(MonsterService);
   private readonly _hudService = inject(HudService);
+  private readonly _gameMechanicsService = inject(GameMechanicsService);
 
   public showDebugger = environment.debugger;
   public image$!: Observable<string>;
@@ -56,24 +57,13 @@ export default class GameComponent implements OnInit {
   }
 
   // Basic click attack
-  public attack() {
-    // Damage dealt to monster
-    const damageDealt = this._playerService.calculateDamageDealt();
-
-    // Reduce monster hp
-    this._monsterService.makeDamageToMonster(damageDealt);
+  public attack(event: MouseEvent) {
+    this._gameMechanicsService.attack(event);
   }
 
   // Move to utils
   private giveExp = () => {
-    // // Get exp
-    this._playerService.gainExp(this._monsterService.currentMonster.exp);
-
-    // Check if player has leveled up
-    this._playerService.checkLevelUp();
-
-    // New monster
-    this._monsterService.updateMonster();
+    this._gameMechanicsService.giveExp();
   };
 
   // Load monster image to show on map
@@ -87,19 +77,7 @@ export default class GameComponent implements OnInit {
 
   // Load player from db
   private async _loadPlayer() {
-    // TODO: change localstorage to db
-    const playerInfoFromDB = await this._api.getPlayer();
-
-    if (playerInfoFromDB) {
-      console.log('player info [LOCAL_STORAGE]: ', playerInfoFromDB);
-      this._playerService.player = playerInfoFromDB;
-    } else {
-      console.log('saving initial data [LOCAL_STORAGE]');
-      this._api.savePlayer(this._playerService.player);
-    }
-
-    const playerStats = this._playerService.updateStats();
-    this._playerService.player = { ...this._playerService.player, stats: playerStats };
+    this._gameMechanicsService.loadPlayer();
   }
 
   public resetAllHudsPositioning() {
