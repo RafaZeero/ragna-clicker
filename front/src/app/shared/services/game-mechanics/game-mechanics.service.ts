@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, ViewContainerRef, inject } from '@angular/core';
 import { PlayerService } from '../player';
 import { MonsterService } from '../monster';
 import { ApiService } from '../api';
@@ -12,12 +12,12 @@ export class GameMechanicsService {
   private readonly _monsterService = inject(MonsterService);
 
   // Basic click attack
-  public attack(event: MouseEvent) {
+  public attack(event: MouseEvent, hitbox: ViewContainerRef) {
     // Damage dealt to monster
     const damageDealt = this._playerService.calculateDamageDealt();
 
     // Reduce monster hp
-    this._monsterService.makeDamageToMonster(damageDealt, event);
+    this._monsterService.makeDamageToMonster(damageDealt, event, hitbox);
   }
 
   // Move to utils

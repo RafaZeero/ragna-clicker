@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, delay, filter, map } from 'rxjs';
 import { MonsterData } from '@shared/models';
-import { GameMechanicsService } from '../game-mechanics';
+import { HitboxComponent } from '@components';
 
 // Mocked monster
 const poring: MonsterData = {
@@ -48,12 +48,12 @@ export class MonsterService {
   );
 
   // Damage monster
-  public makeDamageToMonster(damage: number, event: MouseEvent): void {
+  public makeDamageToMonster(damage: number, event: MouseEvent, hitbox: ViewContainerRef): void {
     const currentHP = this._hp$.value;
 
     // Only do damage if there is hp
     if (currentHP > 0) {
-      this._showDamageOnScreen(damage, event);
+      this._showDamageOnScreen(damage, event, hitbox);
 
       this._hp$.next(currentHP - damage);
     }
@@ -75,17 +75,21 @@ export class MonsterService {
     this._hp$.next(totalHP);
   }
 
-  private _showDamageOnScreen(damage: number, event: MouseEvent) {
-    const box = document.getElementById('box')!;
+  private _showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef) {
+    // const box = document.getElementById('box')!;
 
-    box.style.left = event.clientX - 50 + 'px'; // Adjust position to center the box on the click
+    const componentRef = hitbox.createComponent<HitboxComponent>(HitboxComponent);
+
+    const box = componentRef.location.nativeElement;
+
+    //
+    box.style.left = event.clientX - 50 + 'px';
     box.style.top = event.clientY - 50 + 'px';
-    box.style.display = 'block'; // Show the red box
-    box.innerText = `${damage}`;
+    componentRef.instance.damage = damage;
 
-    // Set a timeout to hide the red box after 1 second
-    setTimeout(function () {
-      box.style.display = 'none';
+    // Set a timeout to hide the red box after 500 millisecond
+    setTimeout(() => {
+      componentRef.destroy();
     }, 1000);
   }
 }

@@ -11,7 +11,7 @@
   <rag-reset *ngIf="showDebugger" class="reset" [game]="game" />
   <!-- Map -->
   <rag-map [map]="currentMap" (click)="attack($event)">
-    <div class="red-box slide-fwd-tr" id="box"></div>
+    <ng-template ragHitbox></ng-template>
     <button class="btn" (click)="resetAllHudsPositioning()">RESET</button>
     <!-- Monster -->
     <ng-container *ngIf="loadMonster$ | async">

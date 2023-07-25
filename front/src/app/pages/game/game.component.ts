@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   HudInfoComponent,
@@ -7,12 +16,14 @@ import {
   ResetComponent,
   MonsterComponent,
   HudEquipmentsComponent,
+  HitboxComponent,
 } from '@components';
 import { Maps } from '@shared/models';
 import { ApiService, GameMechanicsService, HudService, MonsterService, PlayerService } from '@shared/services';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
+import { HitboxDirective } from '@shared/directives';
 
 @Component({
   standalone: true,
@@ -24,6 +35,7 @@ import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.com
     HudEquipmentsComponent,
     HudSkillsComponent,
     MonsterComponent,
+    HitboxDirective,
     ResetComponent,
   ],
   templateUrl: './game.component.html',
@@ -31,9 +43,10 @@ import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.com
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class GameComponent implements OnInit {
+  @ViewChild(HitboxDirective) public hitbox!: HitboxDirective;
+
   private readonly _cd = inject(ChangeDetectorRef);
   private readonly _api = inject(ApiService);
-  private readonly _playerService = inject(PlayerService);
   private readonly _monsterService = inject(MonsterService);
   private readonly _hudService = inject(HudService);
   private readonly _gameMechanicsService = inject(GameMechanicsService);
@@ -58,7 +71,9 @@ export default class GameComponent implements OnInit {
 
   // Basic click attack
   public attack(event: MouseEvent) {
-    this._gameMechanicsService.attack(event);
+    const hitboxRef = this.hitbox.viewContainerRef;
+
+    this._gameMechanicsService.attack(event, hitboxRef);
   }
 
   // Move to utils
