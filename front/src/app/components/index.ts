@@ -18,3 +18,4 @@ export * from './hud-info';
 export * from './hud-attributes';
 export * from './hud-equipments';
 export * from './hud-skills';
+export * from './hud-config';
