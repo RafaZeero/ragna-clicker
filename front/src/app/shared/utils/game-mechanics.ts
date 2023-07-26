@@ -29,3 +29,32 @@ export const meleeAtk = (
   baseLevel: Player['level']['base'],
   { strength, dexterity, luck }: Pick<Player['attributes'], 'strength' | 'dexterity' | 'luck'>,
 ) => Math.ceil(baseLevel / 4 + strength + dexterity / 5 + luck / 3);
+
+const createAudio = (path: string, ID: string) => {
+  const audio = new Audio(path);
+  audio.volume = 0.5;
+  audio.load();
+  return { audio, ID };
+};
+
+export const makePlaySound = () => {
+  const levelUp = createAudio('../../../assets/sounds/level-up-sound.mp3', 'levelUp');
+  const prontera = createAudio('prontera.mp3', 'prontera');
+
+  const effects = [levelUp];
+  const gameMusic = [prontera];
+
+  return {
+    effects: {
+      set: (volume: number) => effects.forEach(effect => (effect.audio.volume = volume)),
+      play: (sound: string) => {
+        const effect = effects.find(effect => effect.ID === sound);
+        if (!effect) throw Error('Audio não implementado');
+        return effect.audio.play();
+      },
+    },
+  };
+};
+
+// Create instances of sounds to play
+export const playSound = makePlaySound();

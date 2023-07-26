@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   HudInfoComponent,
@@ -16,10 +7,10 @@ import {
   ResetComponent,
   MonsterComponent,
   HudEquipmentsComponent,
-  HitboxComponent,
+  HudConfigComponent,
 } from '@components';
 import { Maps } from '@shared/models';
-import { ApiService, GameMechanicsService, HudService, MonsterService, PlayerService } from '@shared/services';
+import { ApiService, GameMechanicsService, HudService, MonsterService } from '@shared/services';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
@@ -34,6 +25,7 @@ import { HitboxDirective } from '@shared/directives';
     HudAttributesComponent,
     HudEquipmentsComponent,
     HudSkillsComponent,
+    HudConfigComponent,
     MonsterComponent,
     HitboxDirective,
     ResetComponent,

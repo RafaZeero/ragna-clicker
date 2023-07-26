@@ -1,1 +1,11 @@
-<p>hud-config works!</p>
+<!-- Basic Info -->
+<rag-hud
+  #hud
+  [toggleable]="false"
+  [boundaryParentContainer]="game"
+  [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!"
+  *ngIf="hudControl$ | async">
+  <span class="basic-info" infoNotToggleable>Configurações</span>
+
+  <rag-config />
+</rag-hud>

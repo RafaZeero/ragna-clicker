@@ -2,7 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, shareReplay } from 'rxjs';
 import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
 import { Attributes, MonsterData, Player, Stats } from '@shared/models';
-import { addAttributeToPlayer, addExp, makeCalculate, expNeededToLevelUp, addSkillLevelToPlayer } from '@shared/utils';
+import {
+  addAttributeToPlayer,
+  addExp,
+  makeCalculate,
+  expNeededToLevelUp,
+  addSkillLevelToPlayer,
+  playSound,
+} from '@shared/utils';
 import { ApiService } from '../api';
 
 @Injectable({
@@ -75,6 +82,9 @@ export class PlayerService {
     const hasLeveldUp = updatedValues.hasLeveled;
 
     if (hasLeveldUp.base || hasLeveldUp.job) {
+      // Play level up sound
+      playSound.effects.play('levelUp');
+
       if (hasLeveldUp.base) {
         console.log('Player leveled up [BASE]');
 
