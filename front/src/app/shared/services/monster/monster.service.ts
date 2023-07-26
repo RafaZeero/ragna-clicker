@@ -90,6 +90,6 @@ export class MonsterService {
     // Set a timeout to hide the red box after 500 millisecond
     setTimeout(() => {
       componentRef.destroy();
-    }, 1000);
+    }, 2000);
   }
 }

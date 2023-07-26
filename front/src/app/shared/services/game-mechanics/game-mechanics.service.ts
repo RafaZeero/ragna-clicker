@@ -13,6 +13,9 @@ export class GameMechanicsService {
 
   // Basic click attack
   public attack(event: MouseEvent, hitbox: ViewContainerRef) {
+    //TODO: add this with dextery!
+    // const variableDmg = Math.floor(Math.random() * 5);
+
     // Damage dealt to monster
     const damageDealt = this._playerService.calculateDamageDealt();
 
