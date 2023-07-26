@@ -38,7 +38,7 @@ export class HudService {
     this._hudControl$.next(updatedValue);
   }
 
-  public saveHudPosition(newPosition: Partial<{ attr: Point; skills: Point; info: Point; equip: Point }>) {
+  public saveHudPosition(newPosition: Partial<HudInitPosition>) {
     const currentHudsPositioning = this._saveHudPositioning$.getValue();
     this._saveHudPositioning$.next({ ...currentHudsPositioning, ...newPosition });
   }

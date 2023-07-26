@@ -76,6 +76,10 @@ export class HudComponent {
     if (this._findElementWithName('equipments', source)) {
       this._hudService.saveHudPosition({ equip: updatedPosition });
     }
+
+    if (this._findElementWithName('config', source)) {
+      this._hudService.saveHudPosition({ config: updatedPosition });
+    }
   }
 
   private _findElementWithName(name: string, source: CdkDragEnd['source']): boolean {

@@ -21,16 +21,14 @@ export class ConfigComponent {
   public setGameVolume(event: Event) {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;
 
-    // this.sound.levelUp.set(volume);
-
-    console.log({ event: (event.target as HTMLInputElement).value });
+    // Adjust game music volume
+    this.sound.gameMusic.set(volume);
   }
 
   public setEffectsVolume(event: Event) {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;
 
+    // Adjust sound effects volume
     this.sound.effects.set(volume);
-
-    console.log({ event: (event.target as HTMLInputElement).value });
   }
 }

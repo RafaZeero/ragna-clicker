@@ -1,4 +1,3 @@
-import { Point } from '@angular/cdk/drag-drop';
 import { HudControl, HudInitPosition } from '@shared/models';
 
 export const DEFAULT_HUD: HudControl = { char: false, attr: true, skills: true, equip: false, config: true };

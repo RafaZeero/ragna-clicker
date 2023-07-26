@@ -31,15 +31,15 @@ export const meleeAtk = (
 ) => Math.ceil(baseLevel / 4 + strength + dexterity / 5 + luck / 3);
 
 const createAudio = (path: string, ID: string) => {
-  const audio = new Audio(path);
+  const audio = new Audio(`../../../assets/sounds/${path}`);
   audio.volume = 0.5;
   audio.load();
   return { audio, ID };
 };
 
 export const makePlaySound = () => {
-  const levelUp = createAudio('../../../assets/sounds/level-up-sound.mp3', 'levelUp');
-  const prontera = createAudio('prontera.mp3', 'prontera');
+  const levelUp = createAudio('level-up-sound.mp3', 'levelUp');
+  const prontera = createAudio('streamside.mp3', 'streamside');
 
   const effects = [levelUp];
   const gameMusic = [prontera];
@@ -51,6 +51,14 @@ export const makePlaySound = () => {
         const effect = effects.find(effect => effect.ID === sound);
         if (!effect) throw Error('Audio não implementado');
         return effect.audio.play();
+      },
+    },
+    gameMusic: {
+      set: (volume: number) => gameMusic.forEach(music => (music.audio.volume = volume)),
+      play: (sound: string) => {
+        const music = gameMusic.find(music => music.ID === sound);
+        if (!music) throw Error('Música de jogo não implementada');
+        return music.audio.play();
       },
     },
   };

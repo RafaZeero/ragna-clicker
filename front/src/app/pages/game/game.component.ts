@@ -15,6 +15,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
+import { playSound } from '@shared/utils';
 
 @Component({
   standalone: true,
@@ -47,6 +48,8 @@ export default class GameComponent implements OnInit {
   public image$!: Observable<string>;
   public loadMonster$ = this._monsterService.loadMonster$;
 
+  public sound = playSound;
+
   // Mocked data
   public currentMap: Maps = 'prontera-south';
 
@@ -59,6 +62,8 @@ export default class GameComponent implements OnInit {
 
     // Reload monster after it dies
     this._monsterService.reloadMonster().subscribe(this.giveExp);
+
+    this.sound.gameMusic.play('streamside');
   }
 
   // Basic click attack
