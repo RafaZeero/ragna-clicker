@@ -29,7 +29,9 @@ export class HudComponent {
     this._hudStartingPosition$.next(position);
   }
 
-  @ViewChild('toggle') public toggle!: HTMLElement;
+  @Input() public toggleable = true;
+
+  // @ViewChild('toggle') public toggle!: HTMLElement;
 
   private readonly _hudService = inject(HudService);
 
