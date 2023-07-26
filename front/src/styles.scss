@@ -15,6 +15,7 @@
 html,
 body {
   @apply h-[100%];
+  @apply overflow-x-hidden;
 }
 body {
   @apply m-0;
