@@ -27,9 +27,13 @@ type Calculate = (player: Player) => {
  *
  * {@link changeLevelAndExp} - Update user level;
  *
- * {@link changeExp} - Update user exp;
- *
  * {@link changeAttributesAvailable} - Update user points attributes available;
+ *
+ * {@link changeSkillPointsAvailable} - Update user skill points available;
+ *
+ * {@link changeAtkDamage } - Update player stat damage
+ *
+ * {@link changeExpNeededToLevelUp } - Update player exp needed to level up
  *
  * @param player Current player
  * @returns functions that calculate changes in the player properties
@@ -37,10 +41,10 @@ type Calculate = (player: Player) => {
 export const makeCalculate: Calculate = player => {
   // Create functions
   const changeLevelAndExp = makeChangeLevelAndExp(player);
+  const changeExpNeededToLevelUp = makeExpNeededToLevelUp(player);
   const changeAttributesAvailable = makeChangeAttributesAvailable(player);
   const changeSkillPointsAvailable = makeChangeSkillPointsAvailable(player);
   const changeAtkDamage = makeCalculateDamage(player);
-  const changeExpNeededToLevelUp = makeExpNeededToLevelUp(player);
 
   return {
     // Calculation functions to change player data
