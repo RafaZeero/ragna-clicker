@@ -1,4 +1,5 @@
 // Game mechanics
+export * from './game-mechanics';
 
 // Layout
 export * from './monster';

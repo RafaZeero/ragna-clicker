@@ -15,7 +15,6 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
-import { playSound } from '@shared/utils';
 
 @Component({
   standalone: true,
@@ -61,7 +60,7 @@ export default class GameComponent implements OnInit {
     // Reload monster after it dies
     this._monsterService.reloadMonster().subscribe(this.giveExp);
 
-    playSound.gameMusic.play('streamside');
+    this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
   }
 
   // Basic click attack

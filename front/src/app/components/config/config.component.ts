@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlayerService } from '@shared/services';
-import { playSound } from '@shared/utils';
+import { GameMechanicsService, PlayerService } from '@shared/services';
 
 @Component({
   selector: 'rag-config',
@@ -13,6 +12,7 @@ import { playSound } from '@shared/utils';
 })
 export class ConfigComponent {
   private readonly _playerService = inject(PlayerService);
+  private readonly _gameMechanics = inject(GameMechanicsService);
 
   public player$ = this._playerService.player$;
 
@@ -20,13 +20,13 @@ export class ConfigComponent {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;
 
     // Adjust game music volume
-    playSound.gameMusic.set(volume);
+    this._gameMechanics.gameSounds.gameMusic.setVolume(volume);
   }
 
   public setEffectsVolume(event: Event) {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;
 
     // Adjust sound effects volume
-    playSound.effects.set(volume);
+    this._gameMechanics.gameSounds.effects.setVolume(volume);
   }
 }

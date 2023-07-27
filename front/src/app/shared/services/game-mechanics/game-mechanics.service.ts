@@ -4,14 +4,7 @@ import { BehaviorSubject, Observable, combineLatest, delay, filter, map, shareRe
 import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
 import { Attributes, MonsterData, Player, Stats } from '@shared/models';
 import { HitboxComponent } from '@components';
-import {
-  addExpToPlayer,
-  makeExpNeededToLevelUp,
-  makeCalculate,
-  playSound,
-  addAttributeToPlayer,
-  addSkillLevelToPlayer,
-} from '@shared/utils';
+import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
 
 // Mocked monster
 const poring: MonsterData = {
@@ -28,6 +21,9 @@ const poring: MonsterData = {
 })
 export class GameMechanicsService {
   private readonly _api = inject(ApiService);
+
+  // Create instances of sounds to play
+  public gameSounds = makePlaySound();
 
   // Request from API, monster will change on the map
   public monsterData: MonsterData = poring;
@@ -90,8 +86,10 @@ export class GameMechanicsService {
   public gainExp(monsterExp: MonsterData['exp']) {
     const player = this.player;
 
+    const add = makeAdd(player);
+
     // Add exp to Player
-    player.exp.current = addExpToPlayer(this.player, monsterExp);
+    player.exp.current = add.expToPlayer(monsterExp);
 
     // Save in DB
     this.savePlayer(player);
@@ -144,7 +142,7 @@ export class GameMechanicsService {
 
     if (hasLeveldUp.base || hasLeveldUp.job) {
       // Play level up sound
-      playSound.effects.play('levelUp');
+      this.gameSounds.effects.playAudio('levelUp');
 
       if (hasLeveldUp.base) {
         console.log('Player leveled up [BASE]');
@@ -185,8 +183,10 @@ export class GameMechanicsService {
   public addOnePointToAttribute(attribute: keyof Attributes) {
     if (this.player.attributes_to_spend <= 0) return;
 
+    const add = makeAdd(this.player);
+
     // Updated attributes of a player
-    const updatedAttributes: Attributes = addAttributeToPlayer(attribute, this.player);
+    const updatedAttributes: Attributes = add.attributeToPlayer(attribute);
 
     const calculate = makeCalculate(this.player);
 
@@ -211,8 +211,10 @@ export class GameMechanicsService {
   public addOnePointToSkill(skill: keyof Player['skills']['passive']) {
     if (this.player.skills.skills_to_spend <= 0) return;
 
+    const add = makeAdd(this.player);
+
     // Update skills of a player
-    const updatedSkills: Player['skills']['passive'] = addSkillLevelToPlayer(skill, this.player);
+    const updatedSkills: Player['skills']['passive'] = add.skillToPlayer(skill);
 
     const calculate = makeCalculate(this.player);
 
