@@ -76,8 +76,6 @@ export class MonsterService {
   }
 
   private _showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef) {
-    // const box = document.getElementById('box')!;
-
     const componentRef = hitbox.createComponent<HitboxComponent>(HitboxComponent);
 
     const box = componentRef.location.nativeElement;
@@ -87,7 +85,7 @@ export class MonsterService {
     box.style.top = event.clientY - 50 + 'px';
     componentRef.instance.damage = damage;
 
-    // Set a timeout to hide the red box after 500 millisecond
+    // Set a timeout to hide the hitbox after 1500 milliseconds
     setTimeout(() => {
       componentRef.destroy();
     }, 1500);

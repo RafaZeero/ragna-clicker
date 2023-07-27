@@ -11,35 +11,25 @@ import {
   playSound,
 } from '@shared/utils';
 import { ApiService } from '../api';
+import { GameMechanicsService } from '../game-mechanics';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
   private readonly _api = inject(ApiService);
-
-  // Change to current user player
-  private _player$ = new BehaviorSubject<Player>(defaultPlayer);
-  public player$ = this._player$.asObservable().pipe(shareReplay());
-
-  public get player() {
-    return this._player$.value;
-  }
-
-  public set player(data: Player) {
-    this._player$.next(data);
-  }
+  private readonly _gameMechanicsService = inject(GameMechanicsService);
 
   // TODO: Move to equip service
   public setWeaponDamage(weaponDamage: number) {
-    const player = this.player;
+    const player = this._gameMechanicsService.player;
     // Remove any damage from previous weapon
     this.unequipPreviousWeapon();
     // Calculate new weapon damage
     const newWeaponDamage = this.calculateTotalDamage(player, weaponDamage);
     const previousPlayerDamages = player.stats.damage;
     // Update player damage
-    this.player = {
+    this._gameMechanicsService.player = {
       ...player,
       stats: { damage: { ...previousPlayerDamages, weapon: newWeaponDamage } },
     };
@@ -233,7 +223,4 @@ export class PlayerService {
     });
     this.updateStats();
   }
-
-  public calculateDamageDealt = () =>
-    this.player.stats.damage.base + this.player.stats.damage.weapon + this.player.stats.damage.skills;
 }

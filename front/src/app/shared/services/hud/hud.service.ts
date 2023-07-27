@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, distinctUntilChanged, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, shareReplay } from 'rxjs';
 import { DEFAULT_HUD, INITIAL_POSITION } from '@shared/constants';
 import { HudControl, HudInitPosition } from '@shared/models';
-import { Point } from '@angular/cdk/drag-drop';
 
 @Injectable({
   providedIn: 'root',
