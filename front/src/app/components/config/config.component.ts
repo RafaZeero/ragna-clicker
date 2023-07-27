@@ -16,19 +16,17 @@ export class ConfigComponent {
 
   public player$ = this._playerService.player$;
 
-  public sound = playSound;
-
   public setGameVolume(event: Event) {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;
 
     // Adjust game music volume
-    this.sound.gameMusic.set(volume);
+    playSound.gameMusic.set(volume);
   }
 
   public setEffectsVolume(event: Event) {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;
 
     // Adjust sound effects volume
-    this.sound.effects.set(volume);
+    playSound.effects.set(volume);
   }
 }

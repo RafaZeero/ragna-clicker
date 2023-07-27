@@ -4,6 +4,7 @@ import {
   makeChangeAttributesAvailable,
   makeChangeLevelAndExp,
   makeChangeSkillPointsAvailable,
+  makeExpNeededToLevelUp,
 } from './helpers';
 
 type Calculate = (player: Player) => {
@@ -15,8 +16,9 @@ type Calculate = (player: Player) => {
       job: boolean;
     };
   };
+  expToNextLevel: () => Experience;
   attributesAvailable: () => number;
-  skillPoints: () => number;
+  skillPointsAvailable: () => number;
   atkDamage: () => Damages;
 };
 
@@ -38,12 +40,14 @@ export const makeCalculate: Calculate = player => {
   const changeAttributesAvailable = makeChangeAttributesAvailable(player);
   const changeSkillPointsAvailable = makeChangeSkillPointsAvailable(player);
   const changeAtkDamage = makeCalculateDamage(player);
+  const changeExpNeededToLevelUp = makeExpNeededToLevelUp(player);
 
   return {
     // Calculation functions to change player data
     levelAndExp: changeLevelAndExp,
+    expToNextLevel: changeExpNeededToLevelUp,
     attributesAvailable: changeAttributesAvailable,
-    skillPoints: changeSkillPointsAvailable,
+    skillPointsAvailable: changeSkillPointsAvailable,
     atkDamage: changeAtkDamage,
   };
 };

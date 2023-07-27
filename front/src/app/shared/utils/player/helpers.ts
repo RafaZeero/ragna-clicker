@@ -1,16 +1,19 @@
 import { POINTS_PER_LEVEL, expToLevelUp } from '@shared/constants';
-import { Classes, Damages, NoviceSkillsName, PassiveSkillNames, Player } from '@shared/models';
+import { Damages, Player } from '@shared/models';
 import { meleeAtk } from '@shared/utils';
 
-export const expNeededToLevelUp = (currentPlayerLevel: Player['level']): Player['exp']['toLevelUp'] => ({
-  base: expToLevelUp.base[currentPlayerLevel.base.toString()],
-  job: expToLevelUp.job[currentPlayerLevel.job.toString()],
-});
+export const makeExpNeededToLevelUp = (player: Player) => (): Player['exp']['toLevelUp'] => {
+  const currentPlayerLevel: Player['level'] = player.level;
+  return {
+    base: expToLevelUp.base[currentPlayerLevel.base.toString()],
+    job: expToLevelUp.job[currentPlayerLevel.job.toString()],
+  };
+};
 
 export const makeChangeLevelAndExp = (player: Player) => () => {
   const currentPlayerLevel: Player['level'] = player.level;
   const currentPlayerExp: Player['exp']['current'] = player.exp.current;
-  // const expNeeded: Player['exp']['toLevelUp'] = expNeededToLevelUp(currentPlayerLevel);
+
   const expNeeded: Player['exp']['toLevelUp'] = {
     base: expToLevelUp.base[currentPlayerLevel.base.toString()],
     job: expToLevelUp.job[currentPlayerLevel.job.toString()],
@@ -38,23 +41,26 @@ export const makeChangeLevelAndExp = (player: Player) => () => {
   }
 
   // Return new Player level if leveled up
-
   return { level: currentPlayerLevel, exp: currentPlayerExp, hasLeveled };
 };
 
 export const makeChangeAttributesAvailable = (player: Player) => (): number => {
   const currentPoints: Player['attributes_to_spend'] = player.attributes_to_spend;
+
   // Sum with points per level
   const updatedPoints = currentPoints + POINTS_PER_LEVEL.attributes;
 
+  // Return updated total points
   return updatedPoints;
 };
 
 export const makeChangeSkillPointsAvailable = (player: Player) => (): number => {
   const currentPoints: Player['skills']['skills_to_spend'] = player.skills.skills_to_spend;
+
   // Sum with points per level
   const updatedPoints = currentPoints + POINTS_PER_LEVEL.skills;
 
+  // Return updated total points
   return updatedPoints;
 };
 
@@ -106,9 +112,5 @@ export const checkSkillDamage = (player: Player): number => {
   return increasedDamage;
 };
 
-export const skillAtk = (skillLevel: number, increaseAmount: number) => {
-  const currentLevel = skillLevel;
-  const increasePerLevel = increaseAmount;
-
-  return increasePerLevel * currentLevel;
-};
+// Calculate skill attack damage based on level
+export const skillAtk = (skillLevel: number, damage: number) => skillLevel * damage;

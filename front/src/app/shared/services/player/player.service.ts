@@ -1,226 +1,43 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, shareReplay } from 'rxjs';
-import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
-import { Attributes, MonsterData, Player, Stats } from '@shared/models';
-import {
-  addAttributeToPlayer,
-  addExp,
-  makeCalculate,
-  expNeededToLevelUp,
-  addSkillLevelToPlayer,
-  playSound,
-} from '@shared/utils';
-import { ApiService } from '../api';
+import { Attributes, MonsterData, Player } from '@shared/models';
 import { GameMechanicsService } from '../game-mechanics';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
-  private readonly _api = inject(ApiService);
   private readonly _gameMechanicsService = inject(GameMechanicsService);
 
-  // TODO: Move to equip service
-  public setWeaponDamage(weaponDamage: number) {
-    const player = this._gameMechanicsService.player;
-    // Remove any damage from previous weapon
-    this.unequipPreviousWeapon();
-    // Calculate new weapon damage
-    const newWeaponDamage = this.calculateTotalDamage(player, weaponDamage);
-    const previousPlayerDamages = player.stats.damage;
-    // Update player damage
-    this._gameMechanicsService.player = {
-      ...player,
-      stats: { damage: { ...previousPlayerDamages, weapon: newWeaponDamage } },
-    };
-    return newWeaponDamage;
+  public player$: Observable<Player> = this._gameMechanicsService.player$;
+
+  public checkLevelUp(): void {
+    this._gameMechanicsService.checkLevelUp();
   }
 
-  // TODO: Move to equip service
-  public unequipPreviousWeapon() {
-    // TODO: Remove any other bonus that the weapon may provide
-    this.player.stats.damage.weapon = 0;
+  public gainExp(monsterExp: MonsterData['exp']): void {
+    this._gameMechanicsService.gainExp(monsterExp);
   }
 
-  public checkLevelUp() {
-    const player = this.player;
-
-    // Do not level up job
-    if (player.level.job === 50) {
-      // TODO: Stop leveling up
-      console.log('Player level max [JOB]');
-      return;
-    }
-
-    // Do not level up base
-    if (player.level.base === 99) {
-      // TODO: Stop leveling up
-      console.log('Player level max [BASE]');
-      return;
-    }
-
-    // Instantiate calculations
-    const calculate = makeCalculate(this.player);
-
-    // Calculate player new values
-    const updatedValues = calculate.levelAndExp();
-    const updatedExp = updatedValues.exp;
-    const updatedLevel = updatedValues.level;
-    const updatedStats = this.updateStats();
-
-    // Control
-    const hasLeveldUp = updatedValues.hasLeveled;
-
-    if (hasLeveldUp.base || hasLeveldUp.job) {
-      // Play level up sound
-      playSound.effects.play('levelUp');
-
-      if (hasLeveldUp.base) {
-        console.log('Player leveled up [BASE]');
-
-        const updatedPoints = calculate.attributesAvailable();
-
-        // Update attributes points
-        player.attributes_to_spend = updatedPoints;
-      }
-      if (hasLeveldUp.job) {
-        console.log('Player leveled up [JOB]');
-        const updateSKillPoint = calculate.skillPoints();
-
-        // Update skill points
-        player.skills.skills_to_spend = updateSKillPoint;
-      }
-
-      // Update Level
-      player.level = updatedLevel;
-
-      // Update exp values
-      player.exp = {
-        current: updatedExp,
-        toLevelUp: expNeededToLevelUp(updatedLevel),
-      };
-
-      // Update stats on level up
-      player.stats = updatedStats;
-
-      // Saving in the db
-      // TODO: Add call to backend and update player data in DB
-      this._api.savePlayer(player);
-
-      this._player$.next(player);
-    }
+  public addOnePointToAttribute(attribute: keyof Attributes): void {
+    this._gameMechanicsService.addOnePointToAttribute(attribute);
   }
 
-  public gainExp(monsterExp: MonsterData['exp']) {
-    const player = this.player;
-
-    // Add exp to Player
-    player.exp.current = addExp(this.player, monsterExp);
-
-    // Save in DB
-    this._api.savePlayer(player);
-
-    // Emits new exp values
-    this._player$.next(player);
-  }
-
-  // Move to utils
-  private calculateTotalDamage(player: Player, weaponDamage: number) {
-    // Add weaponType & weaponRefine to calc
-    const damage = player.attributes.strength * 2 + weaponDamage;
-    return damage;
-  }
-
-  public addOnePointToAttribute(attribute: keyof Attributes) {
-    if (this.player.attributes_to_spend <= 0) return;
-
-    // Updated attributes of a player
-    const updatedAttributes: Attributes = addAttributeToPlayer(attribute, this.player);
-
-    // Updated secondary stats
-    const updatedStats: Stats = this.updateStats();
-
-    // Update player
-    const updatedPlayer: Player = {
-      ...this.player,
-      attributes: updatedAttributes,
-      attributes_to_spend: this.player.attributes_to_spend - 1,
-      stats: updatedStats,
-    };
-
-    // Saving in the db
-    this._api.savePlayer(updatedPlayer);
-
-    // Emits new player attributes and stats value
-    this._player$.next(updatedPlayer);
-  }
-
-  public addOnePointToSkill(skill: keyof Player['skills']['passive']) {
-    if (this.player.skills.skills_to_spend <= 0) return;
-
-    // Update skills of a player
-    const updatedSkills: Player['skills']['passive'] = addSkillLevelToPlayer(skill, this.player);
-
-    // Updated secondary stats
-    const updatedStats: Stats = this.updateStats();
-
-    // Update player
-    const updatedPlayer: Player = {
-      ...this.player,
-      skills: {
-        passive: updatedSkills,
-        skills_to_spend: this.player.skills.skills_to_spend - 1,
-      },
-      stats: updatedStats,
-    };
-
-    // Saving in the db
-    this._api.savePlayer(updatedPlayer);
-
-    // Emits new player attributes and stats value
-    this._player$.next(updatedPlayer);
-  }
-
-  public updateStats(): Stats {
-    // Instantiate calculations
-    const calculate = makeCalculate(this.player);
-
-    // Calculate new damage
-    const updatedAtkDamage = calculate.atkDamage();
-
-    return { damage: updatedAtkDamage };
+  public addOnePointToSkill(skill: keyof Player['skills']['passive']): void {
+    this._gameMechanicsService.addOnePointToSkill(skill);
   }
 
   public reset() {
-    this._player$.next(defaultPlayer);
-    this.updateStats();
-    this._api.savePlayer(defaultPlayer);
+    this._gameMechanicsService.debug().resetPlayer();
   }
 
   // There is a bug in this Debugger, EXP is not updating. Since it is just a debugger, I don't care hehe
   public levelUpBase() {
-    const level = this.player.level;
-    const attr = this.player.attributes_to_spend;
-    this._player$.next({
-      ...this.player,
-      level: { base: level.base + 1, job: level.job },
-      attributes_to_spend: attr + POINTS_PER_LEVEL.attributes,
-    });
-    this.updateStats();
+    this._gameMechanicsService.levelUpBase();
   }
 
   // There is a bug in this Debugger, EXP is not updating. Since it is just a debugger, I don't care hehe
   public levelUpJob() {
-    const level = this.player.level;
-    const skills = this.player.skills.skills_to_spend;
-    this._player$.next({
-      ...this.player,
-      level: { base: level.base, job: level.job + 1 },
-      skills: {
-        passive: this.player.skills.passive,
-        skills_to_spend: skills + POINTS_PER_LEVEL.skills,
-      },
-    });
-    this.updateStats();
+    this._gameMechanicsService.levelUpJob();
   }
 }

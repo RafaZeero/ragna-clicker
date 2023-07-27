@@ -1,93 +1,47 @@
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable, ViewContainerRef, inject } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, delay, filter, map } from 'rxjs';
 import { MonsterData } from '@shared/models';
-import { HitboxComponent } from '@components';
-
-// Mocked monster
-const poring: MonsterData = {
-  hp: 60,
-  id: 10002,
-  exp: {
-    base: 72,
-    job: 40,
-  },
-};
+import { GameMechanicsService } from '../game-mechanics';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MonsterService {
+  private readonly _gameMechanics = inject(GameMechanicsService);
+
   // Request from API, monster will change on the map
-  public monsterData: MonsterData = poring;
+  public monsterData: MonsterData = this._gameMechanics.monsterData;
 
   // Streams
-  private _monster$ = new BehaviorSubject<MonsterData>(this.monsterData);
-  public monster$ = this._monster$.asObservable();
+  public monster$ = this._gameMechanics.monster$;
+  public hp$ = this._gameMechanics.hp$;
 
-  private _hp$ = new BehaviorSubject<number>(this.monsterData.hp);
-  public hp$ = this._hp$.asObservable();
-
-  public monsterLifeBar$ = combineLatest({
-    currentHP: this.hp$,
-    monsterData: this.monster$,
-  }).pipe(map(({ currentHP, monsterData: { hp: totalHP } }) => (currentHP / totalHP) * 100));
+  public monsterLifeBar$ = this._gameMechanics.monsterLifeBar$;
 
   // Current monster hp
   public get currentHP() {
-    return this._hp$.getValue();
+    return this._gameMechanics.currentHP;
   }
 
   // Current monster data
   public get currentMonster() {
-    return this._monster$.getValue();
+    return this._gameMechanics.currentMonster;
   }
 
-  public loadMonster$ = this.hp$.pipe(
-    // Map monster current life
-    map(currentHP => currentHP > 0),
-  );
+  public loadMonster$ = this._gameMechanics.loadMonster$;
 
   // Damage monster
   public makeDamageToMonster(damage: number, event: MouseEvent, hitbox: ViewContainerRef): void {
-    const currentHP = this._hp$.value;
-
-    // Only do damage if there is hp
-    if (currentHP > 0) {
-      this._showDamageOnScreen(damage, event, hitbox);
-
-      this._hp$.next(currentHP - damage);
-    }
+    this._gameMechanics.makeDamageToMonster(damage, event, hitbox);
   }
 
   // Reload monster after it dies
   public reloadMonster(): Observable<boolean> {
-    return this.loadMonster$.pipe(
-      filter(isAlive => !isAlive),
-      // reload after 350 ms
-      delay(350),
-    );
+    return this._gameMechanics.reloadMonster();
   }
 
   // Recover monster hp
   public updateMonster(): void {
-    // TODO: random choose next monster
-    const totalHP = this._monster$.getValue().hp;
-    this._hp$.next(totalHP);
-  }
-
-  private _showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef) {
-    const componentRef = hitbox.createComponent<HitboxComponent>(HitboxComponent);
-
-    const box = componentRef.location.nativeElement;
-
-    // Make damage appears wherever the user clicks
-    box.style.left = event.clientX - 50 + 'px';
-    box.style.top = event.clientY - 50 + 'px';
-    componentRef.instance.damage = damage;
-
-    // Set a timeout to hide the hitbox after 1500 milliseconds
-    setTimeout(() => {
-      componentRef.destroy();
-    }, 1500);
+    this._gameMechanics.updateMonster();
   }
 }
