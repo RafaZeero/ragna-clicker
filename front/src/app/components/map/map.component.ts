@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, V
 import { CommonModule } from '@angular/common';
 import { MonsterComponent } from 'src/app/components/monster';
 import { makeMapFileURL } from '@shared/utils';
-import { Maps } from '@shared/models';
+import { GameMaps } from '@shared/models';
 
 /**
  * TODO: Dynamically change field maps
@@ -23,7 +23,7 @@ export class MapComponent implements AfterViewInit {
   public element!: ElementRef;
 
   @Input({ required: true })
-  public map!: Maps;
+  public map!: GameMaps;
 
   // Update map
   public ngAfterViewInit(): void {

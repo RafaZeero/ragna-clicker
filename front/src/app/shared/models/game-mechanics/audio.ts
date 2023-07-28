@@ -11,3 +11,5 @@ export type AudioControl = {
   setVolume: SetVolume;
   playAudio: PlayAudio;
 };
+
+export type AudioConfig = { audio: { gameMusicVolume: number; effectsVolume: number } };

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { MonsterRequest, Player } from '@shared/models';
+import { AudioConfig, MonsterRequest, Player } from '@shared/models';
 import { mapMonsterData } from '../../utils/api';
 import { StoreService } from '../store/store.service';
 
@@ -22,6 +22,14 @@ export class ApiService {
 
   public getPlayer() {
     return this._store.getPlayer();
+  }
+
+  public saveConfig(config: AudioConfig) {
+    return this._store.saveConfigs(config);
+  }
+
+  public getConfig() {
+    return this._store.getConfigs();
   }
 
   public getMonster(id: number) {

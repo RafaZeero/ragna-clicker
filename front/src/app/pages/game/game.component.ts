@@ -9,7 +9,7 @@ import {
   HudEquipmentsComponent,
   HudConfigComponent,
 } from '@components';
-import { Maps } from '@shared/models';
+import { GameMaps } from '@shared/models';
 import { ApiService, GameMechanicsService, HudService, MonsterService } from '@shared/services';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
@@ -48,11 +48,13 @@ export default class GameComponent implements OnInit {
   public loadMonster$ = this._monsterService.loadMonster$;
 
   // Mocked data
-  public currentMap: Maps = 'prontera-south';
+  public currentMap: GameMaps = 'prontera-south';
 
   public async ngOnInit(): Promise<void> {
     // Load player from db
     await this._loadPlayer();
+    // Load config from db
+    await this._loadConfig();
 
     // Load monster image to show on map
     this._loadMonsterImage();
@@ -87,6 +89,11 @@ export default class GameComponent implements OnInit {
   // Load player from db
   private async _loadPlayer() {
     this._gameMechanicsService.loadPlayer();
+  }
+
+  // Load config from db
+  private async _loadConfig() {
+    this._gameMechanicsService.loadConfig();
   }
 
   public resetAllHudsPositioning() {

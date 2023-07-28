@@ -5,7 +5,7 @@ const createAudio = (path: string, ID: string): GameAudio => {
   const audio = new Audio(`../../../assets/sounds/${path}`);
 
   // Audio config
-  audio.volume = 0.25;
+  // audio.volume = 0.25;
   audio.load();
 
   return { audio, ID };

@@ -1,8 +1,8 @@
 import { Injectable, ViewContainerRef, inject } from '@angular/core';
 import { ApiService } from '../api';
-import { BehaviorSubject, Observable, combineLatest, delay, filter, map, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, delay, filter, map, shareReplay } from 'rxjs';
 import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
-import { Attributes, MonsterData, Player, Stats } from '@shared/models';
+import { Attributes, AudioConfig, GameMaps, MonsterData, Player, Stats } from '@shared/models';
 import { HitboxComponent } from '@components';
 import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
 
@@ -51,6 +51,11 @@ export class GameMechanicsService {
     monsterData: this.monster$,
   }).pipe(map(({ currentHP, monsterData: { hp: totalHP } }) => (currentHP / totalHP) * 100));
 
+  public currentMap$ = new BehaviorSubject<GameMaps>('prontera-south');
+
+  private _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
+  public config$ = this._config$.asObservable().pipe(shareReplay());
+
   // Current monster hp getter
   public get currentHP() {
     return this._hp$.getValue();
@@ -69,6 +74,16 @@ export class GameMechanicsService {
   // Current player data setter
   public set player(data: Player) {
     this._player$.next(data);
+  }
+
+  // Current config data getter
+  public get config() {
+    return this._config$.getValue();
+  }
+
+  // Current config data setter
+  public set config(data: AudioConfig) {
+    this._config$.next(data);
   }
 
   // Basic click attack
@@ -363,6 +378,23 @@ export class GameMechanicsService {
       componentRef.destroy();
     }, 1500);
   }
+
+  public async loadConfig() {
+    const configs = await this._api.getConfig();
+
+    if (configs) {
+      console.log('configs info [LOCAL_STORAGE]: ', configs);
+      this.config = configs;
+
+      this.gameSounds.effects.setVolume(configs.audio.effectsVolume);
+      this.gameSounds.gameMusic.setVolume(configs.audio.gameMusicVolume);
+    } else {
+      console.log('saving config initial data [LOCAL_STORAGE]');
+      this._api.saveConfig(this.config);
+    }
+  }
+
+  public changeMap() {}
 
   // For debuggin purposes
   public debug() {

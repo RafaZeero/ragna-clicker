@@ -1,3 +1,3 @@
 import { maps } from '../constants/maps';
 
-export type Maps = (typeof maps)[keyof typeof maps];
+export type GameMaps = (typeof maps)[keyof typeof maps];
