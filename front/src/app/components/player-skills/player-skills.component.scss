@@ -14,6 +14,10 @@
     .skill-compact {
       @apply flex flex-col gap-[16px];
 
+      .separator {
+        @apply border-b-[1px] border-solid border-gray-200;
+      }
+
       .skill {
         @apply flex gap-[8px];
 

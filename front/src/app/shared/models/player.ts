@@ -11,14 +11,15 @@ export type Player = {
   // Todo: make classes with skills
   class: Classes;
   /**
-   * TODO: Move to attributes type
-   * How many points player have to add in attributes when level up
-   */
-  attributes_to_spend: number;
-  /**
    * List of attributes to create you own build
    */
-  attributes: Attributes;
+  attributes: {
+    /**
+     * How many points player have to add in attributes when level up
+     */
+    attributes_to_spend: number;
+    values: Attributes;
+  };
 
   /**
    * List of skills that player acumulates by upgrading from novice to the other classes

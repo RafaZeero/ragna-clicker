@@ -35,8 +35,8 @@ const makeAddExpToPlayer =
 const makeAddAttributeToPlayer =
   (player: Player) =>
   (attribute: keyof Attributes): Attributes => {
-    ++player.attributes[attribute];
-    return player.attributes;
+    ++player.attributes.values[attribute];
+    return player.attributes.values;
   };
 
 const makeAddSkillToPlayer =

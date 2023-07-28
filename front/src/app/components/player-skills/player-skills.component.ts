@@ -33,4 +33,6 @@ export class PlayerSkillsComponent implements OnInit {
   public skillMapping(playerClass: Player['class'], upgrade: UpgradableBySkills) {
     return skillEffectAlias[playerClass]![upgrade];
   }
+
+  public trackBySkill = (index: number): number => index;
 }

@@ -45,7 +45,7 @@ export const makeChangeLevelAndExp = (player: Player) => () => {
 };
 
 export const makeChangeAttributesAvailable = (player: Player) => (): number => {
-  const currentPoints: Player['attributes_to_spend'] = player.attributes_to_spend;
+  const currentPoints: Player['attributes']['attributes_to_spend'] = player.attributes.attributes_to_spend;
 
   // Sum with points per level
   const updatedPoints = currentPoints + POINTS_PER_LEVEL.attributes;
@@ -83,7 +83,7 @@ export const makeCalculateDamage = (player: Player) => (): Damages => {
 };
 
 export const checkClassDamage = (player: Player): number => {
-  const { strength, agility, vitality, inteligence, dexterity, luck } = player.attributes;
+  const { strength, agility, vitality, inteligence, dexterity, luck } = player.attributes.values;
   // TODO: check class to increase base damage
   switch (player.class) {
     case 'aprendiz':

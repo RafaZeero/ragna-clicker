@@ -146,11 +146,10 @@ export class GameMechanicsService {
 
       if (hasLeveldUp.base) {
         console.log('Player leveled up [BASE]');
-
         const updatedPoints = calculate.attributesAvailable();
 
         // Update attributes points
-        player.attributes_to_spend = updatedPoints;
+        player.attributes.attributes_to_spend = updatedPoints;
       }
       if (hasLeveldUp.job) {
         console.log('Player leveled up [JOB]');
@@ -181,7 +180,7 @@ export class GameMechanicsService {
   }
 
   public addOnePointToAttribute(attribute: keyof Attributes) {
-    if (this.player.attributes_to_spend <= 0) return;
+    if (this.player.attributes.attributes_to_spend <= 0) return;
 
     const add = makeAdd(this.player);
 
@@ -196,8 +195,10 @@ export class GameMechanicsService {
     // Update player
     const updatedPlayer: Player = {
       ...this.player,
-      attributes: updatedAttributes,
-      attributes_to_spend: this.player.attributes_to_spend - 1,
+      attributes: {
+        values: updatedAttributes,
+        attributes_to_spend: this.player.attributes.attributes_to_spend - 1,
+      },
       stats: updatedStats,
     };
 
@@ -238,28 +239,51 @@ export class GameMechanicsService {
     this.player = updatedPlayer;
   }
 
+  public levelUp(type: 'base' | 'job') {
+    const calculate = makeCalculate(this.player);
+
+    // Calculate player new values
+    const updatedValues = calculate.levelAndExp();
+    const updatedExp = updatedValues.exp;
+    const updatedLevel = updatedValues.level;
+    const updatedAtkDamage = calculate.atkDamage();
+    const updatedPoints = calculate.attributesAvailable();
+    const updateSKillPoint = calculate.skillPointsAvailable();
+
+    // TODO
+    if (type === 'base') {
+    }
+    if (type === 'job') {
+    }
+  }
+
   // There is a bug in this Debugger, EXP is not updating. Since it is just a debugger, I don't care hehe
   public levelUpBase() {
-    const level = this.player.level;
-    const attr = this.player.attributes_to_spend;
+    const level = { base: this.player.level.base + 1, job: this.player.level.job };
+    const attr = {
+      values: this.player.attributes.values,
+      attributes_to_spend: this.player.attributes.attributes_to_spend + 1,
+    };
+
     this.player = {
       ...this.player,
-      level: { base: level.base + 1, job: level.job },
-      attributes_to_spend: attr + POINTS_PER_LEVEL.attributes,
+      level: level,
+      attributes: attr,
     };
   }
 
   // There is a bug in this Debugger, EXP is not updating. Since it is just a debugger, I don't care hehe
   public levelUpJob() {
-    const level = this.player.level;
-    const skills = this.player.skills.skills_to_spend;
+    const level = { base: this.player.level.base, job: this.player.level.job + 1 };
+    const skills = {
+      passive: this.player.skills.passive,
+      skills_to_spend: this.player.skills.skills_to_spend + POINTS_PER_LEVEL.skills,
+    };
+
     this.player = {
       ...this.player,
-      level: { base: level.base, job: level.job + 1 },
-      skills: {
-        passive: this.player.skills.passive,
-        skills_to_spend: skills + POINTS_PER_LEVEL.skills,
-      },
+      level,
+      skills,
     };
   }
 

@@ -3,9 +3,11 @@
     <div class="attribute-container">
       <div class="attribute-individual" *ngFor="let attribute of attributesList">
         <p class="attribute-name">{{ makeAttributeAlias(attribute) }}</p>
-        <p class="attribute-value">{{ player.attributes[attribute] }}</p>
+        <p class="attribute-value">{{ player.attributes.values[attribute] }}</p>
         <div class="attribute-add">
-          <button class="button" *ngIf="player.attributes_to_spend > 0" (click)="addAttribute(attribute)">+</button>
+          <button class="button" *ngIf="player.attributes.attributes_to_spend > 0" (click)="addAttribute(attribute)">
+            +
+          </button>
         </div>
       </div>
     </div>
@@ -20,15 +22,15 @@
         </p>
       </div>
       <div class="attributes-secondary-points-to-add">
-        <p>Points to add: {{ player.attributes_to_spend }}</p>
+        <p>Pontos disponíveis: {{ player.attributes.attributes_to_spend }}</p>
       </div>
     </div>
   </div>
   <ng-template #compact>
     <div class="line one">
       <p>
-        Dano por click: {{ totalDamage$ | async | number : '1.0-0' }} / Free points:
-        {{ player.attributes_to_spend }}
+        Dano por click: {{ totalDamage$ | async | number : '1.0-0' }} / Pts.:
+        {{ player.attributes.attributes_to_spend }}
       </p>
     </div>
   </ng-template>

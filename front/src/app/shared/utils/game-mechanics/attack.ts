@@ -2,7 +2,7 @@ import { Player } from '@shared/models';
 
 export const meleeAtk = (
   baseLevel: Player['level']['base'],
-  { strength, dexterity, luck }: Pick<Player['attributes'], 'strength' | 'dexterity' | 'luck'>,
+  { strength, dexterity, luck }: Pick<Player['attributes']['values'], 'strength' | 'dexterity' | 'luck'>,
 ) => Math.ceil(baseLevel / 4 + strength + dexterity / 5 + luck / 3);
 
 /******************************************************/

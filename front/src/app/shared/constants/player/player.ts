@@ -4,14 +4,16 @@ import { noviceSkillsList } from '../skills';
 export const defaultPlayer: Player = {
   name: 'Rafael',
   class: 'aprendiz',
-  attributes_to_spend: 9,
   attributes: {
-    strength: 1,
-    agility: 1,
-    dexterity: 1,
-    inteligence: 1,
-    luck: 1,
-    vitality: 1,
+    values: {
+      strength: 1,
+      agility: 1,
+      dexterity: 1,
+      inteligence: 1,
+      luck: 1,
+      vitality: 1,
+    },
+    attributes_to_spend: 9,
   },
   skills: {
     passive: noviceSkillsList,

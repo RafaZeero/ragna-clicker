@@ -27,7 +27,7 @@ export class PlayerAttributesComponent {
     this.player$
       .pipe(
         // Map attribute to spend quantity
-        map(player => player.attributes_to_spend),
+        map(player => player.attributes.attributes_to_spend),
         // Take while has attribute to spend
         takeWhile(attributesAvailableToSpend => attributesAvailableToSpend > 0),
         // Reduce one point for attribute used
