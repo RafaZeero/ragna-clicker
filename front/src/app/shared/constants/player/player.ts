@@ -1,47 +1,22 @@
-import { AttributesAliases, AttributesList, Player } from '@shared/models';
-import { noviceSkillsList } from '../skills';
+import { Player } from '@shared/models';
+import {
+  DEFAULT_ATTRIBUTES,
+  DEFAULT_SKILLS,
+  DEFAULT_LEVELS,
+  DEFAULT_EXP,
+  DEFAULT_STATS,
+} from '../initial-and-default-values';
 
 export const defaultPlayer: Player = {
   name: 'Rafael',
   class: 'aprendiz',
-  attributes: {
-    values: {
-      strength: 1,
-      agility: 1,
-      dexterity: 1,
-      inteligence: 1,
-      luck: 1,
-      vitality: 1,
-    },
-    attributes_to_spend: 9,
-  },
-  skills: {
-    passive: noviceSkillsList,
-    // active: null,
-    skills_to_spend: 3,
-  },
-  level: {
-    base: 1,
-    job: 1,
-  },
-  exp: {
-    current: { base: 0, job: 0 },
-    toLevelUp: { base: 350, job: 30 },
-  },
-  stats: {
-    damage: {
-      base: 2,
-      weapon: 0,
-      skills: 0,
-    },
-  },
+  attributes: DEFAULT_ATTRIBUTES,
+  skills: DEFAULT_SKILLS,
+  level: DEFAULT_LEVELS,
+  exp: DEFAULT_EXP,
+  stats: DEFAULT_STATS,
+  zenys: 0,
 };
 
-export const attributeMapping: Record<AttributesList, AttributesAliases> = {
-  strength: 'for',
-  agility: 'agi',
-  vitality: 'vit',
-  inteligence: 'int',
-  dexterity: 'des',
-  luck: 'sor',
-};
+// Attributes points gained to spend per level
+export const POINTS_PER_LEVEL = { attributes: 3, skills: 1 } as const;

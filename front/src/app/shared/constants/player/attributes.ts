@@ -1,9 +1,9 @@
-import { Attributes, AttributesAliases } from '@shared/models';
+import { AttributesAliases, AttributesList } from '@shared/models';
 
 // Attribute List
 export const attributesList = ['strength', 'agility', 'vitality', 'inteligence', 'dexterity', 'luck'] as const;
 
-export const statsList = ['exp', 'gold'] as const;
+export const statsList = ['exp', 'zeny'] as const;
 
 export const attributeAliases = {
   strength: 'str',
@@ -14,5 +14,11 @@ export const attributeAliases = {
   luck: 'luk',
 } as const;
 
-// Attributes points gained to spend per level
-export const POINTS_PER_LEVEL = { attributes: 3, skills: 1 } as const;
+export const attributeMapping: Record<AttributesList, AttributesAliases> = {
+  strength: 'for',
+  agility: 'agi',
+  vitality: 'vit',
+  inteligence: 'int',
+  dexterity: 'des',
+  luck: 'sor',
+};
