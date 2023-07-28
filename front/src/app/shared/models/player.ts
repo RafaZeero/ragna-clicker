@@ -49,6 +49,32 @@ export type Player = {
    * Current level. Base level and Job level
    */
   level: Level;
+  /**
+   * The currency of the game: Zenys
+   */
+  zenys: number;
+  /**
+   * TODO: Equipments
+   */
+  equips?: {
+    head: {
+      upper: Equip | null;
+      middle: Equip | null;
+      lower: Equip | null;
+    };
+    armor: Equip | null;
+    hand: {
+      right_hand: Equip | null;
+      left_hand: Equip | null;
+      both?: Equip | null;
+    };
+    shoes: Equip | null;
+    garment: Equip | null;
+    accessory: {
+      left: Equip | null;
+      right: Equip | null;
+    };
+  };
 };
 
 export type Stats = {
@@ -78,3 +104,26 @@ export type Damages = {
    */
   skills: number;
 };
+
+export type Equip = {
+  id: number;
+  name: string;
+  description: string;
+  slots: 0 | 1 | 2 | 3 | 4;
+  attack: number | null;
+  defense: number | null;
+  requiredLevel: number | null;
+  location: EquipLocation;
+};
+
+export type EquipLocation =
+  | 'upper'
+  | 'middle'
+  | 'lower'
+  | 'armor'
+  | 'garment'
+  | 'shoes'
+  | 'accessory'
+  | 'right'
+  | 'left'
+  | 'both';
