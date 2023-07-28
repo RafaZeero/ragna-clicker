@@ -4,17 +4,20 @@ type Add = (player: Player) => {
   expToPlayer: (monsterExp: MonsterData['exp']) => Experience;
   attributeToPlayer: (attribute: keyof Attributes) => Attributes;
   skillToPlayer: (skillName: NoviceSkillsName) => Player['skills']['passive'];
+  zenyToPlayer: (monster: MonsterData) => Player['zenys'];
 };
 
 export const makeAdd: Add = player => {
   const addExpToPlayer = makeAddExpToPlayer(player);
   const addAttributeToPlayer = makeAddAttributeToPlayer(player);
   const addSkillToPlayer = makeAddSkillToPlayer(player);
+  const addZenyToPlayer = makeAddZenyToPlayer(player);
 
   return {
     expToPlayer: addExpToPlayer,
     attributeToPlayer: addAttributeToPlayer,
     skillToPlayer: addSkillToPlayer,
+    zenyToPlayer: addZenyToPlayer,
   };
 };
 
@@ -45,3 +48,14 @@ const makeAddSkillToPlayer =
     ++player.skills.passive[skillName].level;
     return player.skills.passive;
   };
+
+const makeAddZenyToPlayer = (player: Player) => (monster: MonsterData) => {
+  const currentZenys = player.zenys;
+
+  // TODO: add bonus from skill or other buff
+  const fromMonster =
+    Math.floor(monster.hp * 0.4) + Math.floor(monster.exp.base * 0.2) + Math.floor(monster.exp.job * 0.1);
+
+  const totalZenys = currentZenys + fromMonster;
+  return totalZenys;
+};

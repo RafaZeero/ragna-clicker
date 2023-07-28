@@ -90,18 +90,24 @@ export class GameMechanicsService {
 
     // Add exp to Player
     player.exp.current = add.expToPlayer(monsterExp);
+  }
 
-    // Save in DB
-    this.savePlayer(player);
+  public gainZenys(monster: MonsterData) {
+    const player = this.player;
 
-    // Emits new exp values
-    this.player = player;
+    const add = makeAdd(player);
+
+    // Add zenys to Player
+    player.zenys = add.zenyToPlayer(monster);
   }
 
   // Move to utils
-  public giveExp = () => {
-    // // Get exp
+  public giveRewards = () => {
+    // Get exp
     this.gainExp(this.currentMonster.exp);
+
+    // Get Zenys
+    this.gainZenys(this.currentMonster);
 
     // Check if player has leveled up
     this.checkLevelUp();
@@ -171,10 +177,11 @@ export class GameMechanicsService {
       // Update stats on level up
       player.stats = { damage: updatedAtkDamage };
 
-      // Saving in the db
+      // Save in DB
       // TODO: Add call to backend and update player data in DB
       this.savePlayer(player);
 
+      // Emits new exp values
       this.player = player;
     }
   }

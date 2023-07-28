@@ -58,7 +58,7 @@ export default class GameComponent implements OnInit {
     this._loadMonsterImage();
 
     // Reload monster after it dies
-    this._monsterService.reloadMonster().subscribe(this.giveExp);
+    this._monsterService.reloadMonster().subscribe(this.giveRewards);
 
     this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
   }
@@ -71,8 +71,8 @@ export default class GameComponent implements OnInit {
   }
 
   // Move to utils
-  private giveExp = () => {
-    this._gameMechanicsService.giveExp();
+  private giveRewards = () => {
+    this._gameMechanicsService.giveRewards();
   };
 
   // Load monster image to show on map

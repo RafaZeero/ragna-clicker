@@ -29,4 +29,12 @@ export class ConfigComponent {
     // Adjust sound effects volume
     this._gameMechanics.gameSounds.effects.setVolume(volume);
   }
+
+  public play = () => {
+    this._gameMechanics.gameSounds.gameMusic.pauseAudio('streamside');
+    this._gameMechanics.gameSounds.gameMusic.playAudio('streamside');
+  };
+  public pause = () => {
+    this._gameMechanics.gameSounds.gameMusic.pauseAudio('streamside');
+  };
 }
