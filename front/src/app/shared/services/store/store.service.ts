@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AudioConfig, Player } from '@shared/models';
+import * as IO from 'fp-ts/lib/IO';
+import * as O from 'fp-ts/lib/Option';
+import * as E from 'fp-ts/lib/Either';
+import { flow, pipe } from 'fp-ts/lib/function';
 
+const getItem = (key: string): IO.IO<O.Option<string>> => IO.of(() => O.fromNullable(localStorage.getItem(key)))();
+
+const setItem = (key: string, value: string): IO.IO<void> => IO.of(() => localStorage.setItem(key, value));
 @Injectable({
   providedIn: 'root',
 })
@@ -49,19 +56,29 @@ export class StoreService {
   }
 
   public async getConfigs() {
-    try {
-      const fromLocalStorage = localStorage.getItem(this._localStorageConfig);
-
-      if (!fromLocalStorage) {
-        throw Error('Config not found');
-      }
-
-      const configs = JSON.parse(fromLocalStorage) as AudioConfig;
-
-      return configs;
-    } catch (error) {
-      console.warn('Error to get configurations');
-      return null;
-    }
+    return pipe(
+      /** Try to get local storage item */
+      E.tryCatch(
+        () =>
+          pipe(
+            /** Try to get config in local storage */
+            getItem(this._localStorageConfig),
+            /** Get item or send error [CONFIG NOT FOUND] (TODO!!) */
+            IO.map(flow(O.getOrElse(() => 'Config not found'))),
+          )(),
+        /** On error, send the text! */
+        () => 'Error to get configurations',
+      ),
+      E.bimap(
+        error => {
+          /** On left, send the text! */
+          console.warn(error);
+          /** return null */
+          return null;
+        },
+        /** On right, parse the data and type cast it*/
+        (data): AudioConfig => JSON.parse(data),
+      ),
+    );
   }
 }

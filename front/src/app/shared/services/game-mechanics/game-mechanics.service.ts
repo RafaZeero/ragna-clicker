@@ -5,6 +5,8 @@ import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
 import { Attributes, AudioConfig, GameMaps, MonsterData, Player, Stats } from '@shared/models';
 import { HitboxComponent } from '@components';
 import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
+import * as E from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/function';
 
 // Mocked monster
 const poring: MonsterData = {
@@ -399,19 +401,28 @@ export class GameMechanicsService {
     }, 1500);
   }
 
+  /** Load config from API */
   public async loadConfig() {
-    const configs = await this._api.getConfig();
-
-    if (configs) {
-      console.log('configs info [LOCAL_STORAGE]: ', configs);
-      this.config = configs;
-
-      this.gameSounds.effects.setVolume(configs.audio.effectsVolume);
-      this.gameSounds.gameMusic.setVolume(configs.audio.gameMusicVolume);
-    } else {
-      console.log('saving config initial data [LOCAL_STORAGE]');
-      this._api.saveConfig(this.config);
-    }
+    pipe(
+      /** Load config */
+      await this._api.getConfig(),
+      /** Validate from DB */
+      E.fold(
+        /** On Left */
+        () => {
+          /** Save new config */
+          this._api.saveConfig(this.config);
+        },
+        /** On Right */
+        configs => {
+          /** Update current config */
+          this.config = configs;
+          /** Set volumes to match saved data */
+          this.gameSounds.effects.setVolume(configs.audio.effectsVolume);
+          this.gameSounds.gameMusic.setVolume(configs.audio.gameMusicVolume);
+        },
+      ),
+    );
   }
 
   public changeMap() {}
