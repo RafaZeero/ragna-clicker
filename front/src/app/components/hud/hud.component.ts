@@ -80,6 +80,10 @@ export class HudComponent {
     if (this._findElementWithName('config', source)) {
       this._hudService.saveHudPosition({ config: updatedPosition });
     }
+
+    if (this._findElementWithName('map', source)) {
+      this._hudService.saveHudPosition({ maps: updatedPosition });
+    }
   }
 
   private _findElementWithName(name: string, source: CdkDragEnd['source']): boolean {

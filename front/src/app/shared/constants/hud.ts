@@ -6,7 +6,7 @@ export const DEFAULT_HUD: HudControl = {
   skills: false,
   equip: false,
   config: false,
-  map: true,
+  maps: true,
 };
 
 export const INITIAL_POSITION: HudInitPosition = {
@@ -15,5 +15,5 @@ export const INITIAL_POSITION: HudInitPosition = {
   equip: { x: 0, y: 367 },
   skills: { x: 400, y: 0 },
   config: { x: 800, y: 0 },
-  map: { x: 400, y: 800 },
+  maps: { x: 400, y: 800 },
 };

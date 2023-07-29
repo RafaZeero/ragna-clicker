@@ -17,6 +17,7 @@ import {
   MonsterComponent,
   HudEquipmentsComponent,
   HudConfigComponent,
+  HudMapsComponent,
 } from '@components';
 import { GameMaps } from '@shared/models';
 import { ApiService, GameMechanicsService, HudService, MonsterService } from '@shared/services';
@@ -35,6 +36,7 @@ import { HitboxDirective } from '@shared/directives';
     HudEquipmentsComponent,
     HudSkillsComponent,
     HudConfigComponent,
+    HudMapsComponent,
     MonsterComponent,
     HitboxDirective,
     ResetComponent,

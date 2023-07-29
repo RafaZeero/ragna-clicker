@@ -6,6 +6,6 @@ export type HudControl = {
   skills: boolean;
   equip: boolean;
   config: boolean;
-  map: boolean;
+  maps: boolean;
 };
-export type HudInitPosition = { info: Point; attr: Point; skills: Point; equip: Point; config: Point; map: Point };
+export type HudInitPosition = { info: Point; attr: Point; skills: Point; equip: Point; config: Point; maps: Point };
