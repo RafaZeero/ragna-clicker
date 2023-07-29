@@ -1,1 +1,9 @@
-<p>hud-maps works!</p>
+<!-- Basic Info -->
+<rag-hud
+  #hud
+  [toggleable]="false"
+  [boundaryParentContainer]="game"
+  [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!"
+  *ngIf="hudControl$ | async">
+  <span class="basic-info" infoNotToggleable>Mapas</span>
+</rag-hud>
