@@ -17,7 +17,7 @@
     <ng-template ragHitbox></ng-template>
     <!-- Monster -->
     <ng-container *ngIf="loadMonster$ | async">
-      <rag-monster [image$]="image$" />
+      <rag-monster [image$]="image$" #monster />
     </ng-container>
   </rag-map>
 </main>

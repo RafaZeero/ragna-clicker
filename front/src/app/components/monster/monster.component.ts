@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { MonsterService } from '@shared/services';
@@ -13,6 +13,9 @@ import { MonsterService } from '@shared/services';
 })
 export class MonsterComponent {
   private readonly _monsterService = inject(MonsterService);
+
+  @ViewChild('monster')
+  public element!: ElementRef;
 
   @Input({ required: true })
   public image$!: Observable<string>;

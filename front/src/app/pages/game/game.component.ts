@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import {
   HudInfoComponent,
@@ -11,7 +20,7 @@ import {
 } from '@components';
 import { GameMaps } from '@shared/models';
 import { ApiService, GameMechanicsService, HudService, MonsterService } from '@shared/services';
-import { Observable, of } from 'rxjs';
+import { Observable, combineLatestWith, filter, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
@@ -46,9 +55,27 @@ export default class GameComponent implements OnInit {
   public showDebugger = environment.debugger;
   public image$!: Observable<string>;
   public loadMonster$ = this._monsterService.loadMonster$;
+  public autoAttack$ = interval(1000).pipe(
+    takeUntilDestroyed(),
+    switchMap(() =>
+      this._gameMechanicsService.player$.pipe(
+        // TODO: improve this to get remainders of 10 & reborn buff
+        map(player => (player.attributes.values.agility >= 10 ? this.autoAttack() : false)),
+      ),
+    ),
+  );
 
   // Mocked data
   public currentMap: GameMaps = 'prontera-south';
+
+  @ViewChild('monster') public monsterRef!: MonsterComponent;
+  public autoAttack() {
+    const monster = this.monsterRef?.element.nativeElement as HTMLElement;
+    // Check if monster is alive to click on it
+    if (monster) {
+      monster.click();
+    }
+  }
 
   public async ngOnInit(): Promise<void> {
     Promise.all([
@@ -64,6 +91,9 @@ export default class GameComponent implements OnInit {
     this._monsterService.reloadMonster().subscribe(this.giveRewards);
 
     this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
+
+    // Auto attack
+    // this.autoAttack$.subscribe();
   }
 
   // Basic click attack

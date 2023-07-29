@@ -30,7 +30,7 @@ export class GameMechanicsService {
 
   // Current player stream
   private _player$ = new BehaviorSubject<Player>(defaultPlayer);
-  public player$ = this._player$.asObservable().pipe(shareReplay());
+  public player$ = this._player$.asObservable();
 
   // Current monster stream
   private _monster$ = new BehaviorSubject<MonsterData>(this.monsterData);
@@ -380,11 +380,17 @@ export class GameMechanicsService {
   public showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef) {
     const componentRef = hitbox.createComponent<HitboxComponent>(HitboxComponent);
 
-    const box = componentRef.location.nativeElement;
+    const box = componentRef.location.nativeElement as HTMLElement;
 
-    // Make damage appears wherever the user clicks
-    box.style.left = event.clientX - 50 + 'px';
-    box.style.top = event.clientY - 50 + 'px';
+    if (event.clientX > 0 || event.clientY > 0) {
+      // Make damage appears wherever the user clicks
+      box.style.left = event.clientX - 35 + 'px';
+      box.style.top = event.clientY - 50 + 'px';
+    } else {
+      box.style.left = document.body.scrollWidth / 2 - 35 + 'px';
+      box.style.top = document.body.scrollHeight / 2 - 50 + 'px';
+    }
+
     componentRef.instance.damage = damage;
 
     // Set a timeout to hide the hitbox after 1500 milliseconds
