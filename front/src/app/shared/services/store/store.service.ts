@@ -67,14 +67,14 @@ export class StoreService {
             IO.map(flow(O.getOrElse(() => 'Config not found'))),
           )(),
         /** On error, send the text! */
-        () => 'Error to get configurations',
+        () => 'Error to get configurations in DB',
       ),
       E.bimap(
         error => {
           /** On left, send the text! */
           console.warn(error);
-          /** return null */
-          return null;
+          /** return error message */
+          return error;
         },
         /** On right, parse the data and type cast it*/
         (data): AudioConfig => JSON.parse(data),

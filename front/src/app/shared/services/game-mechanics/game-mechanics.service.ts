@@ -409,9 +409,11 @@ export class GameMechanicsService {
       /** Validate from DB */
       E.fold(
         /** On Left */
-        () => {
+        error => {
           /** Save new config */
           this._api.saveConfig(this.config);
+          /** Show error on console */
+          console.error(error);
         },
         /** On Right */
         configs => {
