@@ -3,6 +3,7 @@ export * from './reset';
 
 // Game mechanics
 export * from './map';
+export * from './map-selection';
 export * from './monster';
 export * from './hitbox';
 export * from './config';
