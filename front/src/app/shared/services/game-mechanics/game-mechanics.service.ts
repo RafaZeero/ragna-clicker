@@ -332,19 +332,25 @@ export class GameMechanicsService {
 
   // Load player from db
   public async loadPlayer() {
-    // TODO: change localstorage to db
-    const playerInfoFromDB = await this._api.getPlayer();
-
-    if (playerInfoFromDB) {
-      console.log('player info [LOCAL_STORAGE]: ', playerInfoFromDB);
-      this.player = playerInfoFromDB;
-    } else {
-      console.log('saving initial data [LOCAL_STORAGE]');
-      this._api.savePlayer(this.player);
-    }
-
-    // const playerStats = this.updateStats();
-    // this.player = { ...this.player, stats: playerStats };
+    pipe(
+      /** Load config */
+      await this._api.getPlayer(),
+      /** Validate from DB */
+      E.fold(
+        /** On Left */
+        error => {
+          /** Save new config */
+          this._api.savePlayer(this.player);
+          /** Show error on console */
+          console.error(error);
+        },
+        /** On Right */
+        player => {
+          /** Update current player */
+          this.player = player;
+        },
+      ),
+    );
   }
   // ******************************************************
 

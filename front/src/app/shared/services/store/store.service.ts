@@ -12,14 +12,14 @@ const setItem = (key: string, value: string): IO.IO<void> => IO.of(() => localSt
   providedIn: 'root',
 })
 export class StoreService {
-  private _localStorageKeyName = 'playerInfo';
+  private _localStoragePlayer = 'playerInfo';
   private _localStorageConfig = 'playerconfigs';
 
   public async savePlayer(data: Player) {
     try {
       const playerData = JSON.stringify(data);
 
-      localStorage.setItem(this._localStorageKeyName, playerData);
+      localStorage.setItem(this._localStoragePlayer, playerData);
 
       return 'User saved';
     } catch (error) {
@@ -27,20 +27,31 @@ export class StoreService {
     }
   }
 
-  public async getPlayer(): Promise<Player | null> {
-    try {
-      const fromLocalStorage = localStorage.getItem(this._localStorageKeyName);
-
-      if (!fromLocalStorage) {
-        throw Error('User not found');
-      }
-      const player = JSON.parse(fromLocalStorage) as Player;
-
-      return player;
-    } catch (error) {
-      console.warn('Error to get player');
-      return null;
-    }
+  public async getPlayer(): Promise<E.Either<string, Player>> {
+    return pipe(
+      /** Try to get local storage item */
+      E.tryCatch(
+        () =>
+          pipe(
+            /** Try to get player in local storage */
+            getItem(this._localStoragePlayer),
+            /** Get item or send error [PLAYER NOT FOUND] (TODO!!) */
+            IO.map(flow(O.getOrElse(() => 'Player not found'))),
+          )(),
+        /** On error, send the text! */
+        () => 'Error to get player info in DB',
+      ),
+      E.bimap(
+        error => {
+          /** On left, send the text! */
+          console.warn(error);
+          /** return error message */
+          return error;
+        },
+        /** On right, parse the data and type cast it*/
+        (data): Player => JSON.parse(data),
+      ),
+    );
   }
 
   public async saveConfigs(data: AudioConfig) {
@@ -55,7 +66,7 @@ export class StoreService {
     }
   }
 
-  public async getConfigs() {
+  public async getConfigs(): Promise<E.Either<string, AudioConfig>> {
     return pipe(
       /** Try to get local storage item */
       E.tryCatch(
