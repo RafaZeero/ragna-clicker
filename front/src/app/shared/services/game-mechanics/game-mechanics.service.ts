@@ -105,6 +105,13 @@ export class GameMechanicsService {
 
     // Add exp to Player
     player.exp.current = add.expToPlayer(monsterExp);
+
+    // Save in DB
+    // TODO: Add call to backend and update player data in DB
+    this.savePlayer(player);
+
+    // Emits new exp values
+    this.player = player;
   }
 
   public gainZenys(monster: MonsterData) {
@@ -114,6 +121,13 @@ export class GameMechanicsService {
 
     // Add zenys to Player
     player.zenys = add.zenyToPlayer(monster);
+
+    // Save in DB
+    // TODO: Add call to backend and update player data in DB
+    this.savePlayer(player);
+
+    // Emits new exp values
+    this.player = player;
   }
 
   // Move to utils

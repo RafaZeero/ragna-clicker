@@ -29,10 +29,19 @@
             @apply w-[70%];
             @apply border-[1px] border-[#4e4e4e];
 
-            .exp-bar {
-              @apply flex;
-              @apply h-[6px];
-              @apply bg-[#4A79C3];
+            .exp-bar-group {
+              @apply flex w-[100%] relative;
+
+              .exp-bar {
+                @apply flex;
+                @apply h-[6px];
+                @apply bg-[#4A79C3];
+              }
+              .exp-bar-value {
+                @apply absolute w-[100%];
+                @apply flex justify-end items-center;
+                @apply text-[0.875rem] font-[400] leading-[92.5%];
+              }
             }
           }
         }

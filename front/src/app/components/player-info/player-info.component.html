@@ -11,16 +11,21 @@
             <p class="level">{{ levelType | titlecase }}. {{ player.level[levelType] }}</p>
             <!-- Exp bar -->
             <div class="exp-bar-container">
-              <div
-                [style.width.%]="(player.exp.current[levelType] / player.exp.toLevelUp[levelType]) * 100"
-                class="exp-bar"></div>
+              <div class="exp-bar-group">
+                <div
+                  [style.width.%]="(player.exp.current[levelType] / player.exp.toLevelUp[levelType]) * 100"
+                  class="exp-bar"></div>
+                <span class="exp-bar-value"
+                  >{{ player.exp.current[levelType] }}/{{ player.exp.toLevelUp[levelType] }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
-
         <div>
-          <p>Base exp: {{ player.exp.current.base }}/{{ player.exp.toLevelUp.base }}</p>
-          <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p>
+          <!-- <p>Base exp: </p> -->
+          <!-- <p>Job exp: {{ player.exp.current.job }}/{{ player.exp.toLevelUp.job }}</p> -->
+          <p>Zeny: {{ player.zenys }}</p>
         </div>
       </div>
       <div class="right">
