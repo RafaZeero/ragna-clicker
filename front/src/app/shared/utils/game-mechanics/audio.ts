@@ -15,7 +15,8 @@ const makePlayAudio = (audioList: Array<GameAudio>) => (sound: string) => {
   const audio = audioList.find(music => music.ID === sound)?.audio;
 
   if (!audio) throw Error('Áudio de jogo não implementada');
-  return audio.play();
+  audio.play();
+  return audio;
 };
 
 const makeSetVolume = (audioList: Array<GameAudio>) => (volume: number) => {

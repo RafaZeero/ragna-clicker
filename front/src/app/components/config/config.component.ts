@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService, GameMechanicsService, PlayerService } from '@shared/services';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'rag-config',
@@ -16,7 +17,8 @@ export class ConfigComponent {
   private readonly _api = inject(ApiService);
 
   public player$ = this._playerService.player$;
-  public config$ = this._gameMechanics.config$;
+  public effectsVolume$ = this._gameMechanics.config$.pipe(map(config => config.audio.effectsVolume * 100));
+  public gameMusicVolume$ = this._gameMechanics.config$.pipe(map(config => config.audio.gameMusicVolume * 100));
 
   public setGameVolume(event: Event) {
     const volume = parseInt((event.target as HTMLInputElement).value) / 100;

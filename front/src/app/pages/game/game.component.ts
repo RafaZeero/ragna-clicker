@@ -51,11 +51,12 @@ export default class GameComponent implements OnInit {
   public currentMap: GameMaps = 'prontera-south';
 
   public async ngOnInit(): Promise<void> {
-    // Load player from db
-    await this._loadPlayer();
-    // Load config from db
-    await this._loadConfig();
-
+    Promise.all([
+      // Load player from db
+      await this._loadPlayer(),
+      // Load config from db
+      await this._loadConfig(),
+    ]);
     // Load monster image to show on map
     this._loadMonsterImage();
 

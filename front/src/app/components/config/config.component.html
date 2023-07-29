@@ -3,13 +3,27 @@
     <h2>Controle de áudio</h2>
     <div class="music">
       <label for="music">Música do jogo</label>
-      <input type="range" name="music" id="" min="0" max="100" (input)="setGameVolume($event)" />
+      <input
+        type="range"
+        name="music"
+        id=""
+        min="0"
+        max="100"
+        [value]="gameMusicVolume$ | async"
+        (input)="setGameVolume($event)" />
       <button (click)="play()">Play</button>
       <button (click)="pause()">Pause</button>
     </div>
     <div class="effects">
       <label for="effects">Efeitos sonoros</label>
-      <input type="range" name="effects" id="" min="0" max="100" (input)="setEffectsVolume($event)" />
+      <input
+        type="range"
+        name="effects"
+        id=""
+        min="0"
+        max="100"
+        [value]="effectsVolume$ | async"
+        (input)="setEffectsVolume($event)" />
     </div>
   </div>
 </div>
