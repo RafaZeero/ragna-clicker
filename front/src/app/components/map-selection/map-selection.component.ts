@@ -1,7 +1,8 @@
-import { OnInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { OnInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { makeMapFileURL } from '@shared/utils';
 import { GameMaps } from '@shared/models';
+import { MapService } from '@shared/services';
 
 @Component({
   selector: 'rag-map-selection',
@@ -12,11 +13,20 @@ import { GameMaps } from '@shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapSelectionComponent implements OnInit {
-  public mapName: GameMaps = 'prontera-south';
-  public mapUrl!: ReturnType<typeof makeMapFileURL>['url'];
+  private readonly _mapService = inject(MapService);
+
+  public mapsName: Array<GameMaps> = ['prontera-south', 'prontera-sewer'];
+  public mapUrl!: Array<{ asset: ReturnType<typeof makeMapFileURL>['url']; name: GameMaps }>;
 
   // Update map
   public ngOnInit(): void {
-    this.mapUrl = makeMapFileURL(this.mapName).url;
+    this.mapUrl = this.mapsName.map(map => ({ asset: makeMapFileURL(map).url, name: map }));
   }
+
+  public selectMap(map: GameMaps): void {
+    console.log('map selected', map);
+    this._mapService.currentMap$.next(map);
+  }
+
+  public trackByMap = (index: number): number => index;
 }

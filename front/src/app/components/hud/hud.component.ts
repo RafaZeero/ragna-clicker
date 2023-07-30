@@ -28,10 +28,8 @@ export class HudComponent {
   @Input({ required: true, alias: 'cdkDragFreeDragPosition' }) public set startPosition(position: Point) {
     this._hudStartingPosition$.next(position);
   }
-
+  @Input() public hudWidth = '360';
   @Input() public toggleable = true;
-
-  // @ViewChild('toggle') public toggle!: HTMLElement;
 
   private readonly _hudService = inject(HudService);
 

@@ -12,7 +12,7 @@ import {
   HudMapsComponent,
 } from '@components';
 import { GameMaps } from '@shared/models';
-import { ApiService, GameMechanicsService, HudService, MonsterService } from '@shared/services';
+import { ApiService, GameMechanicsService, HudService, MapService, MonsterService } from '@shared/services';
 import { Observable, interval, map, of, switchMap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
@@ -45,6 +45,7 @@ export default class GameComponent implements OnInit {
   private readonly _monsterService = inject(MonsterService);
   private readonly _hudService = inject(HudService);
   private readonly _gameMechanicsService = inject(GameMechanicsService);
+  private readonly _mapService = inject(MapService);
 
   public showDebugger = environment.debugger;
   public image$!: Observable<string>;
@@ -60,7 +61,8 @@ export default class GameComponent implements OnInit {
   );
 
   // Mocked data
-  public currentMap: GameMaps = 'prontera-south';
+  // public currentMap: GameMaps = 'prontera-south';
+  public currentMap$ = this._mapService.currentMap$;
 
   @ViewChild('monster') public monsterRef!: MonsterComponent;
   public autoAttack() {

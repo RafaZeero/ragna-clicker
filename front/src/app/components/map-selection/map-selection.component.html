@@ -1,3 +1,18 @@
-<div>
-  <img class="img" [src]="mapUrl" alt="" />
-</div>
+<section class="maps-container">
+  <!-- Carousel -->
+  <div class="carousel-container">
+    <button class="btn left">&lt;</button>
+    <div class="carousel-data">
+      <div *ngFor="let map of mapUrl; trackBy: trackByMap">
+        <!-- Map selection -->
+        <div class="selection" (click)="selectMap(map.name)">
+          <!-- Map image -->
+          <img class="img" [src]="map.asset" [alt]="'Image of ' + map.name" />
+          <!-- Map name -->
+          <p class="name">{{ map.name }}</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn right">&gt;</button>
+  </div>
+</section>

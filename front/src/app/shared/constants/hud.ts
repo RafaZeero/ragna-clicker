@@ -15,5 +15,5 @@ export const INITIAL_POSITION: HudInitPosition = {
   equip: { x: 0, y: 367 },
   skills: { x: 400, y: 0 },
   config: { x: 800, y: 0 },
-  maps: { x: 400, y: 800 },
+  maps: { x: 200, y: 200 },
 };

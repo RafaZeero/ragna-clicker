@@ -2,7 +2,7 @@
   .hud {
     @apply absolute;
     @apply flex flex-col gap-[16px] items-center;
-    @apply w-[360px] h-fit;
+    @apply h-fit;
     @apply px-[8px] pt-[25px] pb-[5px];
     @apply rounded-[5px];
     @apply bg-[#FBFBFB];

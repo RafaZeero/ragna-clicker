@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonsterComponent } from 'src/app/components/monster';
 import { makeMapFileURL } from '@shared/utils';
-import { GameMaps } from '@shared/models';
+import { MapService } from '@shared/services';
 
 /**
  * TODO: Dynamically change field maps
@@ -19,15 +19,19 @@ import { GameMaps } from '@shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements AfterViewInit {
+  private readonly _mapService = inject(MapService);
+
   @ViewChild('map')
   public element!: ElementRef;
 
-  @Input({ required: true })
-  public map!: GameMaps;
+  public map = this._mapService.currentMap$;
 
   // Update map
   public ngAfterViewInit(): void {
-    this.element.nativeElement.style.background = makeMapFileURL(this.map).css;
-    this.element.nativeElement.style.backgroundSize = 'cover';
+    this._mapService.currentMap$.subscribe(map => {
+      console.log({ map });
+      this.element.nativeElement.style.background = makeMapFileURL(map).css;
+      this.element.nativeElement.style.backgroundSize = 'cover';
+    });
   }
 }

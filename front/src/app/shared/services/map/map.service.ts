@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { GameMechanicsService } from '../game-mechanics';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapService {
+  private readonly _gameMechanics = inject(GameMechanicsService);
 
-  constructor() { }
+  public currentMap$ = this._gameMechanics.currentMap$;
 }
