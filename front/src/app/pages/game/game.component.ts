@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import {
@@ -21,7 +13,7 @@ import {
 } from '@components';
 import { GameMaps } from '@shared/models';
 import { ApiService, GameMechanicsService, HudService, MonsterService } from '@shared/services';
-import { Observable, combineLatestWith, filter, interval, map, of, switchMap, takeUntil, tap } from 'rxjs';
+import { Observable, interval, map, of, switchMap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
@@ -57,7 +49,7 @@ export default class GameComponent implements OnInit {
   public showDebugger = environment.debugger;
   public image$!: Observable<string>;
   public loadMonster$ = this._monsterService.loadMonster$;
-  public autoAttack$ = interval(1000).pipe(
+  public autoAttack$ = interval(5000).pipe(
     takeUntilDestroyed(),
     switchMap(() =>
       this._gameMechanicsService.player$.pipe(
