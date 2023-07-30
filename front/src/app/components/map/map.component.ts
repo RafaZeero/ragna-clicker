@@ -27,7 +27,7 @@ export class MapComponent implements AfterViewInit {
 
   // Update map
   public ngAfterViewInit(): void {
-    this.element.nativeElement.style.background = makeMapFileURL(this.map);
+    this.element.nativeElement.style.background = makeMapFileURL(this.map).css;
     this.element.nativeElement.style.backgroundSize = 'cover';
   }
 }

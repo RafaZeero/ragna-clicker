@@ -27,3 +27,4 @@ Let's goooo ~ 🔵
 - [] Add one or more apprentices when reach X base level / or do certain quest / or kill first MVP
 - [] Make players buffs/skill more powerful than your teammembers buffs/skills
 - [] Blockchain to create unique/special items in the game -> will need market to improve this
+- [] First X players that get to level max will be able to play the next version of the game ! [SEND EMAIL]
