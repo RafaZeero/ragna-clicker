@@ -54,7 +54,7 @@ const makeAddZenyToPlayer = (player: Player) => (monster: MonsterData) => {
 
   // TODO: add bonus from skill or other buff
   const fromMonster =
-    Math.floor(monster.hp * 0.4) + Math.floor(monster.exp.base * 0.2) + Math.floor(monster.exp.job * 0.1);
+    Math.floor(monster.stats.hp * 0.4) + Math.floor(monster.exp.base * 0.2) + Math.floor(monster.exp.job * 0.1);
 
   const totalZenys = currentZenys + fromMonster;
   return totalZenys;

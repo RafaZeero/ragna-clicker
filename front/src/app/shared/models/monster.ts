@@ -1,11 +1,25 @@
+import { Experience } from './commons';
+import { Attributes } from './player';
+
 // Monster Data
-export type MonsterData = {
-  hp: number;
+
+export interface MonsterData {
   id: number;
-  exp: {
-    base: number;
-    job: number;
+  name: string;
+  stats: Stats;
+  exp: Experience;
+}
+export type MonsterResponseFromAPI = {
+  response: {
+    monsterImage: string;
+    monsterData: MonsterData;
   };
+};
+
+type Stats = {
+  hp: number;
+  attributes: Attributes;
+  defense: number;
 };
 
 // Monster request from Divine-Pride
@@ -27,7 +41,7 @@ export type MonsterRequestStats = {
   level: number;
   health: number;
   str: number;
-  _int: number;
+  int: number;
   vit: number;
   dex: number;
   agi: number;
@@ -49,7 +63,7 @@ export type MonsterRequestStats = {
   flee: number;
   ai: string;
   mvp: number;
-  _class: number;
+  class: number;
 };
 
 export type Attack = {

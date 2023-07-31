@@ -2,11 +2,11 @@ import { HudControl, HudInitPosition } from '@shared/models';
 
 export const DEFAULT_HUD: HudControl = {
   char: false,
-  attr: true,
+  attr: false,
   skills: false,
   equip: false,
   config: false,
-  maps: true,
+  maps: false,
 };
 
 export const INITIAL_POSITION: HudInitPosition = {

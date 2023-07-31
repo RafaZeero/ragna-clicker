@@ -2,7 +2,7 @@ import { OnInit, ChangeDetectionStrategy, Component, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { makeMapFileURL } from '@shared/utils';
 import { GameMaps } from '@shared/models';
-import { MapService } from '@shared/services';
+import { HudService, MapService } from '@shared/services';
 
 @Component({
   selector: 'rag-map-selection',
@@ -14,6 +14,7 @@ import { MapService } from '@shared/services';
 })
 export class MapSelectionComponent implements OnInit {
   private readonly _mapService = inject(MapService);
+  private readonly _hudService = inject(HudService);
 
   public mapsName: Array<GameMaps> = ['prontera-south', 'prontera-sewer'];
   public mapUrl!: Array<{ asset: ReturnType<typeof makeMapFileURL>['url']; name: GameMaps }>;
@@ -25,7 +26,9 @@ export class MapSelectionComponent implements OnInit {
 
   public selectMap(map: GameMaps): void {
     console.log('map selected', map);
-    this._mapService.currentMap$.next(map);
+    this._mapService.currentMap = map;
+    // TODO: Add confirmation and untoggle map?
+    // this._hudService.controlPlayerHud('maps');
   }
 
   public trackByMap = (index: number): number => index;

@@ -9,15 +9,26 @@ import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
 
 // Mocked monster
-const poring: MonsterData = {
-  hp: 60,
-  id: 10002,
+const Familiar: MonsterData = {
+  id: 1005,
+  name: 'Familiar',
+  stats: {
+    hp: 330,
+    attributes: {
+      agility: 19,
+      dexterity: 20,
+      inteligence: 5,
+      luck: 1,
+      strength: 15,
+      vitality: 20,
+    },
+    defense: 26,
+  },
   exp: {
-    base: 72,
-    job: 40,
+    base: 200,
+    job: 152,
   },
 };
-
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +39,9 @@ export class GameMechanicsService {
   public gameSounds = makePlaySound();
 
   // Request from API, monster will change on the map
-  public monsterData: MonsterData = poring;
+  public monsterData = Familiar;
+
+  // public monster = this.monsterData$.subscribe();
 
   // Current player stream
   private _player$ = new BehaviorSubject<Player>(defaultPlayer);
@@ -39,7 +52,7 @@ export class GameMechanicsService {
   public monster$ = this._monster$.asObservable();
 
   // Current monster hp
-  private _hp$ = new BehaviorSubject<number>(this.monsterData.hp);
+  private _hp$ = new BehaviorSubject<number>(this.monsterData.stats.hp);
   public hp$ = this._hp$.asObservable();
 
   // Current monster helpers
@@ -51,9 +64,19 @@ export class GameMechanicsService {
   public monsterLifeBar$ = combineLatest({
     currentHP: this.hp$,
     monsterData: this.monster$,
-  }).pipe(map(({ currentHP, monsterData: { hp: totalHP } }) => (currentHP / totalHP) * 100));
+  }).pipe(
+    map(
+      ({
+        currentHP,
+        monsterData: {
+          stats: { hp: totalHP },
+        },
+      }) => (currentHP / totalHP) * 100,
+    ),
+  );
 
-  public currentMap$ = new BehaviorSubject<GameMaps>('prontera-south');
+  private _currentMap$ = new BehaviorSubject<GameMaps>('prontera-south');
+  public currentMap$ = this._currentMap$.asObservable().pipe(shareReplay());
 
   private _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
   public config$ = this._config$.asObservable().pipe(shareReplay());
@@ -63,9 +86,19 @@ export class GameMechanicsService {
     return this._hp$.getValue();
   }
 
+  // Current monster hp setter
+  public set currentHP(data: MonsterData['stats']['hp']) {
+    this._hp$.next(data);
+  }
+
   // Current monster data getter
   public get currentMonster() {
     return this._monster$.getValue();
+  }
+
+  // Current monster data setter
+  public set currentMonster(data: MonsterData) {
+    this._monster$.next(data);
   }
 
   // Current player data getter
@@ -86,6 +119,16 @@ export class GameMechanicsService {
   // Current config data setter
   public set config(data: AudioConfig) {
     this._config$.next(data);
+  }
+
+  // Current config data getter
+  public get currentMap() {
+    return this._currentMap$.getValue();
+  }
+
+  // Current currentMap data setter
+  public set currentMap(data: GameMaps) {
+    this._currentMap$.next(data);
   }
 
   // Basic click attack
@@ -377,7 +420,7 @@ export class GameMechanicsService {
   // Recover monster hp
   public updateMonster(): void {
     // TODO: random choose next monster
-    const totalHP = this._monster$.getValue().hp;
+    const totalHP = this._monster$.getValue().stats.hp;
     this._hp$.next(totalHP);
   }
 

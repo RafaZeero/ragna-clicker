@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { AudioConfig, MonsterRequest, Player } from '@shared/models';
+import { AudioConfig, MonsterRequest, MonsterResponseFromAPI, Player } from '@shared/models';
 import { mapMonsterData } from '../../utils/api';
 import { StoreService } from '../store/store.service';
 
@@ -12,7 +12,6 @@ import { StoreService } from '../store/store.service';
 export class ApiService {
   private readonly _http = inject(HttpClient);
   private readonly _store = inject(StoreService);
-  private divinePrideUrl = `https://www.divine-pride.net/api/database`;
   public ragnarok = 'online';
 
   // Saving in localstorage at the moment
@@ -34,18 +33,11 @@ export class ApiService {
 
   public getMonster(id: number) {
     return this._http
-      .get<MonsterRequest>(`${this.divinePrideUrl}/Monster/${id}`, {
-        params: { apiKey: environment.apiKey['divine-pride'] },
-      })
-      .pipe(
-        map(mapMonsterData),
-        switchMap(monsterInfo =>
-          this._http.get<string>(`${environment.apiURL}/monsters/${id}`).pipe(map(img => ({ ...monsterInfo, img }))),
-        ),
-      );
+      .get<MonsterResponseFromAPI>(`${environment.apiURL}/monsters/${id}`)
+      .pipe(map(data => data.response));
   }
 
   public getImage(id: number) {
-    return this._http.get<string>(`${environment.apiURL}/monsters/${id}`);
+    return this._http.get<MonsterResponseFromAPI>(`${environment.apiURL}/monsters/${id}`);
   }
 }

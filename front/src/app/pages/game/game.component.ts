@@ -61,7 +61,6 @@ export default class GameComponent implements OnInit {
   );
 
   // Mocked data
-  // public currentMap: GameMaps = 'prontera-south';
   public currentMap$ = this._mapService.currentMap$;
 
   @ViewChild('monster') public monsterRef!: MonsterComponent;
@@ -80,11 +79,17 @@ export default class GameComponent implements OnInit {
       // Load config from db
       await this._loadConfig(),
     ]);
+
+    this._api.getMonster(1002).subscribe(monster => {});
+
     // Load monster image to show on map
-    this._loadMonsterImage();
+    this._loadMonster();
 
     // Reload monster after it dies
-    this._monsterService.reloadMonster().subscribe(this.giveRewards);
+    this._monsterService.reloadMonster().subscribe(() => {
+      this.giveRewards();
+      this._loadMonster();
+    });
 
     this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
 
@@ -105,10 +110,16 @@ export default class GameComponent implements OnInit {
   };
 
   // Load monster image to show on map
-  private _loadMonsterImage() {
-    this._api.getImage(1002).subscribe(data => {
+  private _loadMonster() {
+    const monsters = [1002, 1005, 1007];
+
+    const randomMonster = monsters[Math.floor(Math.random() * monsters.length)];
+
+    this._api.getMonster(randomMonster).subscribe(data => {
       // This way an empty square will not appear
-      this.image$ = of(data);
+      this.image$ = of(data.monsterImage);
+      this._gameMechanicsService.currentMonster = data.monsterData;
+      this._gameMechanicsService.currentHP = data.monsterData.stats.hp;
       this._cd.detectChanges();
     });
   }
