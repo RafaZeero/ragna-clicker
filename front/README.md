@@ -28,3 +28,4 @@ Let's goooo ~ 🔵
 - [] Make players buffs/skill more powerful than your teammembers buffs/skills
 - [] Blockchain to create unique/special items in the game -> will need market to improve this
 - [] First X players that get to level max will be able to play the next version of the game ! [SEND EMAIL]
+- [] Use [Resend](https://resend.com/overview) to send email for those players who complete the alpha version and allowed me to send email with updates from the game!!
