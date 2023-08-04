@@ -7,7 +7,7 @@ import { HitboxComponent } from '@components';
 import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
 import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
