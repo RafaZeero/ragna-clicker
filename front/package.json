@@ -24,6 +24,8 @@
     "dotenv": "^16.3.1",
     "fp-ts": "^2.16.1",
     "io-ts": "^2.2.20",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
@@ -33,6 +35,8 @@
     "@angular/cli": "~16.0.4",
     "@angular/compiler-cli": "^16.0.0",
     "@types/jasmine": "~4.3.0",
+    "@types/lodash": "^4.14.196",
+    "@types/lodash-es": "^4.17.8",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
     "autoprefixer": "^10.4.14",
