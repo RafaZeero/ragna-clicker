@@ -3,7 +3,7 @@
     @apply flex flex-col justify-center items-center;
 
     .monster {
-      @apply w-[75px] h-[75px];
+      @apply w-fit h-fit;
     }
 
     .hp-container {

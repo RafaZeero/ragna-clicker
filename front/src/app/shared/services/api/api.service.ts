@@ -1,9 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, switchMap, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { AudioConfig, MonsterRequest, MonsterResponseFromAPI, Player } from '@shared/models';
-import { mapMonsterData } from '../../utils/api';
+import { AudioConfig, MonsterResponseFromAPI, Player } from '@shared/models';
 import { StoreService } from '../store/store.service';
 
 @Injectable({
@@ -31,7 +30,7 @@ export class ApiService {
     return this._store.getConfigs();
   }
 
-  public getMonster(id: number) {
+  public getMonster(id: number): Observable<MonsterResponseFromAPI['response']> {
     return this._http
       .get<MonsterResponseFromAPI>(`${environment.apiURL}/monsters/${id}`)
       .pipe(map(data => data.response));

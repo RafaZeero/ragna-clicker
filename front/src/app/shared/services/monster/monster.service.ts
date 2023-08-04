@@ -1,5 +1,5 @@
 import { Injectable, ViewContainerRef, inject } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, delay, filter, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MonsterData } from '@shared/models';
 import { GameMechanicsService } from '../game-mechanics';
 
@@ -10,11 +10,11 @@ export class MonsterService {
   private readonly _gameMechanics = inject(GameMechanicsService);
 
   // Request from API, monster will change on the map
-  public monsterData: MonsterData = this._gameMechanics.monsterData;
+  // public monsterData: MonsterData = this._gameMechanics.monsterData;
 
   // Streams
-  public monster$ = this._gameMechanics.monster$;
-  public hp$ = this._gameMechanics.hp$;
+  public monster$: Observable<MonsterData> = this._gameMechanics.monster$;
+  public hp$: Observable<MonsterData['stats']['hp']> = this._gameMechanics.hp$;
 
   public monsterLifeBar$ = this._gameMechanics.monsterLifeBar$;
 
@@ -28,7 +28,7 @@ export class MonsterService {
     return this._gameMechanics.currentMonster;
   }
 
-  public loadMonster$ = this._gameMechanics.loadMonster$;
+  public loadMonster$: Observable<boolean> = this._gameMechanics.loadMonster$;
 
   // Damage monster
   public makeDamageToMonster(damage: number, event: MouseEvent, hitbox: ViewContainerRef): void {

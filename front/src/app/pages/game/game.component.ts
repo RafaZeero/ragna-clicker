@@ -11,9 +11,8 @@ import {
   HudConfigComponent,
   HudMapsComponent,
 } from '@components';
-import { GameMaps } from '@shared/models';
 import { ApiService, GameMechanicsService, HudService, MapService, MonsterService } from '@shared/services';
-import { Observable, interval, map, of, switchMap } from 'rxjs';
+import { Observable, firstValueFrom, interval, map, of, switchMap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
@@ -78,16 +77,12 @@ export default class GameComponent implements OnInit {
       await this._loadPlayer(),
       // Load config from db
       await this._loadConfig(),
+      // Load monster image to show on map
+      await this._loadMonster(),
     ]);
-
-    this._api.getMonster(1002).subscribe(monster => {});
-
-    // Load monster image to show on map
-    this._loadMonster();
 
     // Reload monster after it dies
     this._monsterService.reloadMonster().subscribe(() => {
-      this.giveRewards();
       this._loadMonster();
     });
 
@@ -104,24 +99,19 @@ export default class GameComponent implements OnInit {
     this._gameMechanicsService.attack(event, hitboxRef);
   }
 
-  // Move to utils
-  private giveRewards = () => {
-    this._gameMechanicsService.giveRewards();
-  };
-
   // Load monster image to show on map
-  private _loadMonster() {
+  private async _loadMonster() {
     const monsters = [1002, 1005, 1007];
 
     const randomMonster = monsters[Math.floor(Math.random() * monsters.length)];
 
-    this._api.getMonster(randomMonster).subscribe(data => {
-      // This way an empty square will not appear
-      this.image$ = of(data.monsterImage);
-      this._gameMechanicsService.currentMonster = data.monsterData;
-      this._gameMechanicsService.currentHP = data.monsterData.stats.hp;
-      this._cd.detectChanges();
-    });
+    const data = await firstValueFrom(this._api.getMonster(randomMonster));
+
+    // This way an empty square will not appear
+    this.image$ = of(data.monsterImage);
+    this._gameMechanicsService.currentMonster = data.monsterData;
+    this._gameMechanicsService.currentHP = data.monsterData.stats.hp;
+    this._cd.detectChanges();
   }
 
   // Load player from db

@@ -1,62 +1,40 @@
-import { Injectable, ViewContainerRef, inject } from '@angular/core';
+import { DestroyRef, Injectable, ViewContainerRef, inject } from '@angular/core';
 import { ApiService } from '../api';
-import { BehaviorSubject, Observable, Subject, combineLatest, delay, filter, map, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, delay, filter, map, shareReplay, tap } from 'rxjs';
 import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
 import { Attributes, AudioConfig, GameMaps, MonsterData, Player, Stats } from '@shared/models';
 import { HitboxComponent } from '@components';
 import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
 import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
+import { isNil } from 'lodash-es';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-// Mocked monster
-const Familiar: MonsterData = {
-  id: 1005,
-  name: 'Familiar',
-  stats: {
-    hp: 330,
-    attributes: {
-      agility: 19,
-      dexterity: 20,
-      inteligence: 5,
-      luck: 1,
-      strength: 15,
-      vitality: 20,
-    },
-    defense: 26,
-  },
-  exp: {
-    base: 200,
-    job: 152,
-  },
-};
 @Injectable({
   providedIn: 'root',
 })
 export class GameMechanicsService {
   private readonly _api = inject(ApiService);
+  private readonly _destroyRef = inject(DestroyRef);
 
   // Create instances of sounds to play
   public gameSounds = makePlaySound();
-
-  // Request from API, monster will change on the map
-  public monsterData = Familiar;
-
-  // public monster = this.monsterData$.subscribe();
 
   // Current player stream
   private _player$ = new BehaviorSubject<Player>(defaultPlayer);
   public player$ = this._player$.asObservable();
 
   // Current monster stream
-  private _monster$ = new BehaviorSubject<MonsterData>(this.monsterData);
+  private _monster$ = new BehaviorSubject<MonsterData>({} as MonsterData);
   public monster$ = this._monster$.asObservable();
 
   // Current monster hp
-  private _hp$ = new BehaviorSubject<number>(this.monsterData.stats.hp);
+  private _hp$ = new BehaviorSubject<number>(0);
   public hp$ = this._hp$.asObservable();
 
   // Current monster helpers
   public loadMonster$ = this.hp$.pipe(
+    takeUntilDestroyed(this._destroyRef),
     // Map monster current life
     map(currentHP => currentHP > 0),
   );
@@ -81,6 +59,7 @@ export class GameMechanicsService {
   private _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
   public config$ = this._config$.asObservable().pipe(shareReplay());
 
+  //#region getters and setters
   // Current monster hp getter
   public get currentHP() {
     return this._hp$.getValue();
@@ -130,6 +109,7 @@ export class GameMechanicsService {
   public set currentMap(data: GameMaps) {
     this._currentMap$.next(data);
   }
+  //#endregion
 
   // Basic click attack
   public attack(event: MouseEvent, hitbox: ViewContainerRef) {
@@ -414,14 +394,19 @@ export class GameMechanicsService {
       filter(isAlive => !isAlive),
       // reload after 350 ms
       delay(350),
+      tap(() => this.giveRewards()),
     );
   }
 
   // Recover monster hp
   public updateMonster(): void {
-    // TODO: random choose next monster
-    const totalHP = this._monster$.getValue().stats.hp;
-    this._hp$.next(totalHP);
+    const monsterData = this._monster$.getValue();
+
+    if (!isNil(monsterData)) {
+      // TODO: random choose next monster
+      const totalHP = monsterData.stats.hp;
+      this._hp$.next(totalHP);
+    }
   }
 
   public calculateDamageDealt = () =>
