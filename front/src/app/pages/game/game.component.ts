@@ -16,6 +16,7 @@ import { Observable, firstValueFrom, interval, map, of, switchMap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
+import { monstersInMap } from '@shared/utils';
 
 @Component({
   standalone: true,
@@ -101,7 +102,9 @@ export default class GameComponent implements OnInit {
 
   // Load monster image to show on map
   private async _loadMonster() {
-    const monsters = [1002, 1005, 1007];
+    const map = await firstValueFrom(this.currentMap$);
+
+    const monsters = monstersInMap[map];
 
     const randomMonster = monsters[Math.floor(Math.random() * monsters.length)];
 

@@ -54,7 +54,7 @@ export class GameMechanicsService {
   );
 
   private _currentMap$ = new BehaviorSubject<GameMaps>('prontera-south');
-  public currentMap$ = this._currentMap$.asObservable().pipe(shareReplay());
+  public currentMap$ = this._currentMap$.asObservable();
 
   private _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
   public config$ = this._config$.asObservable().pipe(shareReplay());

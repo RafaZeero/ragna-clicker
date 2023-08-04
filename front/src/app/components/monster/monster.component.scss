@@ -1,6 +1,7 @@
 :host {
   .monster-container {
-    @apply flex flex-col justify-center items-center;
+    @apply flex flex-col justify-end items-center;
+    @apply h-[180px] mb-[130px];
 
     .monster {
       @apply w-fit h-fit;
