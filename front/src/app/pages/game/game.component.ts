@@ -66,9 +66,10 @@ export default class GameComponent implements OnInit {
   // Mocked data
   public currentMap$ = this._mapService.currentMap$;
 
-  @ViewChild('monster') public monsterRef!: MonsterComponent;
+  // Get Monster reference
+  @ViewChild(MonsterComponent) public monsterRef!: MonsterComponent;
   public autoAttack() {
-    const monster = this.monsterRef?.element.nativeElement as HTMLElement;
+    const monster = this.monsterRef.element.nativeElement as HTMLElement;
     // Check if monster is alive to click on it
     if (monster) {
       monster.click();
@@ -104,7 +105,7 @@ export default class GameComponent implements OnInit {
   }
 
   // Load monster image to show on map
-  private async _loadMonster() {
+  private async _loadMonster(): Promise<void> {
     // Get current map name
     const map = await firstValueFrom(this.currentMap$);
 
