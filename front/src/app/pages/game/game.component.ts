@@ -17,6 +17,9 @@ import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
 import { monstersInMap } from '@shared/utils';
+import { find } from 'lodash';
+import * as O from 'fp-ts/lib/Option';
+import { MonsterResponseFromAPI } from '@shared/models';
 
 @Component({
   standalone: true,
@@ -102,19 +105,41 @@ export default class GameComponent implements OnInit {
 
   // Load monster image to show on map
   private async _loadMonster() {
+    // Get current map name
     const map = await firstValueFrom(this.currentMap$);
 
+    // Get a monster list given current map
     const monsters = monstersInMap[map];
 
+    // Get a random monster from the monster list
     const randomMonster = monsters[Math.floor(Math.random() * monsters.length)];
 
-    const data = await firstValueFrom(this._api.getMonster(randomMonster));
+    // Get list of monsters that already had request for API
+    const monstersAlreadyRequested = await firstValueFrom(this._monsterService.allMonstersRequested$);
 
-    // This way an empty square will not appear
-    this.image$ = of(data.monsterImage);
-    this._gameMechanicsService.currentMonster = data.monsterData;
-    this._gameMechanicsService.currentHP = data.monsterData.stats.hp;
-    this._cd.detectChanges();
+    // Find if monster is in list
+    const monsterMaybe = O.fromNullable(
+      find(monstersAlreadyRequested, monster => monster.monsterData.id === randomMonster),
+    );
+
+    // Check if monster is already saved locally
+    if (O.isSome(monsterMaybe)) {
+      // Update monster values
+      this._updateMonsterValues(monsterMaybe.value);
+      return;
+    }
+
+    // Get in API the monster data
+    const monsterDataFromAPI = await firstValueFrom(this._api.getMonster(randomMonster));
+
+    // Create new list with updated monster
+    const updatedMonstersAlreadyRequested = [...monstersAlreadyRequested, monsterDataFromAPI];
+
+    // Update list with all monsters that were requested to avoid second unnecessary request
+    this._gameMechanicsService.monstersRequested = updatedMonstersAlreadyRequested;
+
+    // Update monster values
+    this._updateMonsterValues(monsterDataFromAPI);
   }
 
   // Load player from db
@@ -125,6 +150,19 @@ export default class GameComponent implements OnInit {
   // Load config from db
   private async _loadConfig() {
     this._gameMechanicsService.loadConfig();
+  }
+
+  // Monster values update
+  private _updateMonsterValues(monster: MonsterResponseFromAPI['response']): void {
+    // Assign monster image data to the image
+    this.image$ = of(monster.monsterImage);
+
+    // Assign monster data to the currentMonster stream
+    this._gameMechanicsService.currentMonster = monster.monsterData;
+
+    // Assign monster hp data to the currentMonsterHP stream
+    this._gameMechanicsService.currentHP = monster.monsterData.stats.hp;
+    this._cd.detectChanges();
   }
 
   public resetAllHudsPositioning() {

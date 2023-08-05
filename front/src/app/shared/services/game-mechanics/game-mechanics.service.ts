@@ -2,7 +2,7 @@ import { DestroyRef, Injectable, ViewContainerRef, inject } from '@angular/core'
 import { ApiService } from '../api';
 import { BehaviorSubject, Observable, Subject, combineLatest, delay, filter, map, shareReplay, tap } from 'rxjs';
 import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
-import { Attributes, AudioConfig, GameMaps, MonsterData, Player, Stats } from '@shared/models';
+import { Attributes, AudioConfig, GameMaps, MonsterData, MonsterResponseFromAPI, Player, Stats } from '@shared/models';
 import { HitboxComponent } from '@components';
 import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
 import * as E from 'fp-ts/lib/Either';
@@ -31,6 +31,12 @@ export class GameMechanicsService {
   // Current monster hp
   private _hp$ = new BehaviorSubject<number>(0);
   public hp$ = this._hp$.asObservable();
+
+  // All requested monsters
+  private _allMonstersRequested$ = new BehaviorSubject<Array<MonsterResponseFromAPI['response']>>(
+    [] as Array<MonsterResponseFromAPI['response']>,
+  );
+  public allMonstersRequested$ = this._allMonstersRequested$.asObservable();
 
   // Current monster helpers
   public loadMonster$ = this.hp$.pipe(
@@ -109,6 +115,17 @@ export class GameMechanicsService {
   public set currentMap(data: GameMaps) {
     this._currentMap$.next(data);
   }
+
+  // Current monsters requested data getter
+  public get monstersRequested() {
+    return this._allMonstersRequested$.getValue();
+  }
+
+  // Current monsters requested data getter
+  public set monstersRequested(value: Array<MonsterResponseFromAPI['response']>) {
+    this._allMonstersRequested$.next(value);
+  }
+
   //#endregion
 
   // Basic click attack

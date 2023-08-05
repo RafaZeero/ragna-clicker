@@ -1,6 +1,6 @@
 import { Injectable, ViewContainerRef, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { MonsterData } from '@shared/models';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { MonsterData, MonsterResponseFromAPI } from '@shared/models';
 import { GameMechanicsService } from '../game-mechanics';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class MonsterService {
   // Streams
   public monster$: Observable<MonsterData> = this._gameMechanics.monster$;
   public hp$: Observable<MonsterData['stats']['hp']> = this._gameMechanics.hp$;
+  public allMonstersRequested$ = this._gameMechanics.allMonstersRequested$;
 
   public monsterLifeBar$ = this._gameMechanics.monsterLifeBar$;
 
