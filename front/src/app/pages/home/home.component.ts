@@ -40,7 +40,6 @@ export default class HomeComponent {
     this._oauthService.authState.subscribe(user => {
       this.user = user;
       this.loggedIn = user != null;
-      console.log(user);
 
       if (this.loggedIn) {
         this._userService.user = user.name;
