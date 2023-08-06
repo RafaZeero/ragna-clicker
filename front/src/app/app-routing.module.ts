@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { isAuthGuard, logoutUser } from './guards/is-auth.guard';
 
 const routes: Routes = [
   {
@@ -12,6 +13,8 @@ const routes: Routes = [
     path: 'play',
     loadComponent: () => import('./pages/game/game.component'),
     title: 'Ragna clicker',
+    canActivate: [isAuthGuard],
+    canDeactivate: [logoutUser],
   },
 ];
 

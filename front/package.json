@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@abacritt/angularx-social-login": "^2.1.0",
     "@angular/animations": "^16.0.0",
     "@angular/cdk": "^16.1.5",
     "@angular/common": "^16.0.0",
@@ -22,6 +23,7 @@
     "@angular/router": "^16.0.0",
     "@types/node": "^20.4.2",
     "dotenv": "^16.3.1",
+    "effect": "^2.0.0-next.24",
     "fp-ts": "^2.16.1",
     "io-ts": "^2.2.20",
     "lodash": "^4.17.21",

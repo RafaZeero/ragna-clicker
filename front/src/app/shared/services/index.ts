@@ -4,3 +4,4 @@ export * from './player';
 export * from './monster';
 export * from './hud';
 export * from './game-mechanics';
+export * from './user';

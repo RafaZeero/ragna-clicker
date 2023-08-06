@@ -11,7 +11,14 @@ import {
   HudConfigComponent,
   HudMapsComponent,
 } from '@components';
-import { ApiService, GameMechanicsService, HudService, MapService, MonsterService } from '@shared/services';
+import {
+  ApiService,
+  GameMechanicsService,
+  HudService,
+  MapService,
+  MonsterService,
+  UserService,
+} from '@shared/services';
 import { Observable, firstValueFrom, interval, map, of, switchMap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
@@ -49,6 +56,9 @@ export default class GameComponent implements OnInit {
   private readonly _hudService = inject(HudService);
   private readonly _gameMechanicsService = inject(GameMechanicsService);
   private readonly _mapService = inject(MapService);
+  private readonly _userService = inject(UserService);
+
+  public user = this._userService.user;
 
   public showDebugger = environment.debugger;
   public image$!: Observable<string>;
@@ -168,5 +178,9 @@ export default class GameComponent implements OnInit {
 
   public resetAllHudsPositioning() {
     this._hudService.resetHudPosition();
+  }
+
+  public logout() {
+    this._userService.user = null;
   }
 }
