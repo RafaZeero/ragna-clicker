@@ -11,11 +11,15 @@ const createAudio = (path: string, ID: string): GameAudio => {
   return { audio, ID };
 };
 
-const makePlayAudio = (audioList: Array<GameAudio>) => (sound: string) => {
+const makePlayAudio = (audioList: Array<GameAudio>, replayable?: boolean) => (sound: string) => {
   const audio = audioList.find(music => music.ID === sound)?.audio;
 
   if (!audio) throw Error('Áudio de jogo não implementada');
   audio.play();
+
+  if (replayable) {
+    audio.onended = () => audio.play();
+  }
   return audio;
 };
 
@@ -60,7 +64,7 @@ const makeAudioControl: GameAudioControl = (effects, gameMusic) => {
 
   // Game musics
   const setGameMusicVolume = makeSetVolume(gameMusic);
-  const playGameMusic = makePlayAudio(gameMusic);
+  const playGameMusic = makePlayAudio(gameMusic, true);
   const pauseGameMusic = makePauseAudio(gameMusic);
 
   return {
