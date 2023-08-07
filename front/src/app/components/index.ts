@@ -13,6 +13,7 @@ export * from './player-info';
 export * from './player-attributes';
 export * from './player-equipments';
 export * from './player-skills';
+export * from './player-char';
 
 // Huds
 export * from './hud';
