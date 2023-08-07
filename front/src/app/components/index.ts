@@ -22,3 +22,4 @@ export * from './hud-equipments';
 export * from './hud-skills';
 export * from './hud-config';
 export * from './hud-maps';
+export * from './hud-char';
