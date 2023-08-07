@@ -6,4 +6,8 @@
   @apply border-[1px] border-solid border-[hsl(213,52%,31%)];
   @apply cursor-pointer;
   @apply font-[500] text-[1.375rem];
+
+  &:hover {
+    cursor: url('/assets/cursors/pointer.webp'), auto;
+  }
 }
