@@ -49,6 +49,10 @@
 
           .button {
             @apply bg-blue-300 text-[white] w-[100%];
+
+            &:hover {
+              cursor: url('/assets/cursors/pointer.webp'), auto;
+            }
           }
         }
       }

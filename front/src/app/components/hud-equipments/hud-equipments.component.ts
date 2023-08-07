@@ -5,11 +5,12 @@ import { HudService, PlayerService } from '@shared/services';
 import { BehaviorSubject, map } from 'rxjs';
 import { HudComponent, PlayerEquipmentsComponent } from '@components';
 import { INITIAL_POSITION } from '@shared/constants';
+import { ButtonRoundedComponent } from '../button-rounded';
 
 @Component({
   selector: 'rag-hud-equipments',
   standalone: true,
-  imports: [CommonModule, HudComponent, PlayerEquipmentsComponent],
+  imports: [CommonModule, HudComponent, PlayerEquipmentsComponent, ButtonRoundedComponent],
   templateUrl: './hud-equipments.component.html',
   styleUrls: ['./hud-equipments.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,5 +35,10 @@ export class HudEquipmentsComponent {
       // console.log({ attr });
       this._hudStartingPosition$.next(equip);
     });
+  }
+
+  // Close this Hud
+  public close(): void {
+    this._hudService.controlPlayerHud('equip');
   }
 }

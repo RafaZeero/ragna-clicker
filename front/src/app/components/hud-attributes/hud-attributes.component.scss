@@ -1,3 +1,7 @@
 :host {
   @apply w-[360px] h-fit;
+
+  .btn-close {
+    @apply text-[10px];
+  }
 }

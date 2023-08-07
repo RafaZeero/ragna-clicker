@@ -6,11 +6,12 @@ import { INITIAL_POSITION } from '@shared/constants';
 import { PlayerService, HudService } from '@shared/services';
 import { map, BehaviorSubject } from 'rxjs';
 import { ConfigComponent } from '../config';
+import { ButtonRoundedComponent } from '../button-rounded';
 
 @Component({
   selector: 'rag-hud-config',
   standalone: true,
-  imports: [CommonModule, HudComponent, ConfigComponent],
+  imports: [CommonModule, HudComponent, ConfigComponent, ButtonRoundedComponent],
   templateUrl: './hud-config.component.html',
   styleUrls: ['./hud-config.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,5 +35,10 @@ export class HudConfigComponent {
     this._hudService.saveHudPositioning$.subscribe(({ config }) => {
       this._hudStartingPosition$.next(config);
     });
+  }
+
+  // Close this Hud
+  public close(): void {
+    this._hudService.controlPlayerHud('config');
   }
 }

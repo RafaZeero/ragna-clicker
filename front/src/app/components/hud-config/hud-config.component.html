@@ -6,6 +6,7 @@
   [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!"
   *ngIf="hudControl$ | async">
   <span class="basic-info" infoNotToggleable>Configurações</span>
+  <rag-button-rounded class="btn-close" closeHudNotToggleable (click)="close()">x</rag-button-rounded>
 
   <rag-config />
 </rag-hud>

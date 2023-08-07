@@ -6,11 +6,12 @@ import { BehaviorSubject, map } from 'rxjs';
 import { HudComponent } from '../hud/hud.component';
 import { PlayerSkillsComponent } from '../player-skills';
 import { INITIAL_POSITION } from '@shared/constants';
+import { ButtonRoundedComponent } from '../button-rounded';
 
 @Component({
   selector: 'rag-hud-skills',
   standalone: true,
-  imports: [CommonModule, HudComponent, PlayerSkillsComponent],
+  imports: [CommonModule, HudComponent, PlayerSkillsComponent, ButtonRoundedComponent],
   templateUrl: './hud-skills.component.html',
   styleUrls: ['./hud-skills.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,5 +35,10 @@ export class HudSkillsComponent {
       // console.log({ attr });
       this._hudStartingPosition$.next(skills);
     });
+  }
+
+  // Close this Hud
+  public close(): void {
+    this._hudService.controlPlayerHud('skills');
   }
 }

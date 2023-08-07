@@ -100,7 +100,6 @@ export default class GameComponent implements OnInit {
     const config = await this._api.getConfig();
 
     if (E.isRight(config)) {
-      console.log('aquiii');
       this._gameMechanicsService.gameSounds.effects.setVolume(config.right.audio.effectsVolume);
       this._gameMechanicsService.gameSounds.gameMusic.setVolume(config.right.audio.gameMusicVolume);
     }

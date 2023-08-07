@@ -5,7 +5,8 @@
   cdkDrag
   cdkDragBoundary=".game"
   [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!"
-  (cdkDragEnded)="updatePosition($event)">
+  (cdkDragEnded)="updatePosition($event)"
+  #hudRef>
   <!-- Top draggable -->
   <div class="gradient-top gradient" cdkDragHandle>
     <ng-container *ngIf="toggleable; else notToggleable">
@@ -15,11 +16,17 @@
       <ng-template #closedStateTop>
         <ng-content select="[infoClosed]" />
       </ng-template>
-      <rag-button-rounded (click)="toggleHud()" #toggle (mousedown)="$event.stopPropagation()">-</rag-button-rounded>
+      <div class="flex gap-[4px]">
+        <rag-button-rounded (click)="toggleHud()" #toggle (mousedown)="$event.stopPropagation()">-</rag-button-rounded>
+        <ng-content select="[closeHud]" />
+      </div>
     </ng-container>
     <ng-template #notToggleable>
       <ng-content select="[infoNotToggleable]" />
-      <rag-button-rounded #toggle (mousedown)="$event.stopPropagation()">-</rag-button-rounded>
+      <div class="flex gap-[4px]">
+        <rag-button-rounded #toggle (mousedown)="$event.stopPropagation()">-</rag-button-rounded>
+        <ng-content select="[closeHudNotToggleable]" />
+      </div>
     </ng-template>
   </div>
   <!-- Hud content -->

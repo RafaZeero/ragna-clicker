@@ -3,25 +3,14 @@ import { CommonModule } from '@angular/common';
 import { HudComponent, PlayerAttributesComponent } from '@components';
 import { DragDropModule, Point } from '@angular/cdk/drag-drop';
 import { HudService, PlayerService } from '@shared/services';
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  filter,
-  first,
-  forkJoin,
-  last,
-  map,
-  takeLast,
-  takeWhile,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { INITIAL_POSITION } from '@shared/constants';
+import { ButtonRoundedComponent } from '../button-rounded';
 
 @Component({
   selector: 'rag-hud-attributes',
   standalone: true,
-  imports: [CommonModule, DragDropModule, HudComponent, PlayerAttributesComponent],
+  imports: [CommonModule, DragDropModule, HudComponent, PlayerAttributesComponent, ButtonRoundedComponent],
   templateUrl: './hud-attributes.component.html',
   styleUrls: ['./hud-attributes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,5 +35,10 @@ export class HudAttributesComponent {
       // console.log({ attr });
       this._hudStartingPosition$.next(attr);
     });
+  }
+
+  // Close this Hud
+  public close(): void {
+    this._hudService.controlPlayerHud('attr');
   }
 }

@@ -7,13 +7,11 @@
     .carousel-container {
       @apply w-[100%];
 
-      border: 1px solid red;
       @apply flex justify-center items-center self-stretch gap-[80px];
       .btn {
         @apply flex justify-center items-center;
         @apply w-[60px] h-[60px];
         @apply text-[72px] font-[600] leading-[112%] text-[#303030];
-        border: 1px solid blue;
         &.left {
         }
         &.right {
@@ -21,6 +19,7 @@
 
         &:hover {
           @apply text-[#808080];
+          cursor: url('/assets/cursors/pointer.webp'), auto;
         }
       }
 

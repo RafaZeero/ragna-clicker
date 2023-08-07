@@ -6,6 +6,7 @@
   *ngIf="hudControl$ | async">
   <span class="basic-info" infoOpened>Equipments</span>
   <span class="basic-info" infoClosed>Equipments</span>
+  <rag-button-rounded class="btn-close" closeHud (click)="close()">x</rag-button-rounded>
 
   <!-- Does this makes sense? -->
   <rag-player-equipments [mode]="'complete'" />
