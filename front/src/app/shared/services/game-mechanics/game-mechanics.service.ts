@@ -430,10 +430,13 @@ export class GameMechanicsService {
     this.player.stats.damage.base + this.player.stats.damage.weapon + this.player.stats.damage.skills;
 
   // Show current damage number on screen when clicked on attack area
-  public showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef) {
+  public showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef, color?: string) {
     const componentRef = hitbox.createComponent<HitboxComponent>(HitboxComponent);
 
     const box = componentRef.location.nativeElement as HTMLElement;
+
+    // Make color different for specific damages type
+    componentRef.instance.color = color ?? '#ffffff';
 
     if (event.clientX > 0 || event.clientY > 0) {
       // Make damage appears wherever the user clicks

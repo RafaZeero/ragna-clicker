@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,6 +9,14 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./hitbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HitboxComponent {
+export class HitboxComponent implements OnInit {
+  @Input() public color = '#ffffff';
+
+  public damageColor!: string;
+
   public damage!: number;
+
+  public ngOnInit(): void {
+    this.damageColor = this.color;
+  }
 }
