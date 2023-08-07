@@ -25,10 +25,17 @@ export class MapSelectionComponent implements OnInit {
   }
 
   public selectMap(map: GameMaps): void {
-    console.log('map selected', map);
+    // Do not trigger map change if same map is selected
+    if (this._mapService.currentMap === map) {
+      this._hudService.controlPlayerHud('maps');
+
+      return;
+    }
+
     this._mapService.currentMap = map;
+
     // TODO: Add confirmation and untoggle map?
-    // this._hudService.controlPlayerHud('maps');
+    this._hudService.controlPlayerHud('maps');
   }
 
   public trackByMap = (index: number): number => index;

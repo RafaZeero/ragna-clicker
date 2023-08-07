@@ -6,6 +6,7 @@ export type SetVolume = (volume: number) => void;
 // export type PlayAudio = (audio: string) => Promise<void>;
 export type PlayAudio = (audio: string) => HTMLAudioElement;
 export type PauseAudio = (audio: string) => void;
+export type StopAudio = (audio: string) => void;
 
 // Audio control group
 export type AudioControl = {

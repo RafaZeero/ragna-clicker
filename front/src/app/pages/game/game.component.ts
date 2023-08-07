@@ -24,11 +24,11 @@ import { Observable, firstValueFrom, interval, map, of, switchMap } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HudSkillsComponent } from 'src/app/components/hud-skills/hud-skills.component';
 import { HitboxDirective } from '@shared/directives';
-import { monstersInMap } from '@shared/utils';
-import { find } from 'lodash';
+import { gameSoundTrack, monstersInMap } from '@shared/utils';
+import { each, find } from 'lodash';
 import * as O from 'fp-ts/lib/Option';
 import * as E from 'fp-ts/lib/Either';
-import { MonsterResponseFromAPI } from '@shared/models';
+import { GameMaps, MonsterResponseFromAPI } from '@shared/models';
 
 @Component({
   standalone: true,
@@ -110,7 +110,10 @@ export default class GameComponent implements OnInit {
       this._loadMonster();
     });
 
-    this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
+    this._gameMechanicsService.currentMap$.subscribe(map => {
+      console.log({ map });
+      this.playMapMusic(map);
+    });
 
     // Auto attack
     // this.autoAttack$.subscribe();
@@ -193,5 +196,22 @@ export default class GameComponent implements OnInit {
 
   public logout() {
     this._userService.user = null;
+  }
+
+  public playMapMusic(map: GameMaps) {
+    each(gameSoundTrack, sound => {
+      console.log('stopping: ', sound);
+      this._gameMechanicsService.gameSounds.gameMusic.stopAudio(sound);
+    });
+
+    if (map === 'prontera-south') {
+      this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
+      return;
+    }
+
+    if (map === 'prontera-sewer') {
+      this._gameMechanicsService.gameSounds.gameMusic.playAudio('under-the-ground');
+      return;
+    }
   }
 }

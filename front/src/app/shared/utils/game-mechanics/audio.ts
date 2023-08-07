@@ -1,4 +1,4 @@
-import { AudioControl, GameAudio, PauseAudio } from '@shared/models';
+import { AudioControl, GameAudio, PauseAudio, StopAudio } from '@shared/models';
 
 /** Audio stuff */
 const createAudio = (path: string, ID: string): GameAudio => {
@@ -34,12 +34,22 @@ const makePauseAudio = (audioList: Array<GameAudio>) => (sound: string) => {
   return audio.pause();
 };
 
+const makeStopAudio = (audioList: Array<GameAudio>) => (sound: string) => {
+  const audio = audioList.find(music => music.ID === sound)?.audio;
+
+  if (!audio) throw Error('Áudio de jogo não implementada');
+  audio.pause();
+  audio.currentTime = 0;
+  return;
+};
+
 export const makePlaySound = () => {
   const levelUp = createAudio('level-up-sound.mp3', 'levelUp');
   const prontera = createAudio('streamside.mp3', 'streamside');
+  const pronteraSewer = createAudio('under-the-ground.mp3', 'under-the-ground');
 
   const effects = [levelUp];
-  const gameMusics = [prontera];
+  const gameMusics = [prontera, pronteraSewer];
 
   const audioControl = makeAudioControl(effects, gameMusics);
 
@@ -54,7 +64,7 @@ type GameAudioControl = (
   gameMusic: Array<GameAudio>,
 ) => {
   effects: AudioControl;
-  gameMusic: AudioControl & { pauseAudio: PauseAudio };
+  gameMusic: AudioControl & { pauseAudio: PauseAudio; stopAudio: StopAudio };
 };
 
 const makeAudioControl: GameAudioControl = (effects, gameMusic) => {
@@ -66,6 +76,7 @@ const makeAudioControl: GameAudioControl = (effects, gameMusic) => {
   const setGameMusicVolume = makeSetVolume(gameMusic);
   const playGameMusic = makePlayAudio(gameMusic, true);
   const pauseGameMusic = makePauseAudio(gameMusic);
+  const stopGameMusic = makeStopAudio(gameMusic);
 
   return {
     effects: {
@@ -76,6 +87,9 @@ const makeAudioControl: GameAudioControl = (effects, gameMusic) => {
       setVolume: setGameMusicVolume,
       playAudio: playGameMusic,
       pauseAudio: pauseGameMusic,
+      stopAudio: stopGameMusic,
     },
   };
 };
+
+export const gameSoundTrack = ['streamside', 'under-the-ground'] as const;
