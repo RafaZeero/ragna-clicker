@@ -26,6 +26,7 @@ import { HitboxDirective } from '@shared/directives';
 import { monstersInMap } from '@shared/utils';
 import { find } from 'lodash';
 import * as O from 'fp-ts/lib/Option';
+import * as E from 'fp-ts/lib/Either';
 import { MonsterResponseFromAPI } from '@shared/models';
 
 @Component({
@@ -95,6 +96,14 @@ export default class GameComponent implements OnInit {
       // Load monster image to show on map
       await this._loadMonster(),
     ]);
+
+    const config = await this._api.getConfig();
+
+    if (E.isRight(config)) {
+      console.log('aquiii');
+      this._gameMechanicsService.gameSounds.effects.setVolume(config.right.audio.effectsVolume);
+      this._gameMechanicsService.gameSounds.gameMusic.setVolume(config.right.audio.gameMusicVolume);
+    }
 
     // Reload monster after it dies
     this._monsterService.reloadMonster().subscribe(() => {

@@ -63,7 +63,7 @@ export class GameMechanicsService {
   public currentMap$ = this._currentMap$.asObservable();
 
   private _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
-  public config$ = this._config$.asObservable().pipe(shareReplay());
+  public config$ = this._config$.asObservable();
 
   //#region getters and setters
   // Current monster hp getter
