@@ -377,7 +377,7 @@ export class GameMechanicsService {
           /** Save new config */
           this._api.savePlayer(this.player);
           /** Show error on console */
-          console.error(error);
+          console.warn(error, '-> Saving new Player');
         },
         /** On Right */
         player => {
@@ -465,7 +465,7 @@ export class GameMechanicsService {
           /** Save new config */
           this._api.saveConfig(this.config);
           /** Show error on console */
-          console.error(error);
+          console.warn(error, '-> Saving new Config');
         },
         /** On Right */
         configs => {

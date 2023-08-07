@@ -3,7 +3,7 @@ import { AudioConfig, Player } from '@shared/models';
 import * as IO from 'fp-ts/lib/IO';
 import * as O from 'fp-ts/lib/Option';
 import * as E from 'fp-ts/lib/Either';
-import { flow, pipe } from 'fp-ts/lib/function';
+import { flow, identity, pipe } from 'fp-ts/lib/function';
 
 const getItem = (key: string): IO.IO<O.Option<string>> => IO.of(() => O.fromNullable(localStorage.getItem(key)))();
 
@@ -44,12 +44,8 @@ export class StoreService {
       ),
       E.flattenW,
       E.bimap(
-        error => {
-          /** On left, send the text! */
-          console.warn(error);
-          /** return error message */
-          return error;
-        },
+        /** return error message */
+        identity,
         /** On right, parse the data and type cast it*/
         (data): Player => JSON.parse(data),
       ),
@@ -84,12 +80,8 @@ export class StoreService {
       ),
       E.flattenW,
       E.bimap(
-        error => {
-          /** On left, send the text! */
-          console.warn(error);
-          /** return error message */
-          return error;
-        },
+        /** return error message */
+        identity,
         /** On right, parse the data and type cast it*/
         (data): AudioConfig => JSON.parse(data),
       ),
