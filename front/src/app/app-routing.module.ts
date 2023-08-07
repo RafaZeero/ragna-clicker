@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { isAuthGuard, logoutUser } from './guards/is-auth.guard';
+import { environment } from './environments/environment';
 
 const routes: Routes = [
   {
@@ -18,8 +19,20 @@ const routes: Routes = [
   },
 ];
 
+const devRoutes: Routes = [
+  {
+    path: 'play',
+    loadComponent: () => import('./pages/game/game.component'),
+    title: 'Ragna clicker',
+  },
+  {
+    path: '**',
+    redirectTo: 'play',
+  },
+];
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(environment.type === 'development' ? devRoutes : routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
