@@ -1,9 +1,9 @@
 import { Classes } from './classes';
 
-export type PassiveSkillNames = { aprendiz: 'Aumentar dano' /* | 'Aumentar exp' | 'Aumentar zeny' */ };
+export type PassiveSkillNames = { aprendiz: 'Aumentar dano' | 'Ataque Duplo' /* | 'Aumentar exp' | 'Aumentar zeny' */ };
 
 // Define what can be improve by skills
-export type UpgradableBySkills = 'damage'; /* | 'exp' | 'zeny' */
+export type UpgradableBySkills = 'damage' | 'chance'; /* | 'exp' | 'zeny' */
 
 // Type for all passive skills that do not required activation to trigger an effect
 export type PassiveSkill<T extends 'aprendiz' = 'aprendiz'> = {

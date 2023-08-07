@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable, ViewContainerRef, inject } from '@angular/core';
+import { ComponentRef, DestroyRef, Injectable, ViewContainerRef, inject } from '@angular/core';
 import { ApiService } from '../api';
 import { BehaviorSubject, Observable, Subject, combineLatest, delay, filter, map, shareReplay, tap } from 'rxjs';
 import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
@@ -9,6 +9,7 @@ import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
 import { isNil } from 'lodash';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { useSKill } from '../../utils/skills/novice';
 
 @Injectable({
   providedIn: 'root',
@@ -129,15 +130,23 @@ export class GameMechanicsService {
   //#endregion
 
   // Basic click attack
-  public attack(event: MouseEvent, hitbox: ViewContainerRef) {
+  public attack(event: MouseEvent, hitbox: ComponentRef<HitboxComponent>) {
     //TODO: add this with dextery!
     // const variableDmg = Math.floor(Math.random() * 5);
 
     // Damage dealt to monster
     const damageDealt = this.calculateDamageDealt();
 
+    const { castSkill, damage: doubleDamageDealt } = useSKill(this.player).doubleAttack(damageDealt);
+
+    if (castSkill) {
+      // Reduce monster hp
+      this.makeDamageToMonster(doubleDamageDealt, event, hitbox, 'yellow');
+      return;
+    }
+
     // Reduce monster hp
-    this.makeDamageToMonster(damageDealt, event, hitbox);
+    this.makeDamageToMonster(damageDealt, event, hitbox, 'white');
   }
 
   public gainExp(monsterExp: MonsterData['exp']) {
@@ -395,12 +404,17 @@ export class GameMechanicsService {
   // ******************************************************
 
   // Damage monster
-  public makeDamageToMonster(damage: number, event: MouseEvent, hitbox: ViewContainerRef): void {
+  public makeDamageToMonster(
+    damage: number,
+    event: MouseEvent,
+    hitbox: ComponentRef<HitboxComponent>,
+    color?: string,
+  ): void {
     const currentHP = this._hp$.value;
 
     // Only do damage if the monster is alive
     if (currentHP > 0) {
-      this.showDamageOnScreen(damage, event, hitbox);
+      this.showDamageOnScreen(damage, event, hitbox, color);
       this._hp$.next(currentHP - damage);
     }
   }
@@ -430,13 +444,11 @@ export class GameMechanicsService {
     this.player.stats.damage.base + this.player.stats.damage.weapon + this.player.stats.damage.skills;
 
   // Show current damage number on screen when clicked on attack area
-  public showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ViewContainerRef, color?: string) {
-    const componentRef = hitbox.createComponent<HitboxComponent>(HitboxComponent);
-
-    const box = componentRef.location.nativeElement as HTMLElement;
+  public showDamageOnScreen(damage: number, event: MouseEvent, hitbox: ComponentRef<HitboxComponent>, color?: string) {
+    const box = hitbox.location.nativeElement as HTMLElement;
 
     // Make color different for specific damages type
-    componentRef.instance.color = color ?? '#ffffff';
+    hitbox.instance.color = color ?? '#ffffff';
 
     if (event.clientX > 0 || event.clientY > 0) {
       // Make damage appears wherever the user clicks
@@ -447,11 +459,11 @@ export class GameMechanicsService {
       box.style.top = document.body.scrollHeight / 2 - 50 + 'px';
     }
 
-    componentRef.instance.damage = damage;
+    hitbox.instance.damage = damage;
 
     // Set a timeout to hide the hitbox after 1500 milliseconds
     setTimeout(() => {
-      componentRef.destroy();
+      hitbox.destroy();
     }, 1500);
   }
 

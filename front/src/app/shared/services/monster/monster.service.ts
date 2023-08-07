@@ -1,7 +1,8 @@
-import { Injectable, ViewContainerRef, inject } from '@angular/core';
+import { ComponentRef, Injectable, ViewContainerRef, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { MonsterData, MonsterResponseFromAPI } from '@shared/models';
 import { GameMechanicsService } from '../game-mechanics';
+import { HitboxComponent } from '@components';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class MonsterService {
   public loadMonster$: Observable<boolean> = this._gameMechanics.loadMonster$;
 
   // Damage monster
-  public makeDamageToMonster(damage: number, event: MouseEvent, hitbox: ViewContainerRef): void {
+  public makeDamageToMonster(damage: number, event: MouseEvent, hitbox: ComponentRef<HitboxComponent>): void {
     this._gameMechanics.makeDamageToMonster(damage, event, hitbox);
   }
 

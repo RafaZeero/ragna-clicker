@@ -2,45 +2,50 @@
   .skills-container {
     @apply max-h-[400px] overflow-y-auto;
 
-    .skill-info {
-      border: 1px solid red;
-    }
+    .skill-list {
+      @apply flex flex-col gap-[8px];
 
-    .btn {
-      @apply border-[2px] border-solid border-[black];
-      @apply w-fit;
-    }
-
-    .skill-compact {
-      @apply flex flex-col gap-[16px];
-
-      .separator {
-        @apply border-b-[1px] border-solid border-gray-200;
+      .skill-info {
+        border: 1px solid red;
       }
 
-      .skill {
-        @apply flex gap-[8px];
+      .btn {
+        @apply border-[2px] border-solid border-[black];
+        @apply w-fit;
+      }
 
-        .btn-compact {
-          @apply px-[16px] py-[8px];
-          @apply border-[1px] border-solid border-gray-500 rounded-[6px];
+      .skill-compact {
+        @apply flex flex-col gap-[16px];
 
-          &:hover {
-            @apply drop-shadow-[0px_0px_2px_#A7A7A7];
-            @apply shadow-[inset_1px_1px_15px_-30px_#000000,inset_-1px_-1px_15px_-30px_#000000,inset_-1px_-1px_15px_-30px_#000000];
-            @apply bg-slate-50;
-            cursor: url('/assets/cursors/pointer.webp'), auto;
+        .separator {
+          @apply border-b-[1px] border-solid border-gray-200;
+          @apply pb-[8px];
+        }
+
+        .skill {
+          @apply flex gap-[8px];
+
+          .btn-compact {
+            @apply px-[16px] py-[8px];
+            @apply border-[1px] border-solid border-gray-500 rounded-[6px];
+
+            &:hover {
+              @apply drop-shadow-[0px_0px_2px_#A7A7A7];
+              @apply shadow-[inset_1px_1px_15px_-30px_#000000,inset_-1px_-1px_15px_-30px_#000000,inset_-1px_-1px_15px_-30px_#000000];
+              @apply bg-slate-50;
+              cursor: url('/assets/cursors/pointer.webp'), auto;
+            }
+          }
+
+          .skill-mapping {
+            @apply capitalize;
           }
         }
-
-        .skill-mapping {
-          @apply capitalize;
-        }
       }
-    }
 
-    .free {
-      @apply flex justify-end;
+      .free {
+        @apply flex justify-end;
+      }
     }
   }
 }

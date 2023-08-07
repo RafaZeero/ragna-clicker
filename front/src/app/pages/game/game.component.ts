@@ -10,6 +10,7 @@ import {
   HudEquipmentsComponent,
   HudConfigComponent,
   HudMapsComponent,
+  HitboxComponent,
 } from '@components';
 import {
   ApiService,
@@ -119,7 +120,9 @@ export default class GameComponent implements OnInit {
   public attack(event: MouseEvent) {
     const hitboxRef = this.hitbox.viewContainerRef;
 
-    this._gameMechanicsService.attack(event, hitboxRef);
+    const componentRef = hitboxRef.createComponent<HitboxComponent>(HitboxComponent);
+
+    this._gameMechanicsService.attack(event, componentRef);
   }
 
   // Load monster image to show on map

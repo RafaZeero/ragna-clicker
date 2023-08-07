@@ -8,7 +8,10 @@ import { Classes, NoviceSkillsName, PassiveSkill, PassiveSkillNames, UpgradableB
  * TODO: Create all other classes skills (Passive & Active)
  * TODO: Get all skills from backend
  */
-export const noviceSkillsName: ReadonlyArray<PassiveSkillNames['aprendiz']> = ['Aumentar dano'] as const;
+export const noviceSkillsName: ReadonlyArray<PassiveSkillNames['aprendiz']> = [
+  'Aumentar dano',
+  'Ataque Duplo',
+] as const;
 
 // Mocked skills for testing in frontend
 export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
@@ -22,6 +25,17 @@ export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
     icon: '',
     upgrade: 'damage',
   },
+  'Ataque Duplo': {
+    name: 'Ataque Duplo',
+    gameClass: 'aprendiz',
+    description: `Aumenta a chance de realizar um ataque duplo a cada level.
+    Chance +2% por nível.`,
+    increaseAmount: 2,
+    level: 0,
+    icon: '',
+    upgrade: 'chance',
+  },
+
   // 'Aumentar exp recebida': {
   //   name: 'Aumentar exp recebida',
   //   class: 'Novice',
@@ -45,5 +59,6 @@ export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
 export const skillEffectAlias: Partial<Record<Classes, Record<UpgradableBySkills, string>>> = {
   aprendiz: {
     damage: 'dano',
+    chance: 'chance',
   },
 };

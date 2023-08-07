@@ -1,5 +1,5 @@
 <div class="skills-container" *ngIf="player$ | async as player">
-  <div *ngIf="skills$ | async as skills">
+  <div class="skill-list" *ngIf="skills$ | async as skills">
     <ng-container *ngIf="mode !== 'complete'; else compact">
       <div class="skill-info" *ngFor="let skill of skills.passive | keyvalue; trackBy: trackBySkill">
         <p>Has: {{ skill.key }}/ level: {{ skill.value.level }}</p>
@@ -25,6 +25,7 @@
               {{ skillMapping(player.class, skill.value.upgrade) }} +{{
                 skill.value.level * skill.value.increaseAmount
               }}
+              <span *ngIf="skill.value.name === 'Ataque Duplo'">%</span>
             </p>
           </div>
         </div>
