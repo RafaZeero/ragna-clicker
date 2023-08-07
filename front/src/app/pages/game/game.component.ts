@@ -11,6 +11,7 @@ import {
   HudConfigComponent,
   HudMapsComponent,
   HitboxComponent,
+  HudCharComponent,
 } from '@components';
 import {
   ApiService,
@@ -35,6 +36,7 @@ import { GameMaps, MonsterResponseFromAPI } from '@shared/models';
   imports: [
     CommonModule,
     MapComponent,
+    HudCharComponent,
     HudInfoComponent,
     HudAttributesComponent,
     HudEquipmentsComponent,
