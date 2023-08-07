@@ -15,7 +15,6 @@ export const useSKill = (player: Player) => {
       // Calculate damage
       const damage = castSkill ? currentDamage * 2 : currentDamage;
 
-      console.log({ chance, test, damage });
       return { damage, castSkill };
     },
   };

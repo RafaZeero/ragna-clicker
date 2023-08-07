@@ -111,7 +111,6 @@ export default class GameComponent implements OnInit {
     });
 
     this._gameMechanicsService.currentMap$.subscribe(map => {
-      console.log({ map });
       this.playMapMusic(map);
     });
 
@@ -200,7 +199,6 @@ export default class GameComponent implements OnInit {
 
   public playMapMusic(map: GameMaps) {
     each(gameSoundTrack, sound => {
-      console.log('stopping: ', sound);
       this._gameMechanicsService.gameSounds.gameMusic.stopAudio(sound);
     });
 
