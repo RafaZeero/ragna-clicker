@@ -6,11 +6,12 @@ import { Point } from '@angular/cdk/drag-drop';
 import { INITIAL_POSITION } from '@shared/constants';
 import { map, BehaviorSubject } from 'rxjs';
 import { MapSelectionComponent } from '../map-selection';
+import { ButtonRoundedComponent } from '../button-rounded';
 
 @Component({
   selector: 'rag-hud-maps',
   standalone: true,
-  imports: [CommonModule, HudComponent, MapSelectionComponent],
+  imports: [CommonModule, HudComponent, MapSelectionComponent, ButtonRoundedComponent],
   templateUrl: './hud-maps.component.html',
   styleUrls: ['./hud-maps.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,5 +35,10 @@ export class HudMapsComponent implements OnInit {
     this._hudService.saveHudPositioning$.subscribe(({ maps: map }) => {
       this._hudStartingPosition$.next(map);
     });
+  }
+
+  // Close this Hud
+  public close(): void {
+    this._hudService.controlPlayerHud('maps');
   }
 }
