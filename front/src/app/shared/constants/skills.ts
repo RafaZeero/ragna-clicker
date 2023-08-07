@@ -16,8 +16,8 @@ export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
     name: 'Aumentar dano',
     gameClass: 'aprendiz',
     description: `Aumenta a perícia com armas aumentando o seu dano a cada level.
-    Ganha +5 de dano por nível.`,
-    increaseAmount: 5,
+    Ganha +3 de dano por nível.`,
+    increaseAmount: 3,
     level: 0,
     icon: '',
     upgrade: 'damage',
