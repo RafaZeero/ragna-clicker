@@ -10,6 +10,7 @@ import {
 export const defaultPlayer: Player = {
   name: 'Rafael',
   class: 'aprendiz',
+  classGroup: 'aprendiz',
   attributes: DEFAULT_ATTRIBUTES,
   skills: DEFAULT_SKILLS,
   level: DEFAULT_LEVELS,

@@ -1,7 +1,7 @@
 import { ComponentRef, DestroyRef, Injectable, ViewContainerRef, inject } from '@angular/core';
 import { ApiService } from '../api';
 import { BehaviorSubject, Observable, Subject, combineLatest, delay, filter, map, shareReplay, tap } from 'rxjs';
-import { POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
+import { MAX_LEVEL, POINTS_PER_LEVEL, defaultPlayer } from '@shared/constants';
 import { Attributes, AudioConfig, GameMaps, MonsterData, MonsterResponseFromAPI, Player, Stats } from '@shared/models';
 import { HitboxComponent } from '@components';
 import { makeAdd, makeCalculate, makePlaySound } from '@shared/utils';
@@ -200,20 +200,6 @@ export class GameMechanicsService {
   public checkLevelUp() {
     const player = this.player;
 
-    // Do not level up job
-    if (player.level.job === 50) {
-      // TODO: Stop leveling up
-      console.log('Player level max [JOB]');
-      return;
-    }
-
-    // Do not level up base
-    if (player.level.base === 99) {
-      // TODO: Stop leveling up
-      console.log('Player level max [BASE]');
-      return;
-    }
-
     // Instantiate calculations
     const calculate = makeCalculate(this.player);
 
@@ -330,12 +316,12 @@ export class GameMechanicsService {
     const calculate = makeCalculate(this.player);
 
     // Calculate player new values
-    const updatedValues = calculate.levelAndExp();
-    const updatedExp = updatedValues.exp;
-    const updatedLevel = updatedValues.level;
-    const updatedAtkDamage = calculate.atkDamage();
-    const updatedPoints = calculate.attributesAvailable();
-    const updateSKillPoint = calculate.skillPointsAvailable();
+    // const updatedValues = calculate.levelAndExp();
+    // const updatedExp = updatedValues.exp;
+    // const updatedLevel = updatedValues.level;
+    // const updatedAtkDamage = calculate.atkDamage();
+    // const updatedPoints = calculate.attributesAvailable();
+    // const updateSKillPoint = calculate.skillPointsAvailable();
 
     // TODO
     if (type === 'base') {

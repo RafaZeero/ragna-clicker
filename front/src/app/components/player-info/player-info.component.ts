@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, inject, OnInit } from '@angu
 import { CommonModule } from '@angular/common';
 import { HudService, PlayerService } from '@shared/services';
 import { Experience, HudControl } from '@shared/models';
+import { MAX_LEVEL } from '@shared/constants';
 
 @Component({
   selector: 'rag-player-info',
@@ -16,6 +17,8 @@ export class PlayerInfoComponent implements OnInit {
 
   private readonly _playerService = inject(PlayerService);
   private readonly _hudService = inject(HudService);
+
+  public maxLevel = MAX_LEVEL;
 
   public username: string | null = null;
   public player$ = this._playerService.player$;

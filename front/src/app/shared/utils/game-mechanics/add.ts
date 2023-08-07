@@ -1,3 +1,4 @@
+import { MAX_LEVEL } from '@shared/constants';
 import { Attributes, Experience, MonsterData, NoviceSkillsName, Player } from '@shared/models';
 
 type Add = (player: Player) => {
@@ -26,8 +27,42 @@ const makeAddExpToPlayer =
   (
     monsterExp: MonsterData['exp'],
   ): { base: Player['exp']['current']['base']; job: Player['exp']['current']['job'] } => {
+    /** Check if base and job are MAX LEVEL */
+    if (
+      player.level.base >= MAX_LEVEL[player.classGroup].base &&
+      player.level.job >= MAX_LEVEL[player.classGroup].job
+    ) {
+      console.log('não deve upar mais BASE nem JOB!!');
+      /** Return current exp */
+      return {
+        base: player.exp.current.base,
+        job: player.exp.current.job,
+      };
+    }
+
     const sumBaseExp = player.exp.current.base + monsterExp.base;
     const sumJobExp = player.exp.current.job + monsterExp.job;
+
+    /** Check if base is MAX LEVEL and job is not */
+    if (player.level.base >= MAX_LEVEL[player.classGroup].base) {
+      console.log('não deve upar mais BASE!!');
+      /** Base exp cannot increase, but job exp can */
+      return {
+        base: player.exp.current.base,
+        job: sumJobExp,
+      };
+    }
+
+    /** Check if job is MAX LEVEL and base is not */
+    if (player.level.job >= MAX_LEVEL[player.classGroup].job) {
+      console.log('não deve upar mais JOB!!');
+
+      /** Job exp cannot increase, but base exp can */
+      return {
+        base: sumBaseExp,
+        job: player.exp.current.job,
+      };
+    }
 
     return {
       base: sumBaseExp,
