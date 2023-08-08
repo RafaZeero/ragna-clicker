@@ -1,3 +1,5 @@
+import { SOUNDTRACKS_NAMES } from '@shared/constants';
+
 // Type of audio created with ID
 export type GameAudio = { audio: HTMLAudioElement; ID: string };
 
@@ -15,3 +17,5 @@ export type AudioControl = {
 };
 
 export type AudioConfig = { audio: { gameMusicVolume: number; effectsVolume: number } };
+
+export type AudioNames = (typeof SOUNDTRACKS_NAMES)[keyof typeof SOUNDTRACKS_NAMES];
