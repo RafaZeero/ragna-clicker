@@ -29,6 +29,7 @@ import { each, find } from 'lodash';
 import * as O from 'fp-ts/lib/Option';
 import * as E from 'fp-ts/lib/Either';
 import { GameMaps, MonsterResponseFromAPI } from '@shared/models';
+import { mappingAudioByMapName } from '@shared/constants';
 
 @Component({
   standalone: true,
@@ -89,6 +90,8 @@ export default class GameComponent implements OnInit {
   }
 
   public async ngOnInit(): Promise<void> {
+    localStorage.clear();
+
     Promise.all([
       // Load player from db
       await this._loadPlayer(),
@@ -202,14 +205,14 @@ export default class GameComponent implements OnInit {
       this._gameMechanicsService.gameSounds.gameMusic.stopAudio(sound);
     });
 
-    if (map === 'prontera-south') {
-      this._gameMechanicsService.gameSounds.gameMusic.playAudio('streamside');
-      return;
-    }
+    /** Get audio name by map name */
+    const audioName = mappingAudioByMapName[map];
 
-    if (map === 'prontera-sewer') {
-      this._gameMechanicsService.gameSounds.gameMusic.playAudio('under-the-ground');
-      return;
-    }
+    /** Play audio */
+    this.playAudio(audioName);
+  }
+
+  public playAudio(audio: (typeof mappingAudioByMapName)[keyof typeof mappingAudioByMapName]) {
+    this._gameMechanicsService.gameSounds.gameMusic.playAudio(audio);
   }
 }
