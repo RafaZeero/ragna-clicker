@@ -1,4 +1,4 @@
-import { POINTS_PER_LEVEL, expToLevelUp } from '@shared/constants';
+import { MAX_LEVEL, POINTS_PER_LEVEL, expToLevelUp } from '@shared/constants';
 import { Damages, Player } from '@shared/models';
 import { meleeAtk } from '@shared/utils';
 
@@ -14,30 +14,42 @@ export const makeChangeLevelAndExp = (player: Player) => () => {
   const currentPlayerLevel: Player['level'] = player.level;
   const currentPlayerExp: Player['exp']['current'] = player.exp.current;
 
-  const expNeeded: Player['exp']['toLevelUp'] = {
+  /** For one level */
+  const expNeededToLevelUp: Player['exp']['toLevelUp'] = {
     base: expToLevelUp.base[currentPlayerLevel.base.toString()],
     job: expToLevelUp.job[currentPlayerLevel.job.toString()],
+  };
+
+  /** For two levels */
+  const expNeededToLevelUpTwice: Player['exp']['toLevelUp'] = {
+    base: expToLevelUp.base[(currentPlayerLevel.base + 1).toString()],
+    job: expToLevelUp.job[(currentPlayerLevel.job + 1).toString()],
   };
 
   const hasLeveled = { base: false, job: false };
 
   // Validations
   const checkExp = {
-    base: currentPlayerExp.base >= expNeeded.base,
-    job: currentPlayerExp.job >= expNeeded.job,
+    base: currentPlayerExp.base >= expNeededToLevelUp.base,
+    job: currentPlayerExp.job >= expNeededToLevelUp.job,
   };
   // Check base exp
   if (checkExp.base) {
     hasLeveled.base = true;
-    currentPlayerExp.base -= expNeeded.base;
-    currentPlayerLevel.base++;
+    currentPlayerExp.base -= expNeededToLevelUp.base;
+    currentPlayerLevel.base = currentPlayerLevel.base + 1;
   }
 
   // Check job exp
   if (checkExp.job) {
     hasLeveled.job = true;
-    currentPlayerExp.job -= expNeeded.job;
-    currentPlayerLevel.job++;
+    currentPlayerExp.job -= expNeededToLevelUp.job;
+    currentPlayerLevel.job = currentPlayerLevel.job + 1;
+
+    if (currentPlayerExp.job >= expNeededToLevelUpTwice.job) {
+      currentPlayerExp.job -= expNeededToLevelUpTwice.job;
+      currentPlayerLevel.job = currentPlayerLevel.job + 1;
+    }
   }
 
   // Return new Player level if leveled up
@@ -103,8 +115,8 @@ export const checkSkillDamage = (player: Player): number => {
   if (player.class === 'aprendiz') {
     const noviceSkills = player.skills.passive;
     // Update damage for each novice skill
-    if (noviceSkills['Aumentar dano']) {
-      const skillDamage = skillAtk(noviceSkills['Aumentar dano'].level, noviceSkills['Aumentar dano'].increaseAmount);
+    if (noviceSkills['Aumentar Dano']) {
+      const skillDamage = skillAtk(noviceSkills['Aumentar Dano'].level, noviceSkills['Aumentar Dano'].increaseAmount);
       increasedDamage += skillDamage;
     }
   }

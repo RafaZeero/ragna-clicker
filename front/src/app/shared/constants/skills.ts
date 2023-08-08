@@ -9,14 +9,14 @@ import { Classes, NoviceSkillsName, PassiveSkill, PassiveSkillNames, UpgradableB
  * TODO: Get all skills from backend
  */
 export const noviceSkillsName: ReadonlyArray<PassiveSkillNames['aprendiz']> = [
-  'Aumentar dano',
+  'Aumentar Dano',
   'Ataque Duplo',
 ] as const;
 
 // Mocked skills for testing in frontend
 export const noviceSkillsList: Record<NoviceSkillsName, PassiveSkill> = {
-  'Aumentar dano': {
-    name: 'Aumentar dano',
+  'Aumentar Dano': {
+    name: 'Aumentar Dano',
     gameClass: 'aprendiz',
     description: `Aumenta a perícia com armas aumentando o seu dano a cada level.
     Ganha +3 de dano por nível.`,

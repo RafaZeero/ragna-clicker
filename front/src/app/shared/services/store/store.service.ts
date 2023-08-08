@@ -3,11 +3,12 @@ import { AudioConfig, Player } from '@shared/models';
 import * as IO from 'fp-ts/lib/IO';
 import * as O from 'fp-ts/lib/Option';
 import * as E from 'fp-ts/lib/Either';
-import { flow, pipe } from 'fp-ts/lib/function';
+import { flow, identity, pipe } from 'fp-ts/lib/function';
 
 const getItem = (key: string): IO.IO<O.Option<string>> => IO.of(() => O.fromNullable(localStorage.getItem(key)))();
 
 const setItem = (key: string, value: string): IO.IO<void> => IO.of(() => localStorage.setItem(key, value));
+
 @Injectable({
   providedIn: 'root',
 })
@@ -36,18 +37,15 @@ export class StoreService {
             /** Try to get player in local storage */
             getItem(this._localStoragePlayer),
             /** Get item or send error [PLAYER NOT FOUND] (TODO!!) */
-            IO.map(flow(O.getOrElse(() => 'Player not found'))),
+            IO.map(flow(E.fromOption(() => 'Player not found'))),
           )(),
         /** On error, send the text! */
         () => 'Error to get player info in DB',
       ),
+      E.flattenW,
       E.bimap(
-        error => {
-          /** On left, send the text! */
-          console.warn(error);
-          /** return error message */
-          return error;
-        },
+        /** return error message */
+        identity,
         /** On right, parse the data and type cast it*/
         (data): Player => JSON.parse(data),
       ),
@@ -75,18 +73,15 @@ export class StoreService {
             /** Try to get config in local storage */
             getItem(this._localStorageConfig),
             /** Get item or send error [CONFIG NOT FOUND] (TODO!!) */
-            IO.map(flow(O.getOrElse(() => 'Config not found'))),
+            IO.map(flow(E.fromOption(() => 'Config not found'))),
           )(),
         /** On error, send the text! */
         () => 'Error to get configurations in DB',
       ),
+      E.flattenW,
       E.bimap(
-        error => {
-          /** On left, send the text! */
-          console.warn(error);
-          /** return error message */
-          return error;
-        },
+        /** return error message */
+        identity,
         /** On right, parse the data and type cast it*/
         (data): AudioConfig => JSON.parse(data),
       ),

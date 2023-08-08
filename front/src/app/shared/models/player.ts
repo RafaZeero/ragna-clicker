@@ -1,5 +1,5 @@
 import { attributesList, statsList } from '@shared/constants';
-import { Classes, NoviceSkillsName } from './classes';
+import { ClassGroup, Classes, NoviceSkillsName } from './classes';
 import { Experience, Level } from './commons';
 import { PassiveSkill } from './skills';
 
@@ -10,6 +10,8 @@ export type Player = {
   name: string;
   // Todo: make classes with skills
   class: Classes;
+  classGroup: ClassGroup;
+
   /**
    * List of attributes to create you own build
    */

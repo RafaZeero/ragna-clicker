@@ -10,7 +10,7 @@
           <div class="exp-container" *ngFor="let levelType of levelTypes">
             <p class="level">{{ levelType | titlecase }}. {{ player.level[levelType] }}</p>
             <!-- Exp bar -->
-            <div class="exp-bar-container">
+            <div class="exp-bar-container" *ngIf="player.level[levelType] < maxLevel[player.classGroup][levelType]">
               <div class="exp-bar-group">
                 <div
                   [style.width.%]="(player.exp.current[levelType] / player.exp.toLevelUp[levelType]) * 100"

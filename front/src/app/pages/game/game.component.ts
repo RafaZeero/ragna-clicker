@@ -11,6 +11,7 @@ import {
   HudConfigComponent,
   HudMapsComponent,
   HitboxComponent,
+  HudCharComponent,
 } from '@components';
 import {
   ApiService,
@@ -36,6 +37,7 @@ import { mappingAudioByMapName } from '@shared/constants';
   imports: [
     CommonModule,
     MapComponent,
+    HudCharComponent,
     HudInfoComponent,
     HudAttributesComponent,
     HudEquipmentsComponent,
@@ -113,8 +115,13 @@ export default class GameComponent implements OnInit {
       this._loadMonster();
     });
 
+    /** Trigger changes when map changes */
     this._gameMechanicsService.currentMap$.subscribe(map => {
+      /** Update music */
       this.playMapMusic(map);
+
+      /** Reload monster */
+      this._loadMonster();
     });
 
     // Auto attack

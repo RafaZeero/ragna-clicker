@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "front": "cd front && ng serve",
-    "back": "cd back && npm run dev"
+    "front": "npm run start --prefix front",
+    "back": "npm run dev --prefix back",
+    "install-front": "npm install --prefix front",
+    "install-back": "npm install --prefix back",
+    "install": "npm run install-front && npm run install-back"
   },
   "keywords": [],
   "author": "",

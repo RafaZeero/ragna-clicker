@@ -6,12 +6,32 @@
       @apply flex flex-col gap-[8px];
 
       .skill-info {
-        border: 1px solid red;
       }
 
       .btn {
-        @apply border-[2px] border-solid border-[black];
-        @apply w-fit;
+        @apply border-[2px] border-solid border-[rgb(0,0,0)] rounded-[4px];
+        @apply w-fit px-[4px] mb-[12px];
+
+        &:hover {
+          @apply drop-shadow-[0px_0px_2px_#A7A7A7];
+          @apply shadow-[inset_1px_1px_15px_-30px_#000000,inset_-1px_-1px_15px_-30px_#000000,inset_-1px_-1px_15px_-30px_#000000];
+          @apply bg-slate-50;
+          cursor: url('/assets/cursors/pointer.webp'), auto;
+        }
+
+        &.off {
+          @apply bg-[#cccccc] text-[#666666] border-transparent;
+
+          &:hover {
+            @apply drop-shadow-none shadow-none;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .descriptions {
+        @apply border-b-[1px] border-solid border-b-[#00000023];
+        @apply pb-[5px];
       }
 
       .skill-compact {
@@ -23,7 +43,7 @@
         }
 
         .skill {
-          @apply flex gap-[8px];
+          @apply flex justify-between items-center gap-[8px];
 
           .btn-compact {
             @apply px-[16px] py-[8px];

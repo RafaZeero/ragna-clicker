@@ -2,11 +2,17 @@
   <div class="skill-list" *ngIf="skills$ | async as skills">
     <ng-container *ngIf="mode !== 'complete'; else compact">
       <div class="skill-info" *ngFor="let skill of skills.passive | keyvalue; trackBy: trackBySkill">
-        <p>Has: {{ skill.key }}/ level: {{ skill.value.level }}</p>
-        <button class="btn" (click)="levelUpSKill(skill.value.name)">
-          Upar {{ skill.value.name }} to level: {{ skill.value.level + 1 }}
-        </button>
-        <ul>
+        <div>
+          <p>{{ skill.key }} - lvl. {{ skill.value.level }}</p>
+          <button
+            class="btn"
+            [disabled]="skills.skills_to_spend === 0"
+            [class.off]="skills.skills_to_spend === 0"
+            (click)="levelUpSKill(skill.value.name)">
+            Subir para lvl. {{ skill.value.level + 1 }}
+          </button>
+        </div>
+        <ul class="descriptions">
           <li>Descrição: {{ skill.value.description }}</li>
         </ul>
       </div>
@@ -16,9 +22,7 @@
         class="skill-compact"
         *ngFor="let skill of skills.passive | keyvalue; let last = last; trackBy: trackBySkill">
         <div class="skill" [class.separator]="!last">
-          <button class="btn-compact" (click)="levelUpSKill(skill.value.name)">
-            {{ skill.value.icon.length > 0 ? skill.value.icon : '+' }}
-          </button>
+          <!-- Skill info compact -->
           <div>
             <h2>{{ skill.value.name }} Lv. {{ skill.value.level }}</h2>
             <p class="skill-mapping">
@@ -28,9 +32,13 @@
               <span *ngIf="skill.value.name === 'Ataque Duplo'">%</span>
             </p>
           </div>
+          <!-- Add skill button -->
+          <button class="btn-compact" (click)="levelUpSKill(skill.value.name)" *ngIf="skills.skills_to_spend > 0">
+            {{ skill.value.icon.length > 0 ? skill.value.icon : '+' }}
+          </button>
         </div>
       </div>
     </ng-template>
-    <p class="free">Points: {{ skills.skills_to_spend }}</p>
+    <p class="free">Pontos disponíveis: {{ skills.skills_to_spend }}</p>
   </div>
 </div>

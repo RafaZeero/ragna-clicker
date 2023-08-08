@@ -3,10 +3,13 @@
 
   .attributes {
     &-container {
-      @apply flex;
+      @apply flex gap-[12px];
     }
 
     &-secondary {
+      @apply flex flex-col justify-between;
+      @apply w-[100%];
+
       &-stats {
       }
 

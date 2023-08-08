@@ -1,8 +1,8 @@
 <div *ngIf="player$ | async as player">
   <div class="attributes-container" *ngIf="mode === 'complete'; else compact">
-    <p>completo</p>
+    <p>Em construção</p>
   </div>
   <ng-template #compact>
-    <p>compacto</p>
+    <p>Em construção</p>
   </ng-template>
 </div>

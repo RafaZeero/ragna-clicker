@@ -1,6 +1,6 @@
 import { Classes } from './classes';
 
-export type PassiveSkillNames = { aprendiz: 'Aumentar dano' | 'Ataque Duplo' /* | 'Aumentar exp' | 'Aumentar zeny' */ };
+export type PassiveSkillNames = { aprendiz: 'Aumentar Dano' | 'Ataque Duplo' /* | 'Aumentar exp' | 'Aumentar zeny' */ };
 
 // Define what can be improve by skills
 export type UpgradableBySkills = 'damage' | 'chance'; /* | 'exp' | 'zeny' */
