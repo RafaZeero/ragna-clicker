@@ -10,6 +10,6 @@ export const SOUND_NAMES = {
 } as const;
 
 export const mappingAudioByMapName: Record<GameMaps, AudioNames> = {
-  'prontera-sewer': 'streamside',
-  'prontera-south': 'under-the-ground',
+  'prontera-sewer': 'under-the-ground',
+  'prontera-south': 'streamside',
 };
