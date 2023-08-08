@@ -115,8 +115,8 @@ export const checkSkillDamage = (player: Player): number => {
   if (player.class === 'aprendiz') {
     const noviceSkills = player.skills.passive;
     // Update damage for each novice skill
-    if (noviceSkills['Aumentar dano']) {
-      const skillDamage = skillAtk(noviceSkills['Aumentar dano'].level, noviceSkills['Aumentar dano'].increaseAmount);
+    if (noviceSkills['Aumentar Dano']) {
+      const skillDamage = skillAtk(noviceSkills['Aumentar Dano'].level, noviceSkills['Aumentar Dano'].increaseAmount);
       increasedDamage += skillDamage;
     }
   }
