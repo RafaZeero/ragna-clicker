@@ -26,14 +26,12 @@
     "fp-ts": "^2.16.1",
     "io-ts": "^2.2.20",
     "module-alias": "^2.2.3",
-    "mongodb": "^5.7.0",
     "mysql2": "^3.6.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
-    "@types/module-alias": "^2.0.1",
-    "sucrase": "^3.34.0"
+    "@types/module-alias": "^2.0.1"
   }
 }
