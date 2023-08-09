@@ -33,7 +33,8 @@
     "paths": {
       "@controllers": ["./src/controllers"],
       "@utils": ["./src/utils"],
-      "@interfaces": ["./src/interfaces"]
+      "@interfaces": ["./src/interfaces"],
+      "@db": ["./src/db"]
     },
     "rootDirs": ["./src"],
     "allowSyntheticDefaultImports": true,
