@@ -19,13 +19,15 @@ export const DB = () => {
   const connection = mysql.createConnection(connectionValue as any);
   // query database
 
-  connection.query<RowDataPacket[]>('SELECT * FROM monsters;', (_err, rows) => {
-    /**
-     * @rows: [ { test: 2 } ]
-     */
-
-    console.log(rows);
-  });
+  connection.query(
+    'SELECT * FROM monsters, monsters_stats, monsters_stats_attributes, monsters_exp;',
+    (_err, rows) => {
+      /**
+       * @rows: [ { test: 2 } ]
+       */
+      // console.log(rows);
+    }
+  );
 
   return connection;
 };

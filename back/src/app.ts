@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { monstersRoute } from '@controllers';
 import { DB } from '@db';
+import { populateWithJson } from './db/create';
 
 const PORT = 3000 as const;
 const app = express();
@@ -13,6 +14,17 @@ const main = () => {
   /** Test server endpoint */
   app.get('/ping', (_req: Request, res: Response) => {
     res.json({ pong: 'henlo' });
+  });
+
+  /** Helper to populate DB */
+  app.get('/populate', (_req: Request, res: Response) => {
+    const {
+      table: { monsters }
+    } = populateWithJson();
+
+    // monsters.forEach(monsterQuery => connection().query(monsterQuery));
+
+    res.json({ response: monsters });
   });
 
   // # downloads
