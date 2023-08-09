@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -p "27018:27017" --name "ragna-clicker" mongo:6
+docker run --name ragnaDB -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password mysql
