@@ -6,6 +6,7 @@
   "scripts": {
     "front": "npm run start --prefix front",
     "back": "npm run dev --prefix back",
+    "back:windows": "npm run dev:windows --prefix back",
     "install-front": "npm install --prefix front",
     "install-back": "npm install --prefix back",
     "install": "npm run install-front && npm run install-back"

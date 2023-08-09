@@ -17,10 +17,24 @@
       "problemMatcher": []
     },
     {
+      "label": "Backend-windows",
+      "detail": "Serve the Angular Frontend",
+      "type": "npm",
+      "script": "back:windows",
+      "problemMatcher": []
+    },
+    {
       "label": "Frontend & API",
       "detail": "Serve the Frontend and the API",
       "dependsOrder": "parallel",
       "dependsOn": ["Frontend", "Backend"],
+      "problemMatcher": []
+    },
+    {
+      "label": "[WINDOWS] - Frontend & API",
+      "detail": "Serve the Frontend and the API",
+      "dependsOrder": "parallel",
+      "dependsOn": ["Frontend", "Backend-windows"],
       "problemMatcher": []
     }
   ]
