@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { monstersRoute } from '@controllers';
+import { DB } from '@db';
 
 const PORT = 3000 as const;
 const app = express();
@@ -56,6 +57,10 @@ const main = () => {
 
   /** Routes */
   app.use('/monsters', monstersRoute);
+
+  const connection = DB;
+
+  connection();
 
   app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 };
