@@ -29,8 +29,10 @@ import { gameSoundTrack, monstersInMap } from '@shared/utils';
 import { each, find } from 'lodash';
 import * as O from 'fp-ts/lib/Option';
 import * as E from 'fp-ts/lib/Either';
+import * as R from 'fp-ts/lib/Random';
 import { GameMaps, MonsterResponseFromAPI } from '@shared/models';
 import { mappingAudioByMapName } from '@shared/constants';
+import { pipe } from 'fp-ts/lib/function';
 
 @Component({
   standalone: true,
@@ -78,8 +80,7 @@ export default class GameComponent implements OnInit {
     ),
   );
 
-  // Mocked data
-  public currentMap$ = this._mapService.currentMap$;
+  public readonly currentMap$ = this._mapService.currentMap$;
 
   // Get Monster reference
   @ViewChild(MonsterComponent) public monsterRef!: MonsterComponent;
@@ -92,7 +93,7 @@ export default class GameComponent implements OnInit {
   }
 
   public async ngOnInit(): Promise<void> {
-    localStorage.clear();
+    // localStorage.clear();
 
     Promise.all([
       // Load player from db
@@ -129,24 +130,27 @@ export default class GameComponent implements OnInit {
   }
 
   // Basic click attack
-  public attack(event: MouseEvent) {
-    const hitboxRef = this.hitbox.viewContainerRef;
-
-    const componentRef = hitboxRef.createComponent<HitboxComponent>(HitboxComponent);
-
-    this._gameMechanicsService.attack(event, componentRef);
+  public attack(event: MouseEvent): void {
+    pipe(
+      /** Get hibox container ref */
+      this.hitbox.viewContainerRef,
+      /** Create HitboxComponent */
+      hitboxRef => hitboxRef.createComponent<HitboxComponent>(HitboxComponent),
+      /** Call Attack function */
+      componentRef => this._gameMechanicsService.attack(event, componentRef),
+    );
   }
 
   // Load monster image to show on map
   private async _loadMonster(): Promise<void> {
-    // Get current map name
-    const map = await firstValueFrom(this.currentMap$);
-
-    // Get a monster list given current map
-    const monsters = monstersInMap[map];
-
-    // Get a random monster from the monster list
-    const randomMonster = monsters[Math.floor(Math.random() * monsters.length)];
+    const randomMonster = pipe(
+      // Get current map name
+      await firstValueFrom(this.currentMap$),
+      // Get a monster list given current map
+      map => monstersInMap[map],
+      // Get a random monster from the monster list
+      monsters => monsters[R.randomInt(0, monsters.length - 1)()],
+    );
 
     // Get list of monsters that already had request for API
     const monstersAlreadyRequested = await firstValueFrom(this._monsterService.allMonstersRequested$);
