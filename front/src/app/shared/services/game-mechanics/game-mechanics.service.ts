@@ -19,34 +19,34 @@ export class GameMechanicsService {
   private readonly _destroyRef = inject(DestroyRef);
 
   // Create instances of sounds to play
-  public gameSounds = makePlaySound();
+  public readonly gameSounds = makePlaySound();
 
   // Current player stream
-  private _player$ = new BehaviorSubject<Player>(defaultPlayer);
-  public player$ = this._player$.asObservable();
+  private readonly _player$ = new BehaviorSubject<Player>(defaultPlayer);
+  public readonly player$ = this._player$.asObservable();
 
   // Current monster stream
-  private _monster$ = new BehaviorSubject<MonsterData>({} as MonsterData);
-  public monster$ = this._monster$.asObservable();
+  private readonly _monster$ = new BehaviorSubject<MonsterData>({} as MonsterData);
+  public readonly monster$ = this._monster$.asObservable();
 
   // Current monster hp
-  private _hp$ = new BehaviorSubject<number>(0);
-  public hp$ = this._hp$.asObservable();
+  private readonly _hp$ = new BehaviorSubject<number>(0);
+  public readonly hp$ = this._hp$.asObservable();
 
   // All requested monsters
-  private _allMonstersRequested$ = new BehaviorSubject<Array<MonsterResponseFromAPI['response']>>(
+  private readonly _allMonstersRequested$ = new BehaviorSubject<Array<MonsterResponseFromAPI['response']>>(
     [] as Array<MonsterResponseFromAPI['response']>,
   );
-  public allMonstersRequested$ = this._allMonstersRequested$.asObservable();
+  public readonly allMonstersRequested$ = this._allMonstersRequested$.asObservable();
 
   // Current monster helpers
-  public loadMonster$ = this.hp$.pipe(
+  public readonly loadMonster$ = this.hp$.pipe(
     takeUntilDestroyed(this._destroyRef),
     // Map monster current life
     map(currentHP => currentHP > 0),
   );
 
-  public monsterLifeBar$ = combineLatest({
+  public readonly monsterLifeBar$ = combineLatest({
     currentHP: this.hp$,
     monsterData: this.monster$,
   }).pipe(
@@ -60,11 +60,11 @@ export class GameMechanicsService {
     ),
   );
 
-  private _currentMap$ = new BehaviorSubject<GameMaps>('prontera-south');
-  public currentMap$ = this._currentMap$.asObservable();
+  private readonly _currentMap$ = new BehaviorSubject<GameMaps>('prontera-south');
+  public readonly currentMap$ = this._currentMap$.asObservable();
 
-  private _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
-  public config$ = this._config$.asObservable();
+  private readonly _config$ = new BehaviorSubject<AudioConfig>({ audio: { effectsVolume: 0.5, gameMusicVolume: 0.5 } });
+  public readonly config$ = this._config$.asObservable();
 
   //#region getters and setters
   // Current monster hp getter
