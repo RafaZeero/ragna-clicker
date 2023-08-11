@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as O from 'fp-ts/lib/Option';
 import { pipe } from 'fp-ts/lib/function';
 import path from 'path';
+import { getOneMonster } from '@repositories';
 
 /**
  * Route prefix: "/monsters"
@@ -27,10 +28,11 @@ route.get('/:monsterID', (req: Request, res: Response) => {
   }
 
   // Get data from file
-  const monsterInfo = fs.readFileSync(path.join(process.cwd(), 'src/data/monsters/monsters.json'));
-  const jsonData = JSON.parse(monsterInfo.toString()) as { monsters: Array<any> };
+  // const monsterInfo = fs.readFileSync(path.join(process.cwd(), 'src/data/monsters/monsters.json'));
+  // const jsonData = JSON.parse(monsterInfo.toString()) as { monsters: Array<any> };
+  // const monsterData = jsonData.monsters.find(monster => monster.id === parseInt(monsterID.value));
 
-  const monsterData = jsonData.monsters.find(monster => monster.id === parseInt(monsterID.value));
+  const monsterData = getOneMonster(+monsterID.value);
 
   if (!monsterData) {
     return res.status(404).json({ response: 'Monster Data not found' });

@@ -16,18 +16,6 @@ export const DB = () => {
   const connectionValue = development ? localDB : dbUrl;
 
   // create the connection
-  const connection = mysql.createConnection(connectionValue as any);
-  // query database
-
-  connection.query(
-    'SELECT * FROM monsters, monsters_stats, monsters_stats_attributes, monsters_exp;',
-    (_err, rows) => {
-      /**
-       * @rows: [ { test: 2 } ]
-       */
-      // console.log(rows);
-    }
-  );
-
+  const connection = mysql.createConnection(connectionValue as unknown);
   return connection;
 };
