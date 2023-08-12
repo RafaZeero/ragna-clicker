@@ -5,6 +5,7 @@ import * as O from 'fp-ts/lib/Option';
 import { pipe } from 'fp-ts/lib/function';
 import path from 'path';
 import { DB } from '@db';
+import { getOneMonster } from '@repositories';
 
 /**
  * Route prefix: "/monsters"
@@ -34,6 +35,7 @@ route.get('/:monsterID', (req: Request, res: Response) => {
 
   // Get data from DB
   // DB().query('SELECT * ')
+  const monsterData = getOneMonster(+monsterID.value);
 
   if (!monsterData) {
     return res.status(404).json({ response: 'Monster Data not found' });

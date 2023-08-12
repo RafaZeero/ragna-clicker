@@ -34,7 +34,8 @@
       "@controllers": ["./src/controllers"],
       "@utils": ["./src/utils"],
       "@interfaces": ["./src/interfaces"],
-      "@db": ["./src/db"]
+      "@db": ["./src/db"],
+      "@repositories": ["./src/repositories"]
     },
     "rootDirs": ["./src"],
     "allowSyntheticDefaultImports": true,
