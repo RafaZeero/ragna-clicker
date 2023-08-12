@@ -16,12 +16,12 @@ export const DB = () => {
   const connectionValue = development ? localDB : dbUrl;
 
   // create the connection
-  const connection = mysql.createConnection(connectionValue as any);
+  const connection = mysql.createConnection(dbUrl);
   // query database
 
   connection.query(
     'SELECT * FROM monsters, monsters_stats, monsters_stats_attributes, monsters_exp;',
-    (_err, rows) => {
+    (_err, _rows) => {
       /**
        * @rows: [ { test: 2 } ]
        */

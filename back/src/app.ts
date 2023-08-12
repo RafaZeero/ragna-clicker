@@ -8,6 +8,7 @@ const PORT = 3000 as const;
 const app = express();
 
 const main = () => {
+  const connection = DB;
   /** Middlewares */
   app.use(cors(), express.json());
 
@@ -17,14 +18,22 @@ const main = () => {
   });
 
   /** Helper to populate DB */
-  app.get('/populate', (_req: Request, res: Response) => {
+  app.get('/populate', (req: Request, res: Response) => {
+    const credentials = req.body;
+
+    if (credentials.pwd !== 'ragzin-populate') {
+      return res.status(404).json({ response: 'No data' });
+    }
+
     const {
       table: { monsters }
     } = populateWithJson();
 
-    // monsters.forEach(monsterQuery => connection().query(monsterQuery));
+    // monsters.forEach(monsterQuery => {
+    //   Object.values(monsterQuery).forEach(query => connection().query(query));
+    // });
 
-    res.json({ response: monsters });
+    return res.status(200).json({ response: monsters });
   });
 
   // # downloads
@@ -69,10 +78,6 @@ const main = () => {
 
   /** Routes */
   app.use('/monsters', monstersRoute);
-
-  const connection = DB;
-
-  connection();
 
   app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 };
