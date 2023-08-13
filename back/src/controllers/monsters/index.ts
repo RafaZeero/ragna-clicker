@@ -1,11 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { imageFromFile, monsterDBPath } from '@utils';
+import { imageFromFile, mapMonsterData } from '@utils';
 import * as fs from 'fs';
 import * as O from 'fp-ts/lib/Option';
 import { pipe } from 'fp-ts/lib/function';
-import path from 'path';
+import { isEmpty } from 'lodash';
 import { DB } from '@db';
 import { getOneMonster } from '@repositories';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { MonsterRequest } from '@interfaces';
 
 /**
  * Route prefix: "/monsters"
@@ -13,7 +15,7 @@ import { getOneMonster } from '@repositories';
 
 const route = Router();
 
-route.get('/:monsterID', (req: Request, res: Response) => {
+route.get('/:monsterID', async (req: Request, res: Response) => {
   // Monster Id from params
   const monsterID = pipe(req.params['monsterID'], O.fromNullable);
 
@@ -28,21 +30,30 @@ route.get('/:monsterID', (req: Request, res: Response) => {
     return res.status(404).json({ response: 'Image not found' });
   }
 
-  // Get data from file
-  // const monsterInfo = fs.readFileSync(path.join(process.cwd(), 'src/data/monsters/monsters.json'));
-  // const jsonData = JSON.parse(monsterInfo.toString()) as { monsters: Array<any> };
-  // const monsterData = jsonData.monsters.find(monster => monster.id === parseInt(monsterID.value));
+  // connect to DB
+  const connection = await DB();
 
   // Get data from DB
-  // DB().query('SELECT * ')
-  const monsterData = getOneMonster(+monsterID.value);
+  const rawMonsterQuery = await connection.query(getOneMonster(+monsterID.value));
+  const rawMonsterData = (rawMonsterQuery[0] as any)[0] as MonsterRequest;
 
-  if (!monsterData) {
+  /** Validate Monster Data */
+  if (isEmpty(rawMonsterData)) {
     return res.status(404).json({ response: 'Monster Data not found' });
   }
 
+  // Parse monster data
+  const monsterData = mapMonsterData(rawMonsterData, +monsterID.value);
+
   // Send file back to front
-  return res.status(200).json({ response: { monsterImage, monsterData } });
+  return res.status(200).json({
+    response: {
+      /** Monster image string */
+      monsterImage,
+      /** Monster data object */
+      monsterData
+    }
+  });
 });
 
 export { route as monstersRoute };

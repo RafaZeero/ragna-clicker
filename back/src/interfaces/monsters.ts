@@ -1,34 +1,5 @@
 import { Attributes } from './attributes';
 
-export type MonsterRequestStats = {
-  attackRange: number;
-  level: number;
-  health: number;
-  str: number;
-  int: number;
-  vit: number;
-  dex: number;
-  agi: number;
-  luk: number;
-  defense: number;
-  baseExperience: number;
-  jobExperience: number;
-  aggroRange: number;
-  escapeRange: number;
-  movementSpeed: number;
-  attackSpeed: number;
-  attackedSpeed: number;
-  element: number;
-  scale: number;
-  race: number;
-  magicDefense: number;
-  hit: number;
-  flee: number;
-  ai: string;
-  mvp: number;
-  class: number;
-};
-
 // Monster Data
 export type MonsterData = {
   name: string;
@@ -40,13 +11,34 @@ export type MonsterData = {
   stats: {
     hp: number;
     defense: number;
+    magicDefense: number;
     attributes: Attributes;
+  };
+  type: {
+    element: string;
+    elementLevel: number;
   };
 };
 
-// Monster request from Divine-Pride
+// Monster request from Planet-scale DB
 export type MonsterRequest = {
-  id: number;
-  name: string;
-  stats: MonsterRequestStats;
+  name_english: string;
+  level: number;
+  hp: number;
+  /** Stats */
+  str: number | null;
+  int: number | null;
+  vit: number | null;
+  dex: number | null;
+  agi: number | null;
+  luk: number | null;
+  /** Secondary stats */
+  defense: number;
+  magic_defense: number;
+  /** Experience */
+  base_exp: number;
+  job_exp: number;
+  /** Monster type */
+  element: string /** TODO: monster elements type */;
+  element_level: number;
 };

@@ -7,13 +7,19 @@ import { populateWithJson } from './db/create';
 const PORT = 3000 as const;
 const app = express();
 
-const main = () => {
-  const connection = DB;
+const main = async () => {
+  const connection = await DB();
   /** Middlewares */
   app.use(cors(), express.json());
 
   /** Test server endpoint */
-  app.get('/ping', (_req: Request, res: Response) => {
+  app.get('/ping', async (_req: Request, res: Response) => {
+    const [rows] = await connection.query(
+      'Select name_english, level, hp FROM mob_db WHERE id = 1002;'
+    );
+
+    console.log(rows);
+
     res.json({ pong: 'henlo' });
   });
 

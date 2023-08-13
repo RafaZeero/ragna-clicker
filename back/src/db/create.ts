@@ -1,4 +1,4 @@
-import { mapMonsterData, monsterData } from '@utils';
+import { mapMonsterData } from '@utils';
 import * as fs from 'fs';
 import { pipe } from 'fp-ts/function';
 import type { Connection } from 'mysql2';
