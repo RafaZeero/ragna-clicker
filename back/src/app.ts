@@ -14,12 +14,14 @@ const main = async () => {
 
   /** Test server endpoint */
   app.get('/ping', async (_req: Request, res: Response) => {
+    /** Test DB connection */
     const [rows] = await connection.query(
       'Select name_english, level, hp FROM mob_db WHERE id = 1002;'
     );
 
     console.log(rows);
 
+    /** Test API Connection */
     res.json({ pong: 'henlo' });
   });
 
@@ -41,28 +43,6 @@ const main = async () => {
 
     return res.status(200).json({ response: monsters });
   });
-
-  // # downloads
-  // app.get('/monsters/download/images', (req: Request, res: Response) => {
-  //   const monsters = req.body.monsters as Array<string>;
-
-  //   if (!monsters) return res.status(400).json({ message: 'No monsters provided' });
-
-  //   createMonsterImageFromRequest(monsters);
-
-  //   res.status(200).json({ message: 'Monster(s) file(s) created', monsters });
-  // });
-
-  // app.get('/monsters/download/data', (req: Request, res: Response) => {
-  //   const monsters = req.body.monsters as Array<string>;
-
-  //   if (!monsters) return res.status(400).json({ message: 'No monsters provided' });
-
-  //   createMonsterDataFromRequest(monsters);
-
-  //   res.status(200).json({ message: 'Monster(s) file(s) created', monsters });
-  // });
-  // # downloads end
 
   // TODO: proper endpoint for login
   // app.post('/users/:userID', (req: Request, res: Response) => {
