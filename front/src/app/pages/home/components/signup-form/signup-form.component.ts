@@ -25,7 +25,7 @@ import { shouldShowErrorMessage } from '@shared/utils';
 import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
 
 @Component({
-  selector: 'rag-login-form',
+  selector: 'rag-signup-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -37,11 +37,11 @@ import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
     GoogleSigninButtonModule,
     // IsControlRequiredPipe,
   ],
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss'],
+  templateUrl: './signup-form.component.html',
+  styleUrls: ['./signup-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit {
+export class SignupFormComponent implements OnInit {
   // * Dependency Injection
   private readonly _fb = inject(NonNullableFormBuilder);
   private readonly _cd = inject(ChangeDetectorRef);
@@ -54,8 +54,9 @@ export class LoginFormComponent implements OnInit {
   public readonly showAlertMessage$ = this._showAlertMessage$.asObservable();
 
   // * Form
-  public readonly loginForm = this._fb.group({
+  public readonly signupForm = this._fb.group({
     email: this._fb.control('', { validators: [Validators.required, Validators.email] }),
+    name: this._fb.control('', { validators: [Validators.required, Validators.email] }),
     password: this._fb.control('', { validators: [Validators.required] }),
   });
 
@@ -85,13 +86,13 @@ export class LoginFormComponent implements OnInit {
 
   // * Actions
   public async onSubmit(): Promise<void> {
-    if (this.loginForm.invalid) {
+    if (this.signupForm.invalid) {
       return;
     }
 
     const data = {
-      email: this.loginForm.controls.email.value,
-      password: this.loginForm.controls.password.value,
+      email: this.signupForm.controls.email.value,
+      password: this.signupForm.controls.password.value,
     };
 
     try {
@@ -102,7 +103,7 @@ export class LoginFormComponent implements OnInit {
       // * This will trigger a request error message
 
       this._cd.markForCheck();
-      for (const control of Object.values(this.loginForm.controls)) {
+      for (const control of Object.values(this.signupForm.controls)) {
         control.markAsTouched();
         control.markAsDirty();
       }
@@ -133,7 +134,7 @@ export class LoginFormComponent implements OnInit {
       shouldShowErrorMessage(control) && control.errors?.['email'] === true;
 
     return pipe(
-      this.loginForm.controls,
+      this.signupForm.controls,
       O.fromNullable,
 
       /**
@@ -152,7 +153,7 @@ export class LoginFormComponent implements OnInit {
       /** If only email control is invalid returns email field alert message */
       O.alt(() =>
         this.checkControlThen(
-          this.loginForm.controls,
+          this.signupForm.controls,
           // * Check if email control has error {required  = true}
           ({ email }) => isControlRequired(email),
           // * Message for required email
@@ -161,12 +162,17 @@ export class LoginFormComponent implements OnInit {
       ),
 
       O.alt(() =>
-        this.checkControlThen(
-          this.loginForm.controls,
-          // * Check if email control has error {email  = true}
-          ({ email }) => hasControlInvalidEmail(email),
-          // * Message for invalid email format
-          this.alertMessages.email.invalidEmail,
+        pipe(
+          this.signupForm.controls,
+          O.fromNullable,
+          O.chain(
+            flow(
+              // * Check if email control has error {email  = true}
+              O.fromPredicate(({ email }) => hasControlInvalidEmail(email)),
+              // * Message for invalid email format
+              O.map(() => this.alertMessages.email.invalidEmail),
+            ),
+          ),
         ),
       ),
 
@@ -175,12 +181,17 @@ export class LoginFormComponent implements OnInit {
        * message
        */
       O.alt(() =>
-        this.checkControlThen(
-          this.loginForm.controls,
-          // * Check if password control has error {required  = true}
-          ({ password }) => isControlRequired(password),
-          // * Message for required password
-          this.alertMessages.password.required,
+        pipe(
+          this.signupForm.controls,
+          O.fromNullable,
+          O.chain(
+            flow(
+              // * Check if password control has error {required  = true}
+              O.fromPredicate(({ password }) => isControlRequired(password)),
+              // * Message for required password
+              O.map(() => this.alertMessages.password.required),
+            ),
+          ),
         ),
       ),
 
@@ -202,19 +213,19 @@ export class LoginFormComponent implements OnInit {
 
   // * Form Error Handling /
   public isRequiredEmailError = (): boolean =>
-    shouldShowErrorMessage(this.loginForm.controls.email) &&
-    (this.loginForm.controls.email.errors?.['required'] as boolean);
+    shouldShowErrorMessage(this.signupForm.controls.email) &&
+    (this.signupForm.controls.email.errors?.['required'] as boolean);
 
   public isInvalidEmailError = (): boolean =>
-    shouldShowErrorMessage(this.loginForm.controls.email) &&
-    (this.loginForm.controls.email.errors?.['email'] as boolean);
+    shouldShowErrorMessage(this.signupForm.controls.email) &&
+    (this.signupForm.controls.email.errors?.['email'] as boolean);
 
   public isRequiredPasswordError = (): boolean =>
-    shouldShowErrorMessage(this.loginForm.controls.password) &&
-    (this.loginForm.controls.password.errors?.['required'] as boolean);
+    shouldShowErrorMessage(this.signupForm.controls.password) &&
+    (this.signupForm.controls.password.errors?.['required'] as boolean);
 
   public hasError = (): boolean =>
-    shouldShowErrorMessage(this.loginForm.controls.email) || shouldShowErrorMessage(this.loginForm.controls.password);
+    shouldShowErrorMessage(this.signupForm.controls.email) || shouldShowErrorMessage(this.signupForm.controls.password);
 
   private checkControlThen<T extends Record<string, FormControl<unknown>>>(
     valueToBeChecked: T,

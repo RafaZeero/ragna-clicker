@@ -1,5 +1,3 @@
-<h1 class="title">Entre no Ragna-clicker</h1>
-
 <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <fieldset class="form-field">
     <!-- Email input -->
@@ -33,7 +31,7 @@
       [class.input-error]="shouldShowError(loginForm.controls.password)"
       [attr.aria-invalid]="shouldShowError(loginForm.controls.password)" />
     <div class="below-input-pwd">
-      <a class="link" routerLink="/forgot-password" (click)="closeModal.emit()">Esqueci a senha</a>
+      <a class="link" routerLink="/forgot-password">Esqueci a senha</a>
       <!-- Display error message -->
       <rag-form-error [message]="errorMessages.password.required" *ngIf="isRequiredPasswordError()" />
     </div>

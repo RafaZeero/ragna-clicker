@@ -2,6 +2,17 @@
 <div class="game" *ngIf="!hasRoute('play')" #game>
   <rag-hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="(hudStartingPosition$ | async)!" #hud>
     <!-- <a class="rok" [routerLink]="['/play']">Play</a> -->
-    <rag-login-form class="login" />
+    <h1 class="title">Jogue Ragna-clicker</h1>
+    <rag-login-form class="login" *ngIf="(formType$ | async) === 'login'" />
+    <rag-signup-form class="login" *ngIf="(formType$ | async) === 'signup'" />
+    <hr />
+    <div>
+      <p *ngIf="(formType$ | async) === 'login'">
+        Não possui conta? <button type="button" (click)="changeFormType('signup')">Cadastre-se.</button>
+      </p>
+      <p *ngIf="(formType$ | async) === 'signup'">
+        Já possui conta? <button type="button" (click)="changeFormType('login')">Faça seu login.</button>
+      </p>
+    </div>
   </rag-hud>
 </div>

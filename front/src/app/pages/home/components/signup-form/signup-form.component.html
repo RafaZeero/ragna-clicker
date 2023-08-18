@@ -1,0 +1,67 @@
+<form class="form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <fieldset class="form-field">
+    <!-- Email input -->
+    <label class="label-default" [class.label-error]="shouldShowError(signupForm.controls.email)" for="email"
+      >Email</label
+    >
+    <input
+      class="input"
+      [formControl]="signupForm.controls.email"
+      [class.input-error]="shouldShowError(signupForm.controls.email)"
+      [attr.aria-invalid]="shouldShowError(signupForm.controls.email)"
+      [placeholder]="'Digite seu email'"
+      type="text"
+      name="email"
+      id="email" />
+    <!-- Display error messages -->
+    <div class="below-input">
+      <rag-form-error [message]="errorMessages.email.required" *ngIf="isRequiredEmailError()" />
+      <rag-form-error [message]="errorMessages.email.invalidEmail" *ngIf="isInvalidEmailError()" />
+    </div>
+  </fieldset>
+  <fieldset class="form-field">
+    <!-- Name input -->
+    <label class="label-default" [class.label-error]="shouldShowError(signupForm.controls.name)" for="name">Nome</label>
+    <input
+      class="input"
+      [formControl]="signupForm.controls.name"
+      [class.input-error]="shouldShowError(signupForm.controls.name)"
+      [attr.aria-invalid]="shouldShowError(signupForm.controls.name)"
+      [placeholder]="'Digite seu nome'"
+      type="text"
+      name="name"
+      id="name" />
+    <!-- Display error messages -->
+    <div class="below-input">
+      <rag-form-error
+        [message]="errorMessages.name.required"
+        *ngIf="signupForm.controls.name.touched && signupForm.controls.name.invalid" />
+    </div>
+  </fieldset>
+  <!-- Password input -->
+  <fieldset class="form-field">
+    <!-- Form fields with Label + Inputs -->
+    <label class="label-default" [class.label-error]="shouldShowError(signupForm.controls.password)" for="password"
+      >Senha</label
+    >
+    <rag-password-input
+      [placeholder]="'Digite sua senha'"
+      [formControl]="signupForm.controls.password"
+      [class.input-error]="shouldShowError(signupForm.controls.password)"
+      [attr.aria-invalid]="shouldShowError(signupForm.controls.password)" />
+    <div class="below-input">
+      <!-- Display error message -->
+      <rag-form-error [message]="errorMessages.password.required" *ngIf="isRequiredPasswordError()" />
+    </div>
+  </fieldset>
+
+  <button rag-action class="button" type="submit">Entrar</button>
+
+  <!-- Social Login -->
+  <p class="social-text">ou cadastre-se com</p>
+  <div class="social-buttons">
+    <asl-google-signin-button [size]="'large'" [type]="'standard'" [theme]="'outline'">
+      <button class="google-login-btn">Google</button>
+    </asl-google-signin-button>
+  </div>
+</form>

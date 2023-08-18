@@ -4,6 +4,12 @@
 
     @apply flex h-[100%];
 
+    .title {
+      @apply text-center
+             py-[8px]
+             text-[1rem] text-[#100f11] font-[500] leading-[100%];
+    }
+
     .login {
       @apply ml-[-16px] px-[16px];
     }
