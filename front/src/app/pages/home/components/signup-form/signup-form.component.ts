@@ -56,8 +56,10 @@ export class SignupFormComponent implements OnInit {
   // * Form
   public readonly signupForm = this._fb.group({
     email: this._fb.control('', { validators: [Validators.required, Validators.email] }),
-    name: this._fb.control('', { validators: [Validators.required, Validators.email] }),
-    password: this._fb.control('', { validators: [Validators.required] }),
+    name: this._fb.control('', { validators: [Validators.required, Validators.maxLength(255)] }),
+    password: this._fb.control('', {
+      validators: [Validators.required, Validators.maxLength(255), Validators.minLength(6)],
+    }),
   });
 
   // * Utils
@@ -93,9 +95,11 @@ export class SignupFormComponent implements OnInit {
     const data = {
       email: this.signupForm.controls.email.value,
       password: this.signupForm.controls.password.value,
+      name: this.signupForm.controls.name.value,
     };
 
     try {
+      console.log(data);
       // * Login in auth service
       // * Remove error if any
       // * Redirect user to '/play'

@@ -55,12 +55,16 @@
     </div>
   </fieldset>
 
-  <button rag-action class="button" type="submit">Entrar</button>
+  <button rag-action class="button" type="submit">Cadastrar</button>
 
   <!-- Social Login -->
   <p class="social-text">ou cadastre-se com</p>
   <div class="social-buttons">
-    <asl-google-signin-button [size]="'large'" [type]="'standard'" [theme]="'outline'">
+    <asl-google-signin-button
+      style="cursor: url('/assets/cursors/pointer.webp'), auto"
+      [size]="'large'"
+      [type]="'standard'"
+      [theme]="'outline'">
       <button class="google-login-btn">Google</button>
     </asl-google-signin-button>
   </div>

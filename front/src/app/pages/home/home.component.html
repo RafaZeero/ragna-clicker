@@ -6,7 +6,7 @@
     <rag-login-form class="login" *ngIf="(formType$ | async) === 'login'" />
     <rag-signup-form class="login" *ngIf="(formType$ | async) === 'signup'" />
     <hr />
-    <div>
+    <div class="link">
       <p *ngIf="(formType$ | async) === 'login'">
         Não possui conta? <button type="button" (click)="changeFormType('signup')">Cadastre-se.</button>
       </p>

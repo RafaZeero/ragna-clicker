@@ -13,5 +13,12 @@
     .login {
       @apply ml-[-16px] px-[16px];
     }
+
+    .link {
+      button {
+        @apply underline text-blue-600;
+        cursor: url('/assets/cursors/pointer.webp'), auto;
+      }
+    }
   }
 }

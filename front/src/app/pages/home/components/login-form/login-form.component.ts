@@ -96,6 +96,7 @@ export class LoginFormComponent implements OnInit {
 
     try {
       // * Login in auth service
+      console.log(data);
       // * Remove error if any
       // * Redirect user to '/play'
     } catch (error: unknown) {
