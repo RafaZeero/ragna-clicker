@@ -9,7 +9,7 @@ import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
 import { isNil } from 'lodash';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { useSKill } from '../../utils/skills/novice';
+import { useSKill } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',

@@ -1,5 +1,5 @@
-import { maps } from '../constants/maps';
-import { GameMaps } from '../models/maps';
+import { maps } from '@shared/constants';
+import { GameMaps } from '@shared/models';
 
 type MakeMapFileURL = (map: (typeof maps)[keyof typeof maps]) => {
   css: `url("/assets/maps/${typeof map}.png")`;
