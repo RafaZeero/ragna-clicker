@@ -31,6 +31,8 @@ export class HudComponent {
   @Input() public hudWidth = '360';
   @Input() public toggleable = true;
 
+  @ViewChild('hudRef') public readonly hudRef!: ElementRef<HTMLDivElement>;
+
   private readonly _hudService = inject(HudService);
 
   public hudState = true;

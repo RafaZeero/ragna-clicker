@@ -11,43 +11,51 @@
   }
 
   .title {
-    @apply p-[8px] pt-[0] mb-[24px];
-    @apply text-[1rem] text-[#fafafa] font-[500] leading-[100%];
+    @apply p-[8px] pt-[0] mb-[24px]
+           text-[1rem] text-[#100f11] font-[500] leading-[100%];
   }
 
   .form {
-    @apply flex flex-col items-center gap-[16px] w-[272px];
+    @apply flex flex-col items-center gap-[16px] w-[100%];
 
-    .alert {
-      @apply mb-[8px];
-    }
+    &-field {
+      @apply flex flex-col justify-start w-[100%];
 
-    .label-default {
-      color: var(--platinum-white-f0f0f0, #f0f0f0);
-    }
-
-    .below-input {
-      @apply flex mt-[4px] items-center;
-
-      &-pwd {
-        @apply flex flex-row-reverse  mt-[4px] items-center justify-between;
+      .input {
+        @apply px-[16px] py-[8px] text-[14px];
       }
-    }
 
-    .button {
-      @apply w-[100%];
-    }
+      .alert {
+        @apply mb-[8px];
+      }
 
-    .social-text {
-      @apply opacity-90 text-xs;
-    }
+      .label-default {
+        @apply text-[#100f11];
+      }
 
-    .social-buttons {
-      @apply flex gap-[16px];
+      .below-input {
+        @apply flex mt-[4px] items-center h-[18px];
 
-      .social-button {
-        @apply bg-[#100f11];
-        @apply w-[40px] h-[40px];
+        &-pwd {
+          @apply flex flex-row-reverse mt-[4px] items-center justify-between;
+        }
+      }
+
+      .button {
+        @apply w-[100%];
+      }
+
+      .social-text {
+        @apply opacity-90 text-xs;
+      }
+
+      .social-buttons {
+        @apply flex gap-[16px];
+
+        .social-button {
+          @apply bg-[#100f11]
+                w-[40px] h-[40px];
+        }
       }
     }
   }

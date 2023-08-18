@@ -9,7 +9,7 @@
   }
 
   .message {
-    @apply text-[0.75rem] font-[500] leading-[normal];
-    color: #ff5e53;
+    @apply text-[0.75rem] font-[500] leading-[normal]
+           text-[#ff5e53];
   }
 }
