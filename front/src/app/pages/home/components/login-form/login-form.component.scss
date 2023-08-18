@@ -1,0 +1,58 @@
+:host {
+  @apply flex flex-col justify-center items-center;
+
+  /* Style for input if it has an error */
+  ::ng-deep {
+    .input-error {
+      .password-input {
+        @apply border-[#f34236] outline-[#f34236];
+      }
+    }
+  }
+
+  .title {
+    @apply p-[8px] pt-[0] mb-[24px];
+    @apply text-[1rem] text-[#fafafa] font-[500] leading-[100%];
+  }
+
+  .form {
+    @apply flex flex-col items-center gap-[16px] w-[272px];
+
+    .alert {
+      @apply mb-[8px];
+    }
+
+    .label-default {
+      color: var(--platinum-white-f0f0f0, #f0f0f0);
+    }
+
+    .below-input {
+      @apply flex mt-[4px] items-center;
+
+      &-pwd {
+        @apply flex flex-row-reverse  mt-[4px] items-center justify-between;
+      }
+    }
+
+    .button {
+      @apply w-[100%];
+    }
+
+    .social-text {
+      @apply opacity-90 text-xs;
+    }
+
+    .social-buttons {
+      @apply flex gap-[16px];
+
+      .social-button {
+        @apply bg-[#100f11];
+        @apply w-[40px] h-[40px];
+      }
+    }
+  }
+
+  input {
+    @apply h-9 border-[1.5px] border-[#464649] border-solid;
+  }
+}

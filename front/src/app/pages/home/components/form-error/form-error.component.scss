@@ -1,0 +1,15 @@
+:host {
+  @apply flex items-center gap-[4px] h-full
+         text-[#ff4a3e];
+
+  .icon {
+    --size: 0.75rem;
+    --primary-icon-color: var(--red-ff5e53, #ff5e53);
+    --secondary-icon-color: var(--black-mamba-100f11, #100f11);
+  }
+
+  .message {
+    @apply text-[0.75rem] font-[500] leading-[normal];
+    color: #ff5e53;
+  }
+}

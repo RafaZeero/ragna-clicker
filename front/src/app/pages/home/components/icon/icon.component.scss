@@ -1,0 +1,18 @@
+:host {
+  @apply inline-flex shrink-0;
+
+  --size: 64px;
+
+  height: var(--size);
+  width: var(--size);
+
+  /* The overrides for these colors should be set in classes for the <uv-icon /> */
+  --primary-icon-color: black;
+  --secondary-icon-color: white;
+
+  // --tertiary-icon-color: greenyellow;
+  // --quaternary-icon-color: tomato;
+  // --quinary-icon-color: purple;
+  // --senary-icon-color: pink;
+  // --septenary-icon-color: blue;
+}

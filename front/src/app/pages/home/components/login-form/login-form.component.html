@@ -1,0 +1,44 @@
+<h1 class="title">Entre no Calendar</h1>
+
+<form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <!-- Email input -->
+  <label class="label-default" [class.label-error]="shouldShowError(loginForm.controls.email)" for="email">Email</label>
+  <input
+    [formControl]="loginForm.controls.email"
+    [class.input-error]="shouldShowError(loginForm.controls.email)"
+    [attr.aria-invalid]="shouldShowError(loginForm.controls.email)"
+    [placeholder]="'Digite seu email'"
+    type="text"
+    name="email"
+    id="email" />
+  <!-- Display error messages -->
+  <div class="below-input">
+    <rag-form-error [message]="errorMessages.email.required" *ngIf="isRequiredEmailError()" />
+    <rag-form-error [message]="errorMessages.email.invalidEmail" *ngIf="isInvalidEmailError()" />
+  </div>
+  <!-- Password input -->
+  <!-- Form fields with Label + Inputs -->
+  <label class="label-default" [class.label-error]="shouldShowError(loginForm.controls.password)" for="password"
+    >Senha</label
+  >
+  <rag-password-input
+    [placeholder]="'Digite sua senha'"
+    [formControl]="loginForm.controls.password"
+    [class.input-error]="shouldShowError(loginForm.controls.password)"
+    [attr.aria-invalid]="shouldShowError(loginForm.controls.password)" />
+  <div class="below-input-pwd">
+    <a class="link" routerLink="/forgot-password" (click)="closeModal.emit()">Esqueci a senha</a>
+    <!-- Display error message -->
+    <rag-form-error [message]="errorMessages.password.required" *ngIf="isRequiredPasswordError()" />
+  </div>
+
+  <button rag-action class="button" type="submit">Entrar</button>
+
+  <!-- Social Login -->
+  <p class="social-text">ou entre com</p>
+  <div class="social-buttons">
+    <asl-google-signin-button [size]="'large'" [type]="'standard'" [theme]="'outline'">
+      <button class="google-login-btn">Google</button>
+    </asl-google-signin-button>
+  </div>
+</form>

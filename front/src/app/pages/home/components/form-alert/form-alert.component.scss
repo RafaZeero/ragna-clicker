@@ -1,0 +1,34 @@
+:host {
+  @apply w-full;
+}
+
+.alert {
+  @apply flex py-[8px] px-[12px] gap-[8px] items-center;
+  @apply text-[0.75rem] font-[400] leading-[140%] text-platinum-white-fafafa;
+  @apply border-l-[3px] border-solid;
+
+  .icon {
+    @apply flex;
+    --size: 1rem;
+  }
+
+  &.red {
+    @apply border-red-ff5e53;
+    @apply bg-[#ff9993] bg-opacity-[0.15]; /* red-ff5e53 with 15% opacity */
+
+    .icon {
+      --primary-icon-color: var(--red-ff5e53);
+      --secondary-icon-color: var(--black-mamba-100f11);
+    }
+  }
+
+  &.orange {
+    @apply border-royal-orange-ff8b1f;
+    @apply bg-[#ff8b1f] bg-opacity-[0.15]; /* royal-orange-ff8b1f with 15% opacity */
+
+    .icon {
+      --primary-icon-color: var(--royal-orange-ff8b1f);
+      --secondary-icon-color: var(--black-mamba-100f11);
+    }
+  }
+}

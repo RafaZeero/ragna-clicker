@@ -3,8 +3,6 @@
   <rag-hud [boundaryParentContainer]="game" [cdkDragFreeDragPosition]="hudStartingPosition">
     <p info>Let's play!! ~</p>
     <!-- <a class="rok" [routerLink]="['/play']">Play</a> -->
-    <asl-google-signin-button [size]="'large'" [type]="'standard'" [theme]="'outline'">
-      <button class="google-login-btn">Google</button>
-    </asl-google-signin-button>
+    <rag-login-form />
   </rag-hud>
 </div>
