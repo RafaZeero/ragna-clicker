@@ -3,6 +3,7 @@ import cors from 'cors';
 import { monstersRoute } from '@controllers';
 import { DB } from '@db';
 import { populateWithJson } from './db/create';
+import { usersRoute } from './controllers/users';
 
 const PORT = 3000 as const;
 const app = express();
@@ -64,6 +65,7 @@ const main = async () => {
 
   /** Routes */
   app.use('/monsters', monstersRoute);
+  app.use('/users', usersRoute);
 
   app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 };
