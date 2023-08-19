@@ -1,0 +1,53 @@
+@mixin base-text {
+  @apply text-[0.75rem] leading-[120%] font-[700] uppercase;
+}
+
+@mixin base-layout {
+  @apply px-[32px] py-[10px] rounded-[2px];
+}
+
+:host {
+  @apply flex justify-center items-center gap-[8px];
+
+  &.uv-action-primary {
+    @include base-text;
+    @include base-layout;
+    @apply text-[#100f11] border-[1px] border-solid border-[#100f11] rounded-[5px];
+
+    &:not(:disabled) {
+      &:hover {
+        @apply bg-[#a7bbf6];
+        cursor: url('/assets/cursors/pointer.webp'), auto;
+      }
+    }
+  }
+
+  &.uv-action-secondary {
+    @include base-text;
+    @include base-layout;
+    @apply text-[#c9c9c9] bg-[#28282a];
+
+    &:disabled {
+      @apply text-[#5a5a5e];
+      background: linear-gradient(0deg, rgb(0 0 0 / 50%) 0%, rgb(0 0 0 / 50%) 100%), rgb(51 85 255 / 50%);
+    }
+
+    &:not(:disabled) {
+      &:hover {
+        @apply bg-[#464649];
+      }
+    }
+  }
+
+  &.uv-action-tertiary {
+    @include base-text;
+    @include base-layout;
+    @apply text-[#c9c9c9];
+
+    &:not(:disabled) {
+      &:hover {
+        @apply bg-[#464649];
+      }
+    }
+  }
+}
