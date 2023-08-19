@@ -1,24 +1,24 @@
 :host {
   .hud {
-    @apply absolute;
-    @apply flex flex-col gap-[16px] items-center;
-    @apply h-fit;
-    @apply px-[8px] pt-[25px] pb-[5px];
-    @apply rounded-[5px];
-    @apply bg-[#FBFBFB];
+    @apply absolute
+           flex flex-col gap-[16px] items-center
+           h-fit
+           px-[8px] pt-[25px] pb-[5px]
+           rounded-[5px]
+           bg-[#FBFBFB];
     cursor: url('/assets/cursors/cursor.webp'), auto;
 
     .gradient-top {
-      @apply absolute top-0;
-      @apply flex items-center justify-between pl-[20px] pr-[8px] py-[2px];
-      @apply w-[100%] h-[26px];
-      @apply border-b-[2px] border-solid border-[#686D6F];
-      @apply rounded-tr-[5px] rounded-tl-[5px];
+      @apply absolute top-0
+             flex items-center justify-between pl-[20px] pr-[8px] py-[2px]
+             w-[100%] h-[26px]
+             border-b-[2px] border-solid border-[#686D6F]
+             rounded-tr-[5px] rounded-tl-[5px];
     }
 
     .container-hud {
-      @apply flex flex-col pl-[16px] pr-0 py-[8px] gap-[16px];
-      @apply w-[100%];
+      @apply flex flex-col pl-[16px] pr-0 py-[8px] gap-[16px]
+             w-[100%];
     }
   }
 }
