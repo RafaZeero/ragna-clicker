@@ -54,5 +54,7 @@ export const getOneUser = async (req: Request, res: Response) => {
     register_date: user.register_date
   });
 
-  return res.status(201).json({ response: { token, message: `Logged with ${email}` } });
+  return res
+    .status(201)
+    .json({ response: { token, message: `Logged with ${email}`, username: user.username } });
 };

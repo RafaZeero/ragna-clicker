@@ -83,5 +83,7 @@ export const createOneUser = async (req: Request, res: Response) => {
     return res.status(500).json({ respose: 'An error has ocurred' });
   }
 
-  return res.status(201).json({ response: { token, message: `Account created for ${username}` } });
+  return res
+    .status(201)
+    .json({ response: { token, message: `Account created for ${username}`, username } });
 };
