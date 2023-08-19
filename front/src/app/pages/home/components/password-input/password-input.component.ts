@@ -10,11 +10,12 @@ import { BehaviorSubject, map, share } from 'rxjs';
 import { IconComponent } from '../icon';
 import { IconID } from '@shared/models';
 import { ICON_ID } from '@shared/constants';
+import { ActionComponent } from '../action';
 
 @Component({
   selector: 'rag-password-input',
   standalone: true,
-  imports: [CommonModule, IconComponent, ReactiveFormsModule],
+  imports: [CommonModule, IconComponent, ReactiveFormsModule, ActionComponent],
   templateUrl: './password-input.component.html',
   styleUrls: ['./password-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

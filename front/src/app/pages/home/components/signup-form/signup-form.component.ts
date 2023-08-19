@@ -19,10 +19,11 @@ import { FormErrorComponent } from '../form-error';
 import { IconComponent } from '../icon';
 import { PasswordFieldComponent } from '../password-input';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
-import { SocialUser, SocialAuthService, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { SocialUser, SocialAuthService } from '@abacritt/angularx-social-login';
 import { UserService } from '@shared/services';
 import { shouldShowErrorMessage } from '@shared/utils';
 import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
+import { ActionComponent } from '../action';
 
 @Component({
   selector: 'rag-signup-form',
@@ -35,6 +36,7 @@ import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
     IconComponent,
     PasswordFieldComponent,
     GoogleSigninButtonModule,
+    ActionComponent,
     // IsControlRequiredPipe,
   ],
   templateUrl: './signup-form.component.html',

@@ -23,6 +23,7 @@ import { SocialUser, SocialAuthService, GoogleLoginProvider } from '@abacritt/an
 import { UserService } from '@shared/services';
 import { shouldShowErrorMessage } from '@shared/utils';
 import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
+import { ActionComponent } from '../action';
 
 @Component({
   selector: 'rag-login-form',
@@ -35,6 +36,7 @@ import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
     IconComponent,
     PasswordFieldComponent,
     GoogleSigninButtonModule,
+    ActionComponent,
     // IsControlRequiredPipe,
   ],
   templateUrl: './login-form.component.html',
