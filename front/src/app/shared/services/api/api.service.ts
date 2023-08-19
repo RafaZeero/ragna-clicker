@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { AudioConfig, MonsterResponseFromAPI, Player } from '@shared/models';
+import { AudioConfig, MonsterResponseFromAPI, Player, User } from '@shared/models';
 import { StoreService } from '../store/store.service';
 
 @Injectable({
@@ -13,7 +13,6 @@ export class ApiService {
   private readonly _store = inject(StoreService);
   public ragnarok = 'online';
 
-  // Saving in localstorage at the moment
   public savePlayer(player: Player) {
     return this._store.savePlayer(player);
   }
@@ -28,6 +27,17 @@ export class ApiService {
 
   public getConfig() {
     return this._store.getConfigs();
+  }
+
+  public login(user: Pick<User, 'email' | 'password'>) {
+    type ResponseLogin = { response: { message: string; token: string; username: string } };
+
+    return this._http.post<ResponseLogin>(`${environment.apiURL}/users/login`, user);
+  }
+
+  public signup(newUser: Omit<User, 'register_date'>) {
+    type ResponseSignup = { response: { message: string; token: string; username: string } };
+    return this._http.post<ResponseSignup>(`${environment.apiURL}/users/signup`, newUser);
   }
 
   public getMonster(id: number): Observable<MonsterResponseFromAPI['response']> {

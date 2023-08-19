@@ -19,7 +19,6 @@ export class StoreService {
   public async savePlayer(data: Player) {
     try {
       const playerData = JSON.stringify(data);
-
       localStorage.setItem(this._localStoragePlayer, playerData);
 
       return 'User saved';

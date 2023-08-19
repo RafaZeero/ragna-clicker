@@ -1,26 +1,18 @@
 import { CommonModule } from '@angular/common';
 import type { OnInit } from '@angular/core';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import type { FormControl } from '@angular/forms';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { flow, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/Option';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { FormErrorComponent } from '../form-error';
 import { IconComponent } from '../icon';
 import { PasswordFieldComponent } from '../password-input';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { SocialUser, SocialAuthService } from '@abacritt/angularx-social-login';
-import { UserService } from '@shared/services';
+import { ApiService, UserService } from '@shared/services';
 import { shouldShowErrorMessage } from '@shared/utils';
 import { ALERT_MESSAGES, ERROR_MESSAGES } from '@shared/constants';
 import { ActionComponent } from '../action';
@@ -50,6 +42,7 @@ export class SignupFormComponent implements OnInit {
   private readonly _oauthService = inject(SocialAuthService);
   private readonly _userService = inject(UserService);
   private readonly _router = inject(Router);
+  private readonly _api = inject(ApiService);
 
   // * Streams
   private readonly _showAlertMessage$ = new BehaviorSubject<boolean>(false);
@@ -101,10 +94,15 @@ export class SignupFormComponent implements OnInit {
     };
 
     try {
-      console.log(data);
       // * Login in auth service
+      const { response } = await firstValueFrom(this._api.login(data));
       // * Remove error if any
+      this._userService.user = response.username;
+      localStorage.setItem('userLogged', response.username);
+      this.loggedIn = response.username != null;
+
       // * Redirect user to '/play'
+      this._router.navigate(['/play']);
     } catch (error: unknown) {
       // * This will trigger a request error message
 
