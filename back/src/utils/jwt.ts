@@ -1,6 +1,7 @@
+import { User } from '@interfaces';
 import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
 import { uniqueId } from 'lodash';
 
-export const generateSafeJWT = (username: string): string =>
-  jwt.sign(username, uniqueId(process.env['SAFE_VALUE']));
+export const generateSafeJWT = (user: Omit<User, 'password'>): string =>
+  jwt.sign(JSON.stringify(user), uniqueId(process.env['SAFE_VALUE']));

@@ -72,8 +72,16 @@ export const createOneUser = async (req: Request, res: Response) => {
     return res.status(500).json({ respose: 'An error has ocurred' });
   }
 
+  const user: Omit<User, 'password'> = { email, username, register_date: new Date() };
+
   // * Generate token to log user in the app
-  const token = generateSafeJWT(username);
+  let token: string;
+  try {
+    token = generateSafeJWT(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ respose: 'An error has ocurred' });
+  }
 
   return res.status(201).json({ response: { token, message: `Account created for ${username}` } });
 };
