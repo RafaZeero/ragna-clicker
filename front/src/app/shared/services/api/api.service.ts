@@ -4,6 +4,8 @@ import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { AudioConfig, MonsterResponseFromAPI, Player, User } from '@shared/models';
 import { StoreService } from '../store/store.service';
+import { Router } from '@angular/router';
+import { UserService } from '../user';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,8 @@ import { StoreService } from '../store/store.service';
 export class ApiService {
   private readonly _http = inject(HttpClient);
   private readonly _store = inject(StoreService);
+  private readonly _userService = inject(UserService);
+  private readonly _router = inject(Router);
   public ragnarok = 'online';
 
   public savePlayer(player: Player) {
@@ -38,6 +42,12 @@ export class ApiService {
   public signup(newUser: Omit<User, 'register_date'>) {
     type ResponseSignup = { response: { message: string; token: string; username: string } };
     return this._http.post<ResponseSignup>(`${environment.apiURL}/users/signup`, newUser);
+  }
+
+  public logout() {
+    this._store.clearLocalStorage();
+    this._userService.user = null;
+    window.location.reload();
   }
 
   public getMonster(id: number): Observable<MonsterResponseFromAPI['response']> {

@@ -208,7 +208,7 @@ export default class GameComponent implements OnInit {
   }
 
   public logout() {
-    this._userService.user = null;
+    this._api.logout();
   }
 
   public playMapMusic(map: GameMaps) {

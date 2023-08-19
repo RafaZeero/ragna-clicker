@@ -16,6 +16,12 @@ export class StoreService {
   private _localStoragePlayer = 'playerInfo';
   private _localStorageConfig = 'playerconfigs';
 
+  public clearLocalStorage() {
+    localStorage.removeItem(this._localStorageConfig);
+    localStorage.removeItem(this._localStoragePlayer);
+    localStorage.removeItem('userLogged');
+  }
+
   public async savePlayer(data: Player) {
     try {
       const playerData = JSON.stringify(data);
