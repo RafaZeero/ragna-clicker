@@ -8,7 +8,8 @@ sudo docker exec -it ragnaDB mysql -u root -p
 
 ## TODOS
 
-- [ ] Create auth
+- [x] Create auth
+- [x] Save data in DB - SQL
+  - [ ] Create `Last login` in SQL
+- [x] Connect DB with backend
   - [ ] Add rate limit -> See https://www.npmjs.com/package/express-rate-limit
-- [ ] Save data in DB - SQL
-- [ ] Connect DB with backend
