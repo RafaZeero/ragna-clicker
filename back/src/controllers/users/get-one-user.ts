@@ -1,12 +1,6 @@
-import { Request, Response, Router } from 'express';
-import {
-  generateSafeJWT,
-  hashPassword,
-  isEmailValid,
-  isUsernameValid,
-  verifyPasswordHash
-} from '@utils';
-import { getOneUserByEmail, getOneUserByUsername, createOneUser as createOneUserDB, DB } from '@db';
+import { Request, Response } from 'express';
+import { generateSafeJWT, verifyPasswordHash } from '@utils';
+import { getOneUserByEmail, DB } from '@db';
 import { pipe } from 'fp-ts/lib/function';
 import * as E from 'fp-ts/lib/Either';
 import { User } from '@interfaces';
