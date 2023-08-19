@@ -37,8 +37,6 @@ export const getOneUser = async (req: Request, res: Response) => {
     const rawUserQueryEmail = await connection.query(getOneUserByEmail(email));
     user = (rawUserQueryEmail[0] as any)[0] as User;
 
-    console.log(user);
-
     if (isEmpty(user)) {
       return res.status(400).json({ response: 'Invalid credentials' });
     }
