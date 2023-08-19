@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createOneUser } from './create-one-user';
+import { getOneUser } from './get-one-user';
 
 /**
  * Route prefix: "/users"
@@ -8,5 +9,6 @@ import { createOneUser } from './create-one-user';
 const route = Router();
 
 route.post('/signup', createOneUser);
+route.post('/login', getOneUser);
 
 export { route as usersRoute };

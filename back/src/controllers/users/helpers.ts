@@ -18,3 +18,12 @@ export const userCodec = t.type({
       'Invalid password. Password must have a least 8 characters, one uppercase letter, one lowercase letter and one number'
   )
 });
+
+export const userLoginCodec = t.type({
+  email: withMessage(emailCodec, () => 'Invalid email'),
+  password: withMessage(
+    passwordCodec,
+    () =>
+      'Invalid password. Password must have a least 8 characters, one uppercase letter, one lowercase letter and one number'
+  )
+});

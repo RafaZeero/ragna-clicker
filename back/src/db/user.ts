@@ -2,7 +2,7 @@ import { User } from '@interfaces';
 
 export const getOneUserByUsername = (username: string): string => {
   const query = `
-  SELECT username 
+  SELECT *
   FROM users_db 
   WHERE username = '${username}';`;
   return query;
@@ -10,7 +10,7 @@ export const getOneUserByUsername = (username: string): string => {
 
 export const getOneUserByEmail = (email: string): string => {
   const query = `
-  SELECT email 
+  SELECT *
   FROM users_db 
   WHERE email = '${email}';`;
   return query;
