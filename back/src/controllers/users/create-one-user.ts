@@ -64,8 +64,7 @@ export const createOneUser = async (req: Request, res: Response) => {
       createOneUserDB({
         username,
         email,
-        password: await hashedpassword(),
-        register_date: new Date()
+        password: await hashedpassword()
       })
     );
   } catch (error) {

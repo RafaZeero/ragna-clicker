@@ -16,10 +16,10 @@ export const getOneUserByEmail = (email: string): string => {
   return query;
 };
 
-export const createOneUser = (user: User): string => {
+export const createOneUser = (user: Omit<User, 'register_date'>): string => {
   const query = `
   INSERT INTO users_db
-  (username, email, password)
-  VALUES ('${user.username}', '${user.email}', '${user.password}')`;
+  (username, email, password, register_date)
+  VALUES ('${user.username}', '${user.email}', '${user.password}', now())`;
   return query;
 };
