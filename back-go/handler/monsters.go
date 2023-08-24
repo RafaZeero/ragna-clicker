@@ -19,7 +19,9 @@ func GetMonsterByID(ctx *gin.Context) {
 	monsterImage, _ := imageFromFile(monsterID)
 
 	if monsterImage != "" {
-		ctx.JSON(http.StatusOK, gin.H{"Image": monsterImage})
+		ctx.JSON(http.StatusOK, gin.H{"Response": gin.H{
+			"monsterImage": monsterImage,
+		}})
 		return
 	}
 
