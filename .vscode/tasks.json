@@ -11,10 +11,18 @@
     },
     {
       "label": "Backend",
-      "detail": "Serve the Angular Frontend",
+      "detail": "Serve the Express API",
       "type": "npm",
       "script": "back",
       "problemMatcher": []
+    },
+    {
+      "label": "[GO] Backend",
+      "detail": "Serve the Go API",
+      "type": "shell",
+      "command": "go",
+      "args": ["run", "${cwd}/back-go/main.go"],
+      "group": "build"
     },
     {
       "label": "Backend-windows",
@@ -28,6 +36,13 @@
       "detail": "Serve the Frontend and the API",
       "dependsOrder": "parallel",
       "dependsOn": ["Frontend", "Backend"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend & GO",
+      "detail": "Serve the Frontend and the GO API",
+      "dependsOrder": "parallel",
+      "dependsOn": ["Frontend", "[GO] Backend"],
       "problemMatcher": []
     },
     {
