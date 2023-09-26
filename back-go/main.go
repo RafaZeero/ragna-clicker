@@ -12,92 +12,39 @@
 package main
 
 import (
-	"fmt"
-	"io"
-	"net/http"
-	"os"
+	"database/sql"
 
-	"github.com/joho/godotenv"
+	// "github.com/RafaZeero/ragna-clicker/router"
 
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-var (
-	googleOauthConfig *oauth2.Config
-	// TODO: randomize it
-	oauthStateString = "pseudo-random"
-)
-
-func init() {
-	err := godotenv.Load(".env")
+func exec(db *sql.DB, sql string) sql.Result {
+	result, err := db.Exec(sql)
 	if err != nil {
-		fmt.Println("Error loading .env file", err)
+		panic(err)
 	}
-	clientID, clientSecret := os.Getenv("GOOGLE_CLIENT_ID"), os.Getenv("GOOGLE_CLIENT_SECRET")
 
-	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:8080/callback",
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
-		Endpoint:     google.Endpoint,
-	}
+	return result
 }
 
 func main() {
-	http.HandleFunc("/", handleMain)
-	http.HandleFunc("/login", handleGoogleLogin)
-	http.HandleFunc("/callback", handleGoogleCallback)
-	fmt.Println(http.ListenAndServe(":8080", nil))
-}
+	// Init server
+	// router.Initialize()
 
-func handleMain(w http.ResponseWriter, r *http.Request) {
-	var htmlIndex = `<html>
-<body>
-	<a href="/login">Google Log In</a>
-</body>
-</html>`
-
-	fmt.Fprintln(w, htmlIndex)
-}
-
-func handleGoogleLogin(w http.ResponseWriter, r *http.Request) {
-	url := googleOauthConfig.AuthCodeURL(oauthStateString)
-	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
-}
-
-func handleGoogleCallback(w http.ResponseWriter, r *http.Request) {
-	content, err := getUserInfo(r.FormValue("state"), r.FormValue("code"))
+	db, err := sql.Open("mysql", "root:password@tcp(localhost:3306)/")
 	if err != nil {
-		fmt.Println(err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-		return
+		panic(err)
 	}
 
-	fmt.Fprintf(w, "Content: %s\n", content)
-}
+	defer db.Close()
 
-func getUserInfo(state string, code string) ([]byte, error) {
-	if state != oauthStateString {
-		return nil, fmt.Errorf("invalid oauth state")
-	}
-
-	token, err := googleOauthConfig.Exchange(oauth2.NoContext, code)
-	if err != nil {
-		return nil, fmt.Errorf("code exchange failed: %s", err.Error())
-	}
-
-	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
-	if err != nil {
-		return nil, fmt.Errorf("failed getting user info: %s", err.Error())
-	}
-
-	defer response.Body.Close()
-	contents, err := io.ReadAll(response.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed reading response body: %s", err.Error())
-	}
-
-	return contents, nil
+	exec(db, "create database if not exists testando1234")
+	exec(db, "use testando1234")
+	exec(db, "drop table if exists usuarios")
+	exec(db, `create table usuarios (
+		id integer auto_increment,
+		nome varchar(80),
+		PRIMARY KEY (id)
+	)`)
 }
