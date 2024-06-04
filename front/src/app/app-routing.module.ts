@@ -32,7 +32,8 @@ const devRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(environment.type === 'development' ? devRoutes : routes)],
+  // imports: [RouterModule.forRoot(environment.type === 'development' ? devRoutes : routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
